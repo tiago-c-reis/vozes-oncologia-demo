@@ -1,0 +1,36 @@
+VOZES DA ONCOLOGIA - PROTÓTIPO NAVEGÁVEL 2026–2027
+==================================================
+
+COMO ABRIR
+1. Descompacte a pasta completa, mantendo a pasta «assets».
+2. Abra index.html num browser atualizado (Chrome, Firefox, Edge ou Safari).
+3. Navegue através do menu. O formulário está em «Participe».
+
+O QUE ESTÁ IMPLEMENTADO
+- Homepage responsiva com identidade cromática HPP e retratos em ilustração.
+- Navegação pelas três secções: Início, Participe e Perguntas frequentes.
+- Formulário em três etapas: descrição aberta, perfis e perguntas opcionais
+  adaptadas, revisão e privacidade.
+- Seis perfis selecionáveis em simultâneo.
+- Validação de campos essenciais e simulação de submissão.
+- Descarregamento automático da cópia local em formato TXT.
+- Funciona sem servidor ou acesso a contas externas.
+
+NÃO IMPLEMENTADO (ANTES DA PUBLICAÇÃO)
+- Backend, autenticação e registo real de submissões.
+- Google Sheets / Google Drive.
+- Cloudflare Turnstile, rate limits, segurança operacional e auditoria.
+- Envio de email, recontacto e referência oficial de participação.
+- Política de privacidade final, avisos legais e autorização institucional.
+- Definição do responsável pelo tratamento, DPIA/AIPD quando aplicável,
+  bases legais para dados de saúde, retenção e gestão de pedidos RGPD.
+
+AVISO
+Este é apenas um protótipo visual e funcional para revisão. Não solicite
+nem insira dados de saúde reais. Nada é transmitido; o conteúdo introduzido
+permanece na memória do navegador até sair/recarregar, e pode ser descarregado
+num ficheiro local a pedido do participante.
+
+TIPOGRAFIA
+Manrope e Inter: carregadas do Google Fonts quando há acesso à Internet;
+existem fontes de sistema de substituição quando offline.
