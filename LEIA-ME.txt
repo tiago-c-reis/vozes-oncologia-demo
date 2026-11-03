@@ -1,15 +1,17 @@
-VOZES DA ONCOLOGIA - V4 | HPP 2026-2027
+VOZES DA ONCOLOGIA - V5 | HPP 2026-2027
 
 OBJETIVO
 Protótipo navegável de demonstração para GitHub Pages.
 Não está preparado para recolher informações reais.
 
-ATUALIZAÇÕES V4
-- Escuta livre antes de qualquer pergunta fechada.
-- Seis perfis, seleção múltipla e perspetiva principal.
+ATUALIZAÇÕES V5
+- PASSO 1: seis perfis, seleção múltipla e perspetiva principal.
+- PASSO 2: escuta livre, antes de qualquer pergunta fechada.
+- PASSO 3: cinco perguntas quantitativas adaptadas e facultativas.
+- PASSO 4: revisão, privacidade e cópia de demonstração.
 - Região ampla facultativa adaptada à perspetiva.
 - Uma pergunta aberta opcional adaptada ao perfil principal.
-- Cinco perguntas quantitativas facultativas por perfil, com opção de saltar.
+- Perguntas fechadas sempre depois da experiência livre, com opção de saltar.
 - Revisão completa, simulação de participação e comprovativo local .txt.
 - Design HPP, secção Equipa do estudo colapsada e placeholder do vídeo.
 
@@ -17,12 +19,13 @@ PUBLICAR NO GITHUB PAGES
 1. Abra o repositório GitHub: tiago-c-reis/vozes-oncologia-demo
 2. No separador Code, carregue os ficheiros DESTA PASTA para a raiz do repositório
    (index.html, styles.css, script.js e a pasta assets/).
-3. Substitua os ficheiros anteriores pelo conteúdo V4 (Commit changes).
+3. Substitua os ficheiros anteriores pelo conteúdo V5 (Commit changes).
 4. Em Settings > Pages, confirme Source: Deploy from a branch,
    Branch: main, Folder: /(root).
 5. Quando a publicação terminar, visite:
    https://tiago-c-reis.github.io/vozes-oncologia-demo/
-6. Em caso de cache, faça Ctrl+F5.
+6. A versão V5 usa referências CSS e JS com v=5 para evitar cache antigo.
+   Se necessário, faça Ctrl+Shift+R.
 
 IMPORTANTE
 O GitHub Pages publica um website acessível publicamente. O endereço não
@@ -32,8 +35,8 @@ possui backend, Google Sheets, consentimento de produção ou proteção anti-bo
 A cópia .txt é gerada apenas no browser. Não introduza dados clínicos reais.
 
 DOCUMENTAÇÃO
-A matriz científica foi entregue como ficheiro separado:
-Fase_1_Matriz_Cientifica_Vozes_Oncologia_V4.md
+O desenho das perguntas quantitativas mantém a matriz científica V4.
+A V5 altera a ordem de apresentação: perfil, escuta livre, perguntas opcionais, revisão.
 
 INDEXAÇÃO
 A demonstração inclui meta noindex e robots.txt para desincentivar

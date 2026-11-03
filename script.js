@@ -81,12 +81,12 @@ function home(){return `
 <section class="section section-light"><div class="wrap">
  <div class="section-head"><div><div class="eyebrow">ESCUTA LIVRE, COM CONTEXTO FACULTATIVO</div><h2>Como funciona?</h2></div><span class="handnote">Cada experiência conta.</span></div>
  <div class="steps-grid">${[
- ['Partilhe a dificuldade','Descreva livremente um problema que tenha vivido, acompanhado ou observado.'],
- ['Sugira uma melhoria','Se tiver uma ideia de solução, partilhe-a. Não é obrigatório apresentar propostas.'],
- ['Dê-nos contexto','Escolha o seu perfil e, se quiser, responda a cinco perguntas complementares opcionais.'],
+ ['Escolha o seu perfil','Indique a sua ligação à oncologia. Pode selecionar um ou mais perfis.'],
+ ['Partilhe a sua experiência','Descreva livremente uma dificuldade e, se quiser, sugira como poderia ser melhorada.'],
+ ['Responda, se quiser','Até cinco perguntas complementares, adaptadas ao seu perfil e totalmente opcionais.'],
  ['Guarde a sua cópia','Reveja a informação e descarregue uma cópia local do que escreveu.']
- ].map(([title,description],i)=>`<article class="step-card"><div class="step-image"><img src="assets/passo-${i+1}.webp" alt="" loading="lazy" /></div><div class="step-title"><span class="step-index">${i+1}</span><h3>${title}</h3></div><p>${description}</p></article>`).join('')}</div>
- <div class="callout-panel cta-panel"><div><h3>O que podemos melhorar juntos?</h3><p>Comece pela sua experiência, sem escolher temas. As perguntas fechadas surgem apenas depois e são opcionais.</p></div>${btn('Quero participar','#/participe')}</div>
+ ].map(([title,description],i)=>`<article class="step-card"><div class="step-image"><img src="assets/passo-${[3,1,2,4][i]}.webp" alt="" loading="lazy" /></div><div class="step-title"><span class="step-index">${i+1}</span><h3>${title}</h3></div><p>${description}</p></article>`).join('')}</div>
+ <div class="callout-panel cta-panel"><div><h3>O que podemos melhorar juntos?</h3><p>Indique a sua ligação à oncologia e descreva a sua experiência com as suas palavras. As perguntas fechadas surgem apenas depois e são opcionais.</p></div>${btn('Quero participar','#/participe')}</div>
  </div></section>
 <section class="section"><div class="wrap two-col"><div class="body-copy"><div class="eyebrow">PORQUE ESCUTAR IMPORTA</div><h2>Por trás de cada dificuldade, há uma experiência que importa compreender.</h2><p>Doentes, sobreviventes, familiares, associações, profissionais de saúde e pessoas que prestam apoio conhecem realidades diferentes da oncologia. Queremos criar espaço para as ouvir sem antecipar os problemas que poderão identificar.</p><p>Esta iniciativa integra o trabalho da Comissão de Oncologia do Health Parliament Portugal na edição 2026-2027.</p></div><div class="logo-showcase video-explainer-card"><div class="video-explainer-inner"><div class="video-badge">VÍDEO EXPLAINER</div><div class="video-play" aria-hidden="true">▶</div><h3>Como funciona esta iniciativa?</h3><p>Breve vídeo introdutório sobre o objetivo do projeto, quem pode participar e como serão utilizados os contributos.</p><ul class="video-points"><li>Porque estamos a ouvir</li><li>Como participar</li><li>O que acontece depois</li></ul><div class="video-coming">Em breve</div></div></div></div></section>
 <section class="section commission-section" id="comissao" aria-labelledby="comissao-titulo"><div class="wrap">
@@ -134,16 +134,16 @@ function faq(){return `
  ].map(([q,a],i)=>`<div class="faq-item" ${q==='Como será utilizada a informação?'?'id="privacidade"':''}><details ${i===0?'open':''}><summary>${q}</summary><div class="faq-answer"><p>${a}</p></div></details></div>`).join('')}
 <div class="callout-panel cta-panel"><div><h3>Ainda quer partilhar uma experiência?</h3><p>Descreva a dificuldade nas suas próprias palavras.</p></div>${btn('Participar','#/participe')}</div>
 </div></section>`;}
-function progress(n){return `<div class="form-progress" aria-label="Progresso da participação">${[['A sua experiência',1],['O seu contexto',2],['Perguntas opcionais',3],['Revisão e privacidade',4]].map(([name,k])=>`<div class="progress-item ${k===n?'current':(k<n?'past':'')}" ${k===n?'aria-current="step"':''}><span class="bubble">${k<n?'✓':k}</span><span>${name}</span></div>`).join('')}</div>`;}
-function formStage1(){return `<div class="eyebrow">PASSO 01 · ESCUTA ABERTA</div><h2>O que precisa de melhorar nos cuidados oncológicos?</h2><p class="form-subtitle">Partilhe livremente uma dificuldade que tenha sentido, acompanhado ou observado. Não há uma lista de temas nem respostas certas. As perguntas complementares surgem apenas depois.</p>
+function progress(n){return `<div class="form-progress" aria-label="Progresso da participação">${[['O seu perfil',1],['A sua experiência',2],['Perguntas opcionais',3],['Revisão e privacidade',4]].map(([name,k])=>`<div class="progress-item ${k===n?'current':(k<n?'past':'')}" ${k===n?'aria-current="step"':''}><span class="bubble">${k<n?'✓':k}</span><span>${name}</span></div>`).join('')}</div>`;}
+function formStageExperience(){return `<div class="eyebrow">PASSO 02 · ESCUTA ABERTA</div><h2>O que precisa de melhorar nos cuidados oncológicos?</h2><p class="form-subtitle">Partilhe livremente uma dificuldade que tenha sentido, acompanhado ou observado. Não há uma lista de temas nem respostas certas. As perguntas complementares surgem apenas depois.</p>
 <div class="form-group"><label class="field-label" for="difficulty">1. Que dificuldade ou problema gostaria de dar a conhecer? <span aria-hidden="true">*</span></label><textarea id="difficulty" name="difficulty" maxlength="12000" required placeholder="Conte-nos, pelas suas palavras, o que aconteceu ou o que considera que precisa de melhorar..."></textarea><p class="field-helper">Obrigatório para avançar. Evite incluir nomes, datas exatas ou outros elementos que identifiquem pessoas.</p><div id="difficulty-error" aria-live="polite"></div></div>
 <div class="form-group"><label class="field-label" for="solution">2. Como considera que esta situação poderia ser melhorada? <span class="optional">Opcional</span></label><textarea id="solution" name="solution" maxlength="12000" placeholder="Se tiver uma sugestão ou ideia, partilhe-a aqui..."></textarea><p class="field-helper">Não precisa de apresentar uma solução para participar.</p></div>
 <div class="form-group"><label class="field-label" for="extra">3. Há mais alguma coisa que queira acrescentar? <span class="optional">Opcional</span></label><textarea id="extra" name="extra" maxlength="12000" placeholder="Outro contexto ou informação que considere importante..."></textarea></div>
-${privacyNote()}<div class="form-actions"><span class="footnote">* Campo obrigatório</span><button class="button button-yellow" type="button" data-action="next1">Continuar ${icon('arrow',17)}</button></div>`;}
+${privacyNote()}<div class="form-actions"><button class="button button-quiet" type="button" data-action="back1">${icon('chevron',17)} Voltar</button><button class="button button-yellow" type="button" data-action="next2">Continuar ${icon('arrow',17)}</button></div>`;}
 function privacyNote(){return `<div class="privacy-reminder">${icon('shield',20)}<p>Este formulário é uma <strong>demonstração</strong>: nada é enviado, armazenado ou partilhado. Por segurança, utilize apenas exemplos fictícios ao testar.</p></div>`;}
-function formStage2(){return `<div class="eyebrow">PASSO 02 · CONTEXTO</div><h2>Qual é a sua ligação à oncologia?</h2><p class="form-subtitle">Pode selecionar vários perfis. Se escolher mais do que um, indique qual representa a perspetiva principal deste contributo. Assim, evitamos perguntas repetidas.</p>
+function formStageProfile(){return `<div class="eyebrow">PASSO 01 · PERFIL E CONTEXTO</div><h2>Qual é a sua ligação à oncologia?</h2><p class="form-subtitle">Pode selecionar vários perfis. Se escolher mais do que um, indique qual representa a perspetiva principal deste contributo. Assim, evitamos perguntas repetidas.</p>
 <div class="profile-grid">${roles.map(([id,label])=>`<label class="profile-option ${form.roles.includes(id)?'selected':''}"><input type="checkbox" data-role="${id}" ${form.roles.includes(id)?'checked':''}/><span>${label}</span></label>`).join('')}</div><div id="role-error" aria-live="polite"></div>
-<div id="adaptive-fields">${adaptiveFields()}</div>${privacyNote()}<div class="form-actions"><button type="button" class="button button-quiet" data-action="back1">${icon('chevron',17)} Voltar</button><button class="button button-yellow" type="button" data-action="next2">Continuar ${icon('arrow',17)}</button></div>`;}
+<div id="adaptive-fields">${adaptiveFields()}</div>${privacyNote()}<div class="form-actions"><span class="footnote">Selecione pelo menos um perfil</span><button class="button button-yellow" type="button" data-action="next1">Continuar ${icon('arrow',17)}</button></div>`;}
 function adaptiveFields(){if(!form.roles.length)return '';
  const chosen=form.roles.includes(form.primaryRole)?form.primaryRole:form.roles[0];
  const r=roles.find(x=>x[0]===chosen);
@@ -171,15 +171,15 @@ function completed(){return `<div class="success-state"><div class="success-mark
 <div class="demo-disclaimer"><strong>Importante:</strong> este comprovativo é apenas de demonstração e não comprova receção pela Comissão de Oncologia. Na versão publicada, a confirmação incluirá uma referência real de submissão e uma cópia garantida.</div>
 <div class="success-buttons"><button type="button" class="button button-yellow" data-action="download">${icon('download',18)} Descarregar novamente a cópia</button><button type="button" class="button button-outline" data-action="restart">Nova participação</button></div>
 <p class="footnote" style="margin-top:22px">A cópia está em formato .txt e pode ser guardada ou impressa em PDF a partir do seu dispositivo.</p></div>`;}
-function participate(){return `<section class="form-page"><div class="wrap"><div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Comece pelas dificuldades que considera importantes, com as suas palavras. A proposta de solução e as perguntas complementares são opcionais.</p></div><div class="form-shell">${form.stage<5?progress(form.stage):''}<div class="form-content">${form.stage===1?formStage1():form.stage===2?formStage2():form.stage===3?formStage3():form.stage===4?formStage4():completed()}</div></div><div style="max-width:940px;margin:18px auto 0;text-align:center" class="footnote">Esta plataforma não se destina ao envio de pedidos de assistência médica ou reclamações clínicas urgentes.</div></div></section>`;}
+function participate(){return `<section class="form-page"><div class="wrap"><div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Comece por indicar a sua ligação à oncologia. Depois, partilhe livremente as dificuldades que considera importantes. As propostas de melhoria e as perguntas complementares são opcionais.</p></div><div class="form-shell">${form.stage<5?progress(form.stage):''}<div class="form-content">${form.stage===1?formStageProfile():form.stage===2?formStageExperience():form.stage===3?formStage3():form.stage===4?formStage4():completed()}</div></div><div style="max-width:940px;margin:18px auto 0;text-align:center" class="footnote">Esta plataforma não se destina ao envio de pedidos de assistência médica ou reclamações clínicas urgentes.</div></div></section>`;}
 function saveVisibleStage(){
- if(form.stage===1){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el)form[k]=el.value});}
- if(form.stage===2){
-  const before=activeRole();const c=document.querySelector('[data-context]');if(c)form.roleContext[c.dataset.context]=c.value;
+ if(form.stage===1){
+  const c=document.querySelector('[data-context]');if(c)form.roleContext[c.dataset.context]=c.value;
   const select=document.getElementById('primaryRole');if(select)form.primaryRole=select.value;
   if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0]||'';
   const region=document.getElementById('region');if(region)form.region=region.value;
  }
+ if(form.stage===2){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el)form[k]=el.value});}
  if(form.stage===3){const role=activeRole();if(role){form.answers[role]??={};currentQuestions().forEach(q=>{const checked=document.querySelector(`input[name="q-${q.id}"]:checked`);if(checked)form.answers[role][q.id]=checked.value;});}}
  if(form.stage===4){form.email=document.getElementById('email')?.value.trim()||'';form.contact=Boolean(document.getElementById('contact')?.checked);form.emailCopy=Boolean(document.getElementById('emailCopy')?.checked);form.ack=Boolean(document.getElementById('ack')?.checked);}
 }
@@ -210,13 +210,13 @@ function downloadCopy(){const txt='\uFEFF'+makeCopy();const blob=new Blob([txt],
 function isValidEmail(s){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)}
 function onFormClick(evt){const target=evt.target.closest('[data-action]');if(!target)return;saveVisibleStage();const action=target.dataset.action;
  if(action==='next1'){
-  if(form.difficulty.trim().length<15){showError('difficulty-error','Descreva a dificuldade com pelo menos 15 caracteres, para que seja possível compreendê-la.');document.getElementById('difficulty')?.focus();return;}
-  showError('difficulty-error','');switchStage(2);
- }
- else if(action==='next2'){
   if(!form.roles.length){showError('role-error','Selecione pelo menos um perfil para contextualizar a sua participação.');return;}
   if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0];
-  switchStage(3);
+  showError('role-error','');switchStage(2);
+ }
+ else if(action==='next2'){
+  if(form.difficulty.trim().length<15){showError('difficulty-error','Descreva a dificuldade com pelo menos 15 caracteres, para que seja possível compreendê-la.');document.getElementById('difficulty')?.focus();return;}
+  showError('difficulty-error','');switchStage(3);
  }
  else if(action==='next3'||action==='skip3')switchStage(4);
  else if(action==='back1')switchStage(1);
@@ -239,8 +239,8 @@ function onFormClick(evt){const target=evt.target.closest('[data-action]');if(!t
  }
 }
 function bindForm(){const shell=app.querySelector('.form-shell');if(!shell)return;shell.addEventListener('click',onFormClick);
- if(form.stage===1){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el){el.value=form[k];el.addEventListener('input',()=>{form[k]=el.value;if(k==='difficulty')showError('difficulty-error','');});}});}
- if(form.stage===2){
+ if(form.stage===2){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el){el.value=form[k];el.addEventListener('input',()=>{form[k]=el.value;if(k==='difficulty')showError('difficulty-error','');});}});}
+ if(form.stage===1){
   document.querySelectorAll('[data-role]').forEach(input=>input.addEventListener('change',()=>{
    saveVisibleStage();form.roles=input.checked?[...form.roles,input.dataset.role]:form.roles.filter(x=>x!==input.dataset.role);
    if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0]||'';
