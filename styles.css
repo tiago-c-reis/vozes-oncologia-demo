@@ -227,3 +227,22 @@ textarea::placeholder,.text-input::placeholder{color:#9ca2a5}
 .commission-credit p{font-size:11px;color:#7f898e;margin-left:auto}
 @media(max-width:1040px){.commission-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.commission-summary{align-items:flex-start}.commission-summary-side{align-items:flex-start}.commission-credit p{margin-left:22px}}
 @media(max-width:650px){.commission-section{padding-top:58px;padding-bottom:60px}.commission-accordion{border-radius:18px}.commission-summary{display:block;padding:23px 20px}.commission-summary-copy p{font-size:13px}.commission-summary-side{margin-top:18px;align-items:flex-start;gap:12px}.commission-body{padding:0 20px 22px}.commission-body-intro{font-size:13px}.commission-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.commission-person{min-height:106px;padding:14px 12px}.commission-avatar{width:36px;height:36px}.commission-person-name{font-size:12px}.commission-role{font-size:10px}.commission-credit{gap:12px}.commission-credit-copy span{font-size:9px}.commission-credit p{margin:0 0 0 16px;font-size:10px}}
+
+/* V4: percurso híbrido de escuta, indicadores opcionais e quatro etapas */
+.form-progress{grid-template-columns:repeat(4,minmax(0,1fr))}
+.progress-item{font-size:11px;gap:8px;padding-inline:6px;line-height:1.35}
+.measurement-note{padding:15px 18px;margin:0 0 25px;background:#fffaf0;border:1px solid #f1e4be;border-radius:13px;font-size:13px;line-height:1.65;color:#554b37}
+.likert-question{border:1px solid #e7e8e5;border-radius:15px;background:#fff;padding:20px 20px 16px;margin:0 0 18px;min-width:0}
+.likert-question legend{font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:-.015em;line-height:1.55;padding:0 8px;color:#1f2429;max-width:100%}
+.likert-number{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:50%;background:#ffed87;color:#161616;font-size:12px;margin-right:5px}
+.likert-options{display:flex;flex-wrap:wrap;gap:8px;padding-top:14px}
+.likert-choice{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.likert-choice input{position:absolute;opacity:0;width:1px;height:1px}
+.likert-choice span{display:inline-block;padding:9px 12px;background:#fafaf9;border:1px solid #dfe1e0;border-radius:8px;color:#454c54;font-size:12px;font-weight:600;transition:background .12s,border-color .12s;line-height:1.4}
+.likert-choice input:checked+span{background:#fff1a8;border-color:#b99c00;color:#181b1e;box-shadow:inset 0 0 0 1px #b99c00}
+.likert-choice input:focus-visible+span{outline:3px solid var(--focus);outline-offset:3px}
+.likert-choice:hover span{border-color:#c6a900}
+.clear-answer{margin-top:15px;background:transparent;border:0;border-bottom:1px solid #8c9398;color:#616a72;padding:1px 0;font-size:11px;font-weight:650}
+.stage3-actions .button-quiet{min-width:0}
+@media(max-width:830px){.progress-item{gap:5px;font-size:10px;flex-direction:column;min-height:72px}.progress-item .bubble{width:27px;height:27px}}
+@media(max-width:590px){.form-progress .progress-item{font-size:0;min-height:58px}.form-progress .progress-item .bubble{font-size:12px}.likert-question{padding:14px 12px 13px}.likert-question legend{font-size:13px}.likert-options{gap:6px}.likert-choice span{padding:9px 10px;font-size:11px}.form-actions{flex-wrap:wrap}.form-actions .button{font-size:12px}.measurement-note{font-size:12px}}

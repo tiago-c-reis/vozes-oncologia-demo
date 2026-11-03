@@ -1,36 +1,41 @@
-VOZES DA ONCOLOGIA - PROTÓTIPO NAVEGÁVEL 2026–2027
-==================================================
+VOZES DA ONCOLOGIA - V4 | HPP 2026-2027
 
-COMO ABRIR
-1. Descompacte a pasta completa, mantendo a pasta «assets».
-2. Abra index.html num browser atualizado (Chrome, Firefox, Edge ou Safari).
-3. Navegue através do menu. O formulário está em «Participe».
+OBJETIVO
+Protótipo navegável de demonstração para GitHub Pages.
+Não está preparado para recolher informações reais.
 
-O QUE ESTÁ IMPLEMENTADO
-- Homepage responsiva com identidade cromática HPP e retratos em ilustração.
-- Navegação pelas três secções: Início, Participe e Perguntas frequentes.
-- Formulário em três etapas: descrição aberta, perfis e perguntas opcionais
-  adaptadas, revisão e privacidade.
-- Seis perfis selecionáveis em simultâneo.
-- Validação de campos essenciais e simulação de submissão.
-- Descarregamento automático da cópia local em formato TXT.
-- Funciona sem servidor ou acesso a contas externas.
+ATUALIZAÇÕES V4
+- Escuta livre antes de qualquer pergunta fechada.
+- Seis perfis, seleção múltipla e perspetiva principal.
+- Região ampla facultativa adaptada à perspetiva.
+- Uma pergunta aberta opcional adaptada ao perfil principal.
+- Cinco perguntas quantitativas facultativas por perfil, com opção de saltar.
+- Revisão completa, simulação de participação e comprovativo local .txt.
+- Design HPP, secção Equipa do estudo colapsada e placeholder do vídeo.
 
-NÃO IMPLEMENTADO (ANTES DA PUBLICAÇÃO)
-- Backend, autenticação e registo real de submissões.
-- Google Sheets / Google Drive.
-- Cloudflare Turnstile, rate limits, segurança operacional e auditoria.
-- Envio de email, recontacto e referência oficial de participação.
-- Política de privacidade final, avisos legais e autorização institucional.
-- Definição do responsável pelo tratamento, DPIA/AIPD quando aplicável,
-  bases legais para dados de saúde, retenção e gestão de pedidos RGPD.
+PUBLICAR NO GITHUB PAGES
+1. Abra o repositório GitHub: tiago-c-reis/vozes-oncologia-demo
+2. No separador Code, carregue os ficheiros DESTA PASTA para a raiz do repositório
+   (index.html, styles.css, script.js e a pasta assets/).
+3. Substitua os ficheiros anteriores pelo conteúdo V4 (Commit changes).
+4. Em Settings > Pages, confirme Source: Deploy from a branch,
+   Branch: main, Folder: /(root).
+5. Quando a publicação terminar, visite:
+   https://tiago-c-reis.github.io/vozes-oncologia-demo/
+6. Em caso de cache, faça Ctrl+F5.
 
-AVISO
-Este é apenas um protótipo visual e funcional para revisão. Não solicite
-nem insira dados de saúde reais. Nada é transmitido; o conteúdo introduzido
-permanece na memória do navegador até sair/recarregar, e pode ser descarregado
-num ficheiro local a pedido do participante.
+IMPORTANTE
+O GitHub Pages publica um website acessível publicamente. O endereço não
+fica reservado apenas aos colegas, mesmo que o link não seja divulgado.
+O formulário NÃO envia nem armazena contribuições, NÃO envia emails e NÃO
+possui backend, Google Sheets, consentimento de produção ou proteção anti-bot.
+A cópia .txt é gerada apenas no browser. Não introduza dados clínicos reais.
 
-TIPOGRAFIA
-Manrope e Inter: carregadas do Google Fonts quando há acesso à Internet;
-existem fontes de sistema de substituição quando offline.
+DOCUMENTAÇÃO
+A matriz científica foi entregue como ficheiro separado:
+Fase_1_Matriz_Cientifica_Vozes_Oncologia_V4.md
+
+INDEXAÇÃO
+A demonstração inclui meta noindex e robots.txt para desincentivar
+indexação. Estes mecanismos NÃO restringem o acesso: qualquer pessoa
+que conheça o endereço pode abrir o website.
