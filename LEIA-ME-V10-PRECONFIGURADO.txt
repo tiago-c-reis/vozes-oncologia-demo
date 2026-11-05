@@ -1,0 +1,13 @@
+VOZES DA ONCOLOGIA — V10 STAGING PRÉ-CONFIGURADA
+
+Área administrativa (após commit e publicação):
+https://tiago-c-reis.github.io/vozes-oncologia-demo/admin-v10/
+
+Configuração pública: admin-v10/config.js
+- Projeto: vozes-oncologia-staging (Frankfurt)
+- Publishable key pública integrada
+- Painel ligado (enabled: true) apenas para Staging
+
+Importante: config.js na raiz mantém mode: demo. A recolha pública permanece desativada. Não copiar keys privadas para o GitHub.
+
+O segundo fator deve ser configurado no ecrã de login do painel. O acesso administrativo requer conta autorizada, TOTP e backend admin-v10.

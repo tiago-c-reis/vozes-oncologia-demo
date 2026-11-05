@@ -1,0 +1,24 @@
+VOZES DA ONCOLOGIA — V10 (PAINEL PRIVADO)
+
+Este ZIP inclui o website completo V9 sem alterações de recolha, e a nova pasta admin-v10/.
+
+IMPORTANTE:
+- A V9 continua mode: 'demo' por defeito. Não recolhe testemunhos reais.
+- O painel V10 vem DESATIVADO (admin-v10/config.js enabled:false).
+- Instalar e testar apenas no projeto Supabase Staging antes de considerar produção.
+- NÃO colocar chaves sb_secret, service_role, AES ou tokens no GitHub.
+
+PRIMEIRO PASSO DE CONFIGURAÇÃO:
+No Supabase Staging, em SQL Editor, executar:
+  1) VOZES_V10_01_TABELAS_RLS.sql
+  2) VOZES_V10_02_CONSULTAS_RPC.sql
+
+Depois seguir CONFIGURACAO-V10.md para criar a conta administrativa,
+publicar a Edge Function e validar MFA. Nenhuma chave secreta é necessária neste ZIP.
+
+A primeira versão da V10 é de consulta (read-only), com estatísticas, filtros,
+acesso a narrativas mediante autorização e registo de auditoria. Não mostra
+nem descifra endereços de email. A exportação é apenas agregada e com supressão
+de grupos abaixo de 10; não habilitar divulgação sem revisão de privacidade.
+
+Pré-visualização entregue separadamente com dados inteiramente fictícios.
