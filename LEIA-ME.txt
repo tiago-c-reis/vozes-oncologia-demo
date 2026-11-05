@@ -1,10 +1,10 @@
-VOZES DA ONCOLOGIA - V5 | HPP 2026-2027
+VOZES DA ONCOLOGIA - V6 | ATUALIZAÇÃO EDITORIAL E DE INTERFACE
 
 OBJETIVO
 Protótipo navegável de demonstração para GitHub Pages.
 Não está preparado para recolher informações reais.
 
-ATUALIZAÇÕES V5
+ATUALIZAÇÕES V5 (MANTIDAS)
 - PASSO 1: seis perfis, seleção múltipla e perspetiva principal.
 - PASSO 2: escuta livre, antes de qualquer pergunta fechada.
 - PASSO 3: cinco perguntas quantitativas adaptadas e facultativas.
@@ -24,7 +24,7 @@ PUBLICAR NO GITHUB PAGES
    Branch: main, Folder: /(root).
 5. Quando a publicação terminar, visite:
    https://tiago-c-reis.github.io/vozes-oncologia-demo/
-6. A versão V5 usa referências CSS e JS com v=5 para evitar cache antigo.
+6. A versão V6 usa referências CSS e JS com v=6 para evitar cache antigo.
    Se necessário, faça Ctrl+Shift+R.
 
 IMPORTANTE
@@ -42,3 +42,34 @@ INDEXAÇÃO
 A demonstração inclui meta noindex e robots.txt para desincentivar
 indexação. Estes mecanismos NÃO restringem o acesso: qualquer pessoa
 que conheça o endereço pode abrir o website.
+
+
+ALTERAÇÕES V6 - 05/11/2026
+- Título da aba: "Vozes da Oncologia" em todas as rotas.
+- Removida faixa superior de demonstração (os avisos de segurança do formulário foram mantidos).
+- Homepage orientada para a melhoria dos cuidados e definição de prioridades em Portugal.
+- Equipa: textos revistos, Health Parliament Portugal por extenso e crédito "Coordenação da iniciativa Vozes da Oncologia".
+- Rodapé: ligação Contactos com popover ao passar o cursor ou clicar, endereço oculto por defeito, revelação e cópia.
+- Passo 1: pergunta facultativa da faixa etária após seleção do perfil, explicação da relevância dos dados opcionais.
+- Faixa etária incluída na revisão e no ficheiro .txt local e preservada entre etapas.
+- FAQ reescritas em linguagem corrente de serviço; génese reconhecida no HPP 2026–2027, sem afirmar vinculação permanente.
+- Mantidos os seis perfis que constavam do ZIP original, incluindo apoio social ou voluntariado; sem mudança de taxonomia não pedida explicitamente.
+
+IMPORTANTE - BLOQUEIO PARA RECOLHA REAL
+Esta atualização é da interface e dos conteúdos; NÃO implementa envio, armazenamento,
+tratamento de dados pessoais, recontacto, email, backend ou anti-bot. Os textos das FAQ
+expressam o propósito e o funcionamento do percurso, não comprovam serviço de submissão.
+Não apresentar esta versão como canal de receção de testemunhos reais. Os avisos localizados
+no formulário foram preservados para evitar recolha enganosa. Antes de ativar recolha:
+- implementar endpoint seguro, persistência, autenticação/controlo de acesso e anti-bot no servidor;
+- identificar responsável pelo tratamento, finalidade, fundamento de licitude e informação RGPD;
+- definir consentimento/recontacto quando aplicável, retenção, controlo de acesso, eliminação e resposta a direitos;
+- testar envio real, feedback de confirmação, acessibilidade, segurança e política de privacidade;
+- remover apenas então as mensagens de teste e alinhar as FAQ com o serviço efetivamente ativo.
+
+V7 - FOTOGRAFIAS DA EQUIPA (05-11-2026)
+- As dez fotografias fornecidas foram otimizadas para WebP e adicionadas a assets/equipa/.
+- A secção expansível «Comissão de Oncologia» apresenta agora fotografias e nomes numa grelha adaptativa (5/3/2 colunas).
+- Foram harmonizados os nomes da apresentação com os ficheiros recebidos: Helena Vaz Cruz e Sofia Mourão.
+- Manteve-se a coordenação e o restante comportamento da V6.
+- Para publicar, enviar também a nova subpasta assets/equipa/ e preservar os caminhos dos ficheiros.
