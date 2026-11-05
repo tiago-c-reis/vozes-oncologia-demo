@@ -1,75 +1,39 @@
-VOZES DA ONCOLOGIA - V6 | ATUALIZAÇÃO EDITORIAL E DE INTERFACE
+VOZES DA ONCOLOGIA — V9 | 05/11/2026
 
-OBJETIVO
-Protótipo navegável de demonstração para GitHub Pages.
-Não está preparado para recolher informações reais.
+A V9 preserva o website V8 (incluindo as fotografias da equipa e PDF completo)
+e acrescenta a infraestrutura de recolha Supabase, BLOQUEADA POR DEFEITO.
 
-ATUALIZAÇÕES V5 (MANTIDAS)
-- PASSO 1: seis perfis, seleção múltipla e perspetiva principal.
-- PASSO 2: escuta livre, antes de qualquer pergunta fechada.
-- PASSO 3: cinco perguntas quantitativas adaptadas e facultativas.
-- PASSO 4: revisão, privacidade e cópia de demonstração.
-- Região ampla facultativa adaptada à perspetiva.
-- Uma pergunta aberta opcional adaptada ao perfil principal.
-- Perguntas fechadas sempre depois da experiência livre, com opção de saltar.
-- Revisão completa, simulação de participação e comprovativo local .txt.
-- Design HPP, secção Equipa do estudo colapsada e placeholder do vídeo.
+ESTADO ATUAL: MODO DEMO. Nenhuma resposta é enviada ou armazenada. Não usar
+com testemunhos reais sem RGPD, AIPD, política validada, configuração segura,
+testes e autorização de ativação.
 
-PUBLICAR NO GITHUB PAGES
-1. Abra o repositório GitHub: tiago-c-reis/vozes-oncologia-demo
-2. No separador Code, carregue os ficheiros DESTA PASTA para a raiz do repositório
-   (index.html, styles.css, script.js e a pasta assets/).
-3. Substitua os ficheiros anteriores pelo conteúdo V5 (Commit changes).
-4. Em Settings > Pages, confirme Source: Deploy from a branch,
-   Branch: main, Folder: /(root).
-5. Quando a publicação terminar, visite:
-   https://tiago-c-reis.github.io/vozes-oncologia-demo/
-6. A versão V6 usa referências CSS e JS com v=6 para evitar cache antigo.
-   Se necessário, faça Ctrl+Shift+R.
+FICHEIROS NOVOS
+- config.js: chave pública/URL pública e modo demo/production (sem segredos)
+- supabase/functions/submit-participation/index.js: Edge Function de validação e receção
+- supabase/migrations/20261105_000001_v9_intake.sql: tabelas e RPC transacional
+- supabase/config.toml: configuração de deploy da Edge Function
+- CONFIGURACAO-V9.md: guia completo de infraestrutura, segurança e ativação
 
-IMPORTANTE
-O GitHub Pages publica um website acessível publicamente. O endereço não
-fica reservado apenas aos colegas, mesmo que o link não seja divulgado.
-O formulário NÃO envia nem armazena contribuições, NÃO envia emails e NÃO
-possui backend, Google Sheets, consentimento de produção ou proteção anti-bot.
-A cópia .txt é gerada apenas no browser. Não introduza dados clínicos reais.
+COMO PUBLICAR O SITE DEMONSTRATIVO
+1. Abrir o ZIP e copiar para a raiz do repositório os ficheiros da pasta
+   vozes-oncologia-demo-main, incluindo assets/ e config.js.
+2. Publicar por GitHub Pages, como nas versões anteriores.
+3. Os scripts são carregados com ?v=9 para evitar cache antigo.
+4. O formulário continua em modo demo, com PDF local. Não há envio.
 
-DOCUMENTAÇÃO
-O desenho das perguntas quantitativas mantém a matriz científica V4.
-A V5 altera a ordem de apresentação: perfil, escuta livre, perguntas opcionais, revisão.
+COMO PREPARAR O BACKEND
+Ler CONFIGURACAO-V9.md. A publicação no GitHub não instala o backend, não
+cria a base de dados e não cria credenciais Supabase. Essas ações exigem
+contas do projeto, credenciais privadas e execução do deploy apropriado.
 
-INDEXAÇÃO
-A demonstração inclui meta noindex e robots.txt para desincentivar
-indexação. Estes mecanismos NÃO restringem o acesso: qualquer pessoa
-que conheça o endereço pode abrir o website.
+Antes da recolha real: confirmar responsável pelos dados, AIPD e bases
+jurídicas RGPD, contratos, retenção, cópias e recuperação, segurança e auditorias.
 
+PARA UM REPO PÚBLICO
+O código SQL e da Edge Function pode ser público: não contém segredos.
+NUNCA adicionar ficheiros .env, passwords, SUPABASE_SERVICE_ROLE_KEY,
+SUPABASE_SECRET_KEY, CONTACT_AES_KEY_B64, TURNSTILE_SECRET_KEY ou semelhantes.
 
-ALTERAÇÕES V6 - 05/11/2026
-- Título da aba: "Vozes da Oncologia" em todas as rotas.
-- Removida faixa superior de demonstração (os avisos de segurança do formulário foram mantidos).
-- Homepage orientada para a melhoria dos cuidados e definição de prioridades em Portugal.
-- Equipa: textos revistos, Health Parliament Portugal por extenso e crédito "Coordenação da iniciativa Vozes da Oncologia".
-- Rodapé: ligação Contactos com popover ao passar o cursor ou clicar, endereço oculto por defeito, revelação e cópia.
-- Passo 1: pergunta facultativa da faixa etária após seleção do perfil, explicação da relevância dos dados opcionais.
-- Faixa etária incluída na revisão e no ficheiro .txt local e preservada entre etapas.
-- FAQ reescritas em linguagem corrente de serviço; génese reconhecida no HPP 2026–2027, sem afirmar vinculação permanente.
-- Mantidos os seis perfis que constavam do ZIP original, incluindo apoio social ou voluntariado; sem mudança de taxonomia não pedida explicitamente.
-
-IMPORTANTE - BLOQUEIO PARA RECOLHA REAL
-Esta atualização é da interface e dos conteúdos; NÃO implementa envio, armazenamento,
-tratamento de dados pessoais, recontacto, email, backend ou anti-bot. Os textos das FAQ
-expressam o propósito e o funcionamento do percurso, não comprovam serviço de submissão.
-Não apresentar esta versão como canal de receção de testemunhos reais. Os avisos localizados
-no formulário foram preservados para evitar recolha enganosa. Antes de ativar recolha:
-- implementar endpoint seguro, persistência, autenticação/controlo de acesso e anti-bot no servidor;
-- identificar responsável pelo tratamento, finalidade, fundamento de licitude e informação RGPD;
-- definir consentimento/recontacto quando aplicável, retenção, controlo de acesso, eliminação e resposta a direitos;
-- testar envio real, feedback de confirmação, acessibilidade, segurança e política de privacidade;
-- remover apenas então as mensagens de teste e alinhar as FAQ com o serviço efetivamente ativo.
-
-V7 - FOTOGRAFIAS DA EQUIPA (05-11-2026)
-- As dez fotografias fornecidas foram otimizadas para WebP e adicionadas a assets/equipa/.
-- A secção expansível «Comissão de Oncologia» apresenta agora fotografias e nomes numa grelha adaptativa (5/3/2 colunas).
-- Foram harmonizados os nomes da apresentação com os ficheiros recebidos: Helena Vaz Cruz e Sofia Mourão.
-- Manteve-se a coordenação e o restante comportamento da V6.
-- Para publicar, enviar também a nova subpasta assets/equipa/ e preservar os caminhos dos ficheiros.
+LIMITAÇÕES
+V9 não inclui painel privado de gestão nem automatização de apagamento.
+A recolha só passa a real quando a infraestrutura e privacidade forem validadas.
