@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#ffffff">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; object-src 'none'">
+  <title>Administração privada V12 | Vozes da Oncologia</title>
+  <link rel="stylesheet" href="admin.css?v=12">
+  <script src="config.js?v=12" defer></script>
+  <script src="admin.js?v=12" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span><strong>Vozes da Oncologia</strong><small>GESTÃO PRIVADA · V12</small></span></div>
+    <div class="top-right"><span class="security-pill">ÁREA RESTRITA</span><button type="button" class="quiet-button" id="logout" hidden>Terminar sessão</button></div>
+  </header>
+  <main>
+    <section id="setup" class="setup card" hidden>
+      <p class="eyebrow">CONFIGURAÇÃO PENDENTE</p><h1>Área de administração</h1>
+      <p>O painel está bloqueado até configurar a chave pública do Supabase Staging e autorizar explicitamente os testes.</p>
+      <p>Consulta o ficheiro <code>README-V12.md</code> no ZIP. Não coloques aqui chaves secretas.</p>
+    </section>
+    <section id="access" class="login-section" hidden>
+      <div class="login-copy"><span class="eyebrow">VOZES DA ONCOLOGIA · ADMINISTRAÇÃO</span>
+        <h1>Escutar melhor.<br><span>Decidir com evidência.</span></h1>
+        <p>Uma área privada para acompanhar participações, identificar padrões e consultar testemunhos com acesso controlado.</p>
+        <div class="yellow-rule"></div><p class="secure-note">Acesso sujeito a autorização individual e autenticação multifator.</p>
+      </div>
+      <div class="card login-card">
+        <div id="login-view">
+          <p class="eyebrow">INICIAR SESSÃO</p><h2>Acesso à equipa</h2>
+          <form id="login-form">
+            <label for="email">Email autorizado</label><input type="email" id="email" autocomplete="username" required placeholder="email@dominio.pt">
+            <label for="password">Palavra-passe</label><input type="password" id="password" autocomplete="current-password" required placeholder="A sua palavra-passe">
+            <button class="yellow-button" type="submit" id="login-button">Continuar com segurança <span aria-hidden="true">↗</span></button>
+          </form>
+        </div>
+        <div id="mfa-view" hidden>
+          <p class="eyebrow">SEGUNDO FATOR</p><h2>Confirme a sua identidade</h2>
+          <p id="mfa-explanation">Introduza o código de seis dígitos da aplicação autenticadora.</p>
+          <div id="mfa-enrollment" hidden><p>Registe este segundo fator na sua aplicação autenticadora. O QR e a chave são privados.</p><img id="mfa-qr" alt="Código QR para configurar o segundo fator" hidden><code id="mfa-secret"></code></div>
+          <form id="mfa-form"><label for="mfa-code">Código temporário</label>
+            <input id="mfa-code" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required>
+            <button type="submit" class="yellow-button" id="mfa-button">Validar código <span aria-hidden="true">↗</span></button>
+          </form>
+        </div>
+        <p id="auth-message" class="feedback" role="status" aria-live="polite"></p>
+        <div class="login-footer"><span class="tiny-square"></span> Sem dados de sessão guardados no browser após fechar esta página.</div>
+      </div>
+    </section>
+    <section id="dashboard" class="dashboard" hidden>
+      <div class="dash-intro"><div><p class="eyebrow">PAINEL DE ACOMPANHAMENTO</p><h1>Participações e evidência</h1><p>Visão agregada e acesso reservado aos testemunhos.</p></div><div class="dash-actions"><span id="environment" class="env-label">STAGING</span><button id="refresh" class="secondary-button" type="button">Atualizar dados</button><button id="download-agg" class="secondary-button" type="button">Exportar agregados</button></div></div>
+      <div class="metric-row">
+        <article class="metric card"><span>TOTAL DE PARTICIPAÇÕES</span><strong id="metric-total">—</strong><small>Registos recebidos</small></article>
+        <article class="metric card"><span>ÚLTIMOS 30 DIAS</span><strong id="metric-recent">—</strong><small>Participações recentes</small></article>
+        <article class="metric card"><span>CONTACTO FACULTATIVO</span><strong id="metric-contact">—</strong><small>Com autorização de recontacto</small></article>
+      </div>
+      <div class="chart-row"><article class="card chart-panel"><div class="panel-heading"><div><p class="eyebrow">PERFIS</p><h2>Quem participa</h2></div></div><div id="chart-roles" class="bar-chart"></div></article><article class="card chart-panel"><div class="panel-heading"><div><p class="eyebrow">TERRITÓRIO</p><h2>Distribuição regional</h2></div></div><div id="chart-regions" class="bar-chart"></div></article></div>
+      <article class="card listing"><div class="panel-heading"><div><p class="eyebrow">ESCUTA ABERTA</p><h2>Testemunhos recebidos</h2></div><span class="access-note">Consulta auditada · paginação por cursor</span></div>
+        <form id="filters" class="filters">
+          <label>Perfil<select id="filter-role"><option value="">Todos os perfis</option><option value="doente">Doente oncológico</option><option value="sobrevivente">Sobrevivente</option><option value="cuidador">Cuidador ou familiar</option><option value="associacao">Associação</option><option value="profissional">Profissional de saúde</option><option value="apoio">Apoio social/voluntariado</option></select></label>
+          <label>Região<select id="filter-region"><option value="">Todas as regiões</option><option>Norte</option><option>Centro</option><option>Lisboa e Vale do Tejo</option><option>Alentejo</option><option>Algarve</option><option>Açores</option><option>Madeira</option><option>Nacional / várias regiões</option><option>Fora de Portugal</option></select></label>
+          <label>Faixa etária<select id="filter-age"><option value="">Todas as idades</option><option>18-29 anos</option><option>30-44 anos</option><option>45-59 anos</option><option>60-74 anos</option><option>75 anos ou mais</option><option>Prefiro não responder</option></select></label>
+          <button type="submit" class="dark-button">Aplicar filtros</button>
+        </form>
+        <div class="table-scroll"><table><thead><tr><th>Recebido em</th><th>Perfil</th><th>Região</th><th>Faixa etária</th><th>Experiência (excerto)</th><th></th></tr></thead><tbody id="records"><tr><td colspan="6" class="empty">Sem resultados carregados.</td></tr></tbody></table></div>
+        <div class="paging"><span id="count-label">Página 1</span><div><button id="previous" class="secondary-button" type="button">Anterior</button><button id="next" class="secondary-button" type="button">Seguinte</button></div></div>
+      </article>
+      <p class="warning-note">O painel apresenta testemunhos potencialmente sensíveis. Não exporta narrativas ou endereços de email. Não partilhe capturas que contenham informação pessoal.</p>
+    </section>
+    <section id="error-panel" class="card error-panel" hidden><h2>Não foi possível carregar o painel</h2><p id="error-text"></p><button id="error-back" class="secondary-button" type="button">Voltar ao início de sessão</button></section>
+  </main>
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title"><div class="drawer-heading"><div><p class="eyebrow">TESTEMUNHO · ACESSO AUDITADO</p><h2 id="drawer-title">Participação</h2></div><button type="button" id="drawer-close" class="close" aria-label="Fechar detalhe">×</button></div><div id="drawer-body"></div></aside></div>
+  <footer>Vozes da Oncologia · Acesso reservado <span>www.vozesoncologia.pt</span></footer>
+</body>
+</html>
