@@ -108,7 +108,7 @@ test('origem nao autorizada e bloqueada',async()=>{
 test('cursor malformado e recusado antes da auditoria e RPC',async()=>{
   const {state,send}=setup();state.member='coordinator';
   const r=await send('list_cursor',{extra:{cursor:{id:'x',received_at:'bad'}}});
-  assert.equal(r.status,400);assert.equal(r.body.error,'invalid_cursor');assert.deepEqual(state.events,['auth','member']);
+  assert.equal(r.status,400);assert.equal(r.body.error,'invalid_cursor');assert.deepEqual(state.events,['auth','member','rate_gate']);
 });
 test('falha de auditoria impede consulta aos dados',async()=>{
   const {state,send}=setup();state.member='coordinator';state.auditOK=false;
