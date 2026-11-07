@@ -3,7 +3,7 @@
  * This build enables only STAGING login; backend still requires verified MFA and allowlisted admin.
  */
 window.VOZES_ADMIN_CONFIG=Object.freeze({
-  enabled:true,
+  enabled:false,
   environment:'STAGING',
   supabaseUrl:'https://zfqgwknknlsqzgmfjyxd.supabase.co',
   publishableKey:'sb_publishable_lLX4nrV34cTAPZsnGvd2tw_TP4qzE6b',
