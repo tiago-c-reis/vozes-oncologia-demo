@@ -1,0 +1,23 @@
+name: V13 admin API rate limiting regression
+on:
+  push:
+    branches:
+      - security/v13-rate-limit-staging-20261107
+  pull_request:
+    paths:
+      - 'supabase/functions/admin-v13-limited/**'
+      - 'supabase/migrations/20261107_1300_admin_rate_limit_v13.sql'
+      - 'tests/admin-v13-limited.test.mjs'
+      - '.github/workflows/v13-rate-limit.yml'
+permissions:
+  contents: read
+jobs:
+  rate-limit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run rate limit and RBAC tests
+        run: node --test tests/admin-v13-limited.test.mjs
