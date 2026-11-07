@@ -1,0 +1,22 @@
+name: V13 RBAC security regression
+on:
+  push:
+    branches:
+      - security/v13-rbac-staging-20261107
+  pull_request:
+    paths:
+      - 'supabase/functions/admin-v13/**'
+      - 'tests/admin-v13-rbac.test.mjs'
+      - '.github/workflows/v13-rbac.yml'
+permissions:
+  contents: read
+jobs:
+  authorization-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run isolated RBAC tests (no secrets/network)
+        run: node --test tests/admin-v13-rbac.test.mjs
