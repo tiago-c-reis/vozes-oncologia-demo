@@ -1,0 +1,22 @@
+name: V13 fail-closed isolated regression
+on:
+  push:
+    branches:
+      - security/v13-failclosed-isolated-20261107
+  pull_request:
+    paths:
+      - 'supabase/functions/admin-v13-failclosed-test/**'
+      - 'tests/admin-v13-failclosed.test.mjs'
+      - '.github/workflows/v13-failclosed.yml'
+permissions:
+  contents: read
+jobs:
+  negative-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test fail-closed handling without external services
+        run: node --test tests/admin-v13-failclosed.test.mjs
