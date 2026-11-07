@@ -233,7 +233,7 @@ async function handleRequest(request: Request): Promise<Response> {
 
     // V13 limited: quota global entre instancias por user_id.
     // Falha da RPC = fail closed, sem consulta administrativa.
-    // POST/OPTIONS sem acesso a narrativas nao consomem quota.
+    // OPTIONS e pedidos sem autorizacao sao bloqueados antes da contagem.
     const limiter = await fetchChecked(
       `${url}/rest/v1/rpc/vozes_admin_rate_gate_v13`,
       {
