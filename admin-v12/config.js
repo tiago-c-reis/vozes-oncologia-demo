@@ -7,5 +7,5 @@ window.VOZES_ADMIN_CONFIG=Object.freeze({
   environment:'STAGING',
   supabaseUrl:'https://zfqgwknknlsqzgmfjyxd.supabase.co',
   publishableKey:'sb_publishable_lLX4nrV34cTAPZsnGvd2tw_TP4qzE6b',
-  adminFunction:'admin-v10'
+  adminFunction:'admin-v13-limited'
 });
