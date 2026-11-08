@@ -221,7 +221,7 @@ function faq(){return `
  ['Como são utilizados os contributos?','O Vozes da Oncologia centra-se na identificação de dificuldades recorrentes, necessidades e oportunidades de melhoria nos cuidados oncológicos. A análise procura apoiar prioridades e recomendações, com comunicação de resultados agregados e reconhecimento das limitações dos dados recolhidos. Um contributo individual não garante a adoção de uma medida específica.'],
  ['As respostas representam toda a população portuguesa?','Não necessariamente. A participação voluntária não constitui, por si só, uma amostra nacional representativa. A divulgação de resultados deve indicar a dimensão das respostas, o contexto dos participantes e as limitações metodológicas relevantes.'],
  ['Tenho de me identificar?','Não é obrigatório indicar nome ou criar uma conta. Recomendamos que não escreva nomes de terceiros, datas exatas ou outros dados que possam identificar pessoas no relato livre. A ausência de nome não garante, por si só, anonimato absoluto.'],
- ['Como é protegida a minha privacidade?','São solicitados apenas os elementos necessários para contextualizar o contributo, e os dados adicionais são facultativos. A utilização de relatos, a proteção de dados pessoais e qualquer contacto posterior exigem informação transparente sobre o tratamento, as finalidades e os direitos dos participantes. Consulte a informação de privacidade apresentada na etapa de revisão.'],
+ ['Como é protegida a minha privacidade?','São solicitados apenas os elementos necessários para contextualizar o contributo, e os dados adicionais são facultativos. A utilização de relatos, a proteção de dados pessoais e qualquer contacto posterior exigem informação transparente sobre o tratamento, as finalidades e os direitos dos participantes. Enquanto a recolha estiver indisponível, consulte a <a href="/privacidade.html">informação de privacidade e dados</a>. A política completa será publicada antes da abertura da participação.'],
  ['Posso deixar um email para recontacto?','O email é facultativo e deve ser utilizado apenas para finalidades expressamente autorizadas. O endereço de contacto geral da iniciativa está disponível em “Contactos”, no rodapé do website.'],
  ['Posso receber uma cópia do que escrevi?','Sim. Pode descarregar um PDF com todas as suas respostas, incluindo integralmente os campos de escuta aberta. O PDF é preparado no seu dispositivo, sem transmissão a serviços externos. A cópia local, por si só, não constitui comprovativo de receção da participação. '],
  ['A participação substitui um pedido de apoio médico ou uma reclamação?','Não. O Vozes da Oncologia é um espaço de escuta orientado para a melhoria dos cuidados. Não substitui avaliação ou aconselhamento médico, assistência urgente nem os canais oficiais de reclamação. Para necessidades clínicas, recorra aos serviços de saúde adequados.']
@@ -412,7 +412,7 @@ function prelaunchReview(){return `
  <dt>Perfis selecionados</dt><dd>Os perfis que escolher.</dd>
  <dt>Respostas complementares</dt><dd>As respostas opcionais que fornecer.</dd>
 </dl>
-<div class="privacy-card"><strong>${icon('shield',18)} Informação sobre o tratamento</strong><p>A receção de testemunhos requer informação de privacidade completa e identificação do responsável pelo tratamento.</p></div>
+<div class="privacy-card"><strong>${icon('shield',18)} Informação sobre o tratamento</strong><p>O envio de testemunhos está indisponível. Consulte a <a href="/privacidade.html">informação de privacidade desta fase</a>; a política definitiva será publicada antes da recolha.</p></div>
 <div class="form-group"><label class="field-label" for="prelaunch-email">Email para eventual recontacto <span class="optional">Opcional</span></label><input class="text-input" type="email" id="prelaunch-email" placeholder="exemplo@email.pt" disabled /></div>
 <label class="checkbox-row"><input type="checkbox" disabled /><span>Autorizo que me contactem posteriormente sobre este contributo. <span class="optional">Opcional</span></span></label>
 <label class="checkbox-row"><input type="checkbox" disabled /><span><strong>Confirmo que tenho 18 anos ou mais.</strong></span></label>
@@ -468,8 +468,8 @@ if(!location.hash)location.replace('#/inicio');else renderPage();
  const address=['ouvir','vozesoncologia.pt'].join('@');
  function close(){host.classList.remove('is-open');trigger.setAttribute('aria-expanded','false');}
  trigger.addEventListener('click',()=>{const open=!host.classList.contains('is-open');host.classList.toggle('is-open',open);trigger.setAttribute('aria-expanded',String(open));});
- reveal.addEventListener('click',()=>{display.textContent=address;reveal.hidden=true;copy.hidden=false;feedback.textContent='Endereço de email revelado.';});
- copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address);feedback.textContent='Email copiado.';}catch(e){feedback.textContent='Selecione e copie o endereço apresentado.';}});
+ reveal.addEventListener('click',()=>{display.textContent=address;reveal.hidden=true;copy.hidden=false;feedback.textContent='Endereço em ativação — ainda não recebe mensagens.';});
+ copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address);feedback.textContent='Email copiado. Endereço ainda em ativação.';}catch(e){feedback.textContent='Selecione e copie o endereço apresentado.';}});
  document.addEventListener('click',(evt)=>{if(!host.contains(evt.target))close();});
  document.addEventListener('keydown',(evt)=>{if(evt.key==='Escape'){close();if(host.contains(document.activeElement))trigger.focus();}});
 })();
