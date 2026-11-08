@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /admin-v10/
+Disallow: /admin-v12/
