@@ -161,6 +161,7 @@
       // Suprimir repetições e secções de perguntas opcionais sem respostas.
       this.headline('PERFIL E CONTEXTO','Informações complementares');
       this.info('Perfis selecionados',this.data.roles.join(' · '));
+      if(safe(this.data.diagnosisAgeGroup).trim()) this.info('Faixa etária no diagnóstico da pessoa com cancro',this.data.diagnosisAgeGroup);
       if(safe(this.data.context).trim()) this.answer('Contexto adicional do seu perfil',this.data.context);
       const answeredQuestions=Array.isArray(this.data.questions)
         ? this.data.questions.filter(q=>safe(q.answer).trim())
