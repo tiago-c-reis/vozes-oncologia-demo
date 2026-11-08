@@ -147,7 +147,7 @@
       this.y+=boxHeight+13;
       this.need(45);
       this.rect(M,this.y,CONTENT,36,'#fff9e8',7,'#f1e2aa');
-      this.text(this.data.receipt?'RECEÇÃO CONFIRMADA PELO SERVIDOR':'DOCUMENTO DE TESTE',M+11,this.y+13,textStyle(8.2,700,'body','#625a39'));
+      this.text(this.data.receipt?'RECEÇÃO CONFIRMADA PELO SERVIDOR':'CÓPIA LOCAL · NÃO ENVIADA',M+11,this.y+13,textStyle(8.2,700,'body','#625a39'));
       this.text(this.data.receipt?'Identificador: '+this.data.receipt:'Não comprova envio ou receção; nenhuma resposta é enviada ao servidor.',M+11,this.y+26,textStyle(8.1,400,'body','#625a39'));
       this.y+=41;
     }
@@ -166,10 +166,9 @@
       this.headline('PASSO 03 · INDICADORES OPCIONAIS','Perguntas complementares');
       for(const q of this.data.questions) this.pair(q.text,q.answer);
       this.headline('PASSO 04 · CONTACTO E PRIVACIDADE','Preferências indicadas');
-      this.info(this.data.receipt?'Email facultativo':'Email facultativo (de teste)',this.data.email);
+      this.info('Email facultativo',this.data.email);
       this.info('Preferência de recontacto',this.data.contact?'Sim':'Não');
-      if(!this.data.receipt)this.info('Preferência de cópia por email',this.data.emailCopy?'Sim':'Não');
-      this.need(68);
+            this.need(68);
       this.rect(M,this.y,CONTENT,53,GRAY,8,STROKE);
       this.text('SOBRE ESTA CÓPIA',M+12,this.y+17,textStyle(8,700,'body',MUTED));
       this.text(this.data.receipt?'Receção confirmada. Este PDF é gerado no seu dispositivo.':'É uma cópia pessoal gerada neste dispositivo. Não houve envio ao projeto.',M+12,this.y+32,textStyle(8.3,400,'body',INK));
