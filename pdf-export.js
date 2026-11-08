@@ -122,7 +122,7 @@
         this.command('image',{x:M,y:this.y,w:CONTENT,h,img:this.illustration});
         this.y += h+15;
       }
-      this.paragraph('A minha participação',{style:textStyle(26,800,'title',INK),lineHeight:33,after:3});
+      this.paragraph(this.data.receipt?'A minha participação':'A minha cópia pessoal',{style:textStyle(26,800,'title',INK),lineHeight:33,after:3});
       this.rect(M,this.y,61,4,YELLOW);this.y+=12;
       this.paragraph(this.data.receipt?'Uma cópia das respostas que partilhou.':'Uma cópia das respostas que preparou.',{style:textStyle(12,400,'body',MUTED),lineHeight:18,after:9});
       this.paragraph(this.data.receipt?'Obrigado por partilhar a sua experiência. Cada contributo ajuda a identificar prioridades para melhorar os cuidados oncológicos em Portugal.':'Este documento reúne as respostas preparadas localmente. Não constitui comprovativo de envio ou de receção.',{style:textStyle(9.6,400,'body','#414850'),lineHeight:14.5,after:13});
@@ -162,9 +162,12 @@
       this.headline('PERFIL E CONTEXTO','Informações complementares');
       this.info('Perfis selecionados',this.data.roles.join(' · '));
       if(safe(this.data.context).trim()) this.answer('Contexto adicional do seu perfil',this.data.context);
-      if(Array.isArray(this.data.questions) && this.data.questions.length) {
+      const answeredQuestions=Array.isArray(this.data.questions)
+        ? this.data.questions.filter(q=>safe(q.answer).trim())
+        : [];
+      if(answeredQuestions.length) {
         this.headline('INDICADORES OPCIONAIS','Perguntas complementares');
-        for(const q of this.data.questions) this.pair(q.text,q.answer);
+        for(const q of answeredQuestions) this.pair(q.text,q.answer);
       }
       if(this.data.contact && safe(this.data.email).trim()) {
         this.headline('CONTACTO E PRIVACIDADE','Preferências indicadas');
@@ -240,6 +243,14 @@
     }
     return '<'+out+'>';
   }
+  function pdfUtf16Text(value) {
+    let out='FEFF';
+    for(let i=0;i<value.length;i++){
+      const code=value.charCodeAt(i);
+      out+=code.toString(16).padStart(4,'0');
+    }
+    return '<'+out+'>';
+  }
   function pdfTextLayer(commands) {
     if(!Array.isArray(commands))return '';
     const n=v=>String(Math.round(v*100)/100);
@@ -249,8 +260,10 @@
       const x=command.x;
       const y=A4.height-command.y;
       const h=pdfHexText(command.text);
-      // 3 Tr desenha texto invisível, mas selecionável e pesquisável.
-      return `BT /F1 ${n(size)} Tf 3 Tr 1 0 0 1 ${n(x)} ${n(y)} Tm ${h} Tj ET\n`;
+      // ActualText preserva Unicode integral, mesmo quando a fonte de seleção
+      // não consegue representar certos caracteres. 3 Tr mantém o aspeto intacto.
+      const exact=pdfUtf16Text(command.text);
+      return `/Span << /ActualText ${exact} >> BDC\nBT /F1 ${n(size)} Tf 3 Tr 1 0 0 1 ${n(x)} ${n(y)} Tm ${h} Tj ET\nEMC\n`;
     }).join('');
   }
   function pdfFromImages(imageUrls,width,height,textPages=[]) {
