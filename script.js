@@ -99,10 +99,10 @@ const roles = [
 const ageGroups = [
  ['','Não indicar faixa etária'],
  ['Menos de 18 anos','Menos de 18 anos'],
- ['18-29 anos','18–29 anos'],
- ['30-44 anos','30–44 anos'],
- ['45-59 anos','45–59 anos'],
- ['60-74 anos','60–74 anos'],
+ ['18-29 anos','18-29 anos'],
+ ['30-44 anos','30-44 anos'],
+ ['45-59 anos','45-59 anos'],
+ ['60-74 anos','60-74 anos'],
  ['75 anos ou mais','75 anos ou mais'],
  ['Prefiro não responder','Prefiro não responder']
 ];
@@ -212,7 +212,7 @@ function home(){return `
 function faq(){return `
 <div class="wrap page-intro"><span class="pill">INFORMAÇÃO PARA PARTICIPAR</span><h1>Perguntas frequentes.</h1><p>Saiba como participar, qual a finalidade da escuta, como é tratada a informação e como as experiências ajudam a identificar prioridades para melhorar a oncologia em Portugal.</p></div>
 <section class="section section-light"><div class="wrap faq-list">${[
- ['Como surgiu o Vozes da Oncologia?','O Vozes da Oncologia nasceu no âmbito dos trabalhos da Comissão de Oncologia do Health Parliament Portugal, na edição 2026–2027. A iniciativa procura dar voz às pessoas que vivem, acompanham ou trabalham na área da oncologia, reunindo experiências e contributos que permitam identificar dificuldades, reconhecer necessidades e apoiar a definição de prioridades para melhorar os cuidados oncológicos em Portugal.'],
+ ['Como surgiu o Vozes da Oncologia?','O Vozes da Oncologia nasceu no âmbito dos trabalhos da Comissão de Oncologia do Health Parliament Portugal, na edição 2026-2027. A iniciativa procura dar voz às pessoas que vivem, acompanham ou trabalham na área da oncologia, reunindo experiências e contributos que permitam identificar dificuldades, reconhecer necessidades e apoiar a definição de prioridades para melhorar os cuidados oncológicos em Portugal.'],
  ['Quem pode participar?','Doentes oncológicos, sobreviventes, cuidadores e familiares, representantes de associações de doentes, profissionais de saúde e pessoas envolvidas em apoio social ou voluntariado em oncologia. Pode selecionar mais do que um perfil e escolher aquele que melhor corresponde à perspetiva do seu testemunho.'],
  ['Como funciona a participação?','Comece por selecionar o seu perfil e, se desejar, indique a sua faixa etária e a região mais relevante. Depois, descreva livremente uma dificuldade ou problema e, se quiser, apresente uma sugestão de melhoria. Por fim, pode responder a cinco perguntas facultativas, rever o conteúdo e guardar uma cópia local.'],
  ['Tenho de sugerir uma solução?','Não. Dar a conhecer uma dificuldade é, por si só, um contributo útil. As sugestões de melhoria, a faixa etária, a região e as perguntas complementares são facultativas.'],
