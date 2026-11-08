@@ -78,7 +78,7 @@ function populateSummary(s){state.summary=s;$('metric-total').textContent=fmtNum
 function renderList(data){state.list=data;const tbody=$('records');tbody.replaceChildren();const items=Array.isArray(data.items)?data.items:[];
   if(!items.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=6;td.className='empty';td.textContent='Sem participações para os filtros selecionados.';tr.appendChild(td);tbody.appendChild(tr);}
   for(const item of items){const tr=document.createElement('tr');appendText(tr,'td',fmtDate(item.received_at));appendText(tr,'td',labels[item.primary_role]||item.primary_role);appendText(tr,'td',safeText(item.region));appendText(tr,'td',safeText(item.age_group));appendText(tr,'td',safeText(item.preview));const td=document.createElement('td');const button=appendText(td,'button','Consultar','record-link');button.type='button';button.addEventListener('click',()=>openDetail(item.id));tr.appendChild(td);tbody.appendChild(tr);}
-  const total=Number(data.total||0);$('count-label').textContent=`${fmtNum(total)} resultado(s) · ${total?fmtNum(state.offset+1):'0'}–${fmtNum(Math.min(total,state.offset+items.length))}`;
+  const total=Number(data.total||0);$('count-label').textContent=`${fmtNum(total)} resultado(s) · ${total?fmtNum(state.offset+1):'0'}-${fmtNum(Math.min(total,state.offset+items.length))}`;
   $('previous').disabled=state.offset===0;$('next').disabled=state.offset+state.pageSize>=total;
 }
 function currentFilters(){return{role:$('filter-role').value||null,region:$('filter-region').value||null,age:$('filter-age').value||null};}
