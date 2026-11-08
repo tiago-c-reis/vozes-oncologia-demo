@@ -155,8 +155,8 @@
       this.cover();
       this.headline('ESCUTA ABERTA','A sua experiência, na íntegra','Todas as respostas abaixo são reproduzidas integralmente, incluindo em páginas seguintes.');
       this.answer('1. Que dificuldade ou problema gostaria de dar a conhecer?',this.data.difficulty);
-      this.answer('2. Como considera que esta situação poderia ser melhorada?',this.data.solution);
-      this.answer('3. Há mais alguma coisa que queira acrescentar?',this.data.extra);
+      if(safe(this.data.solution).trim()) this.answer('2. Como considera que esta situação poderia ser melhorada?',this.data.solution);
+      if(safe(this.data.extra).trim()) this.answer('3. Há mais alguma coisa que queira acrescentar?',this.data.extra);
       // Os três dados do perfil já aparecem no quadro da primeira página.
       // Suprimir repetições e secções de perguntas opcionais sem respostas.
       this.headline('PERFIL E CONTEXTO','Informações complementares');
