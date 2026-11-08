@@ -1,4 +1,4 @@
-/* Vozes da Oncologia — exportação local em PDF, versão V9.
+/* Vozes da Oncologia - exportação local em PDF, versão V9.
  * Sem bibliotecas externas, ligações a servidores, recolha ou armazenamento remoto.
  * Cada página A4 é composta independentemente; texto livre nunca é truncado.
  * O conteúdo é desenhado no PDF à resolução de impressão, incluindo Unicode.
