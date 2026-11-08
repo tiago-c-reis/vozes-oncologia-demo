@@ -417,8 +417,8 @@ if(!location.hash)location.replace('#/inicio');else renderPage();
  const address=['ouvir','vozesoncologia.pt'].join('@');
  function close(){host.classList.remove('is-open');trigger.setAttribute('aria-expanded','false');}
  trigger.addEventListener('click',()=>{const open=!host.classList.contains('is-open');host.classList.toggle('is-open',open);trigger.setAttribute('aria-expanded',String(open));});
- reveal.addEventListener('click',()=>{display.textContent=address;reveal.hidden=true;copy.hidden=false;feedback.textContent='Endereço em ativação — ainda não recebe mensagens.';});
- copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address);feedback.textContent='Email copiado. Endereço ainda em ativação.';}catch(e){feedback.textContent='Selecione e copie o endereço apresentado.';}});
+ reveal.addEventListener('click',()=>{display.textContent=address;reveal.hidden=true;copy.hidden=false;feedback.textContent='Endereço de email revelado.';});
+ copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address);feedback.textContent='Email copiado.';}catch(e){feedback.textContent='Selecione e copie o endereço apresentado.';}});
  document.addEventListener('click',(evt)=>{if(!host.contains(evt.target))close();});
  document.addEventListener('keydown',(evt)=>{if(evt.key==='Escape'){close();if(host.contains(document.activeElement))trigger.focus();}});
 })();
