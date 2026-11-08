@@ -170,7 +170,7 @@ function home(){return `
     <h1>A sua experiência pode ajudar a <span class="mark">melhorar</span> os cuidados oncológicos em Portugal.</h1>
     <p class="hero-lead">Conte-nos as dificuldades que sentiu ou observou e como considera que poderiam ser melhoradas.</p>
     <div class="hero-actions">${btn(isPrelaunch?'Conhecer o formulário':'Partilhar a minha experiência','#/participe')}</div>
-    <div class="hero-note">${icon('lock',16)} ${isPrelaunch?'A participação pública abrirá em breve':'Participação escrita · Sem identificação pessoal obrigatória'}</div>
+    <div class="hero-note">${icon('lock',16)} Participação escrita · Sem identificação pessoal obrigatória</div>
   </div><div class="hero-art"><img src="assets/retratos-diversidade.webp" alt="Ilustração em aguarela e tinta de pessoas de diferentes idades, origens e experiências, incluindo uma profissional de saúde" fetchpriority="high" /></div>
 </div></section>
 <section class="section section-light"><div class="wrap">
@@ -414,12 +414,12 @@ function prelaunchReview(){return `
  <dt>Perfis selecionados</dt><dd>Os perfis que escolher.</dd>
  <dt>Respostas complementares</dt><dd>As respostas opcionais que fornecer.</dd>
 </dl>
-<div class="privacy-card"><strong>${icon('shield',18)} Informação sobre o tratamento</strong><p>A política de privacidade e a identificação do responsável pelo tratamento serão disponibilizadas antes da abertura da recolha de testemunhos.</p></div>
+<div class="privacy-card"><strong>${icon('shield',18)} Informação sobre o tratamento</strong><p>A receção de testemunhos requer informação de privacidade completa e identificação do responsável pelo tratamento.</p></div>
 <div class="form-group"><label class="field-label" for="prelaunch-email">Email para eventual recontacto <span class="optional">Opcional</span></label><input class="text-input" type="email" id="prelaunch-email" placeholder="exemplo@email.pt" disabled /></div>
 <label class="checkbox-row"><input type="checkbox" disabled /><span>Autorizo que me contactem posteriormente sobre este contributo. <span class="optional">Opcional</span></span></label>
 <label class="checkbox-row"><input type="checkbox" disabled /><span><strong>Confirmo que tenho 18 anos ou mais.</strong></span></label>
 <label class="checkbox-row"><input type="checkbox" disabled /><span><strong>Li a informação de privacidade e dou consentimento explícito para o tratamento do meu testemunho, que poderá incluir dados relativos à saúde.</strong></span></label>
-<div class="form-group"><span class="field-label">Verificação de segurança</span><div class="prelaunch-security">A verificação estará disponível quando a participação abrir.</div></div>
+<div class="form-group"><span class="field-label">Verificação de segurança</span><div class="prelaunch-security">Verificação de segurança aplicável ao envio de participações.</div></div>
 <div class="form-actions"><button class="button button-yellow" type="button" disabled>Enviar participação ${icon('arrow',17)}</button></div>`;}
 function prelaunchForm(){
  let content;
@@ -432,13 +432,13 @@ function prelaunchForm(){
   content=content.replace('Estas cinco perguntas opcionais','Estas cinco perguntas opcionais, apresentadas como exemplo de um perfil,');
  }else content=prelaunchReview();
  return `<section class="form-page"><div class="wrap">
- <div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Conheça as etapas do formulário. A receção pública de testemunhos abrirá em breve.</p></div>
+ <div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Conheça o percurso de participação: perfil, experiência, perguntas complementares e revisão final.</p></div>
  <div class="form-shell prelaunch-preview">${progress(prelaunchStage)}<div class="form-content">${content}</div>
  <div class="prelaunch-navigation" aria-label="Conhecer as etapas">
   <button class="button button-quiet" type="button" data-preview-nav="previous" ${prelaunchStage===1?'disabled':''}>${icon('chevron',17)} Anterior</button>
   <span>Etapa ${prelaunchStage} de 4</span>
   <button class="button button-yellow" type="button" data-preview-nav="next" ${prelaunchStage===4?'disabled':''}>Etapa seguinte ${icon('arrow',17)}</button>
- </div></div><p class="footnote prelaunch-footnote">O formulário pode ser consultado, mas ainda não recebe respostas.</p>
+ </div></div><p class="footnote prelaunch-footnote">Este formulário está disponível para consulta. O envio de respostas encontra-se indisponível.</p>
  </div></section>`;
 }
 function bindPrelaunch(){
