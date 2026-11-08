@@ -64,7 +64,7 @@ function apiPayload(){
  return {
   requestId:form.requestId || (form.requestId=safeId()),
   privacyVersion:cfg.privacyVersion,
-  profile:{roles:[...form.roles],primaryRole:role,ageGroup:form.ageGroup,region:form.region,context:form.roleContext[role]||''},
+  profile:{roles:[...form.roles],primaryRole:role,ageGroup:form.ageGroup,region:form.region,context:contextWithDiagnosis(role)},
   openText:{difficulty:form.difficulty,solution:form.solution,extra:form.extra},
   answers:Object.fromEntries(currentQuestions().filter(q=>form.answers[role]?.[q.id]).map(q=>[q.id,form.answers[role][q.id]])),
   consent:{explicitHealthData:form.ack,adultAttestation:form.adultAttested,recontact:form.contact},
@@ -108,6 +108,23 @@ const ageGroups = [
  ['75 anos ou mais','75 anos ou mais'],
  ['Prefiro não responder','Prefiro não responder']
 ];
+const diagnosisAgeGroups=[
+ ['','Não indicar idade ao diagnóstico'],
+ ['0-4 anos','0-4 anos'],['5-9 anos','5-9 anos'],
+ ['10-14 anos','10-14 anos'],['15-17 anos','15-17 anos'],
+ ['18-29 anos','18-29 anos'],['30-44 anos','30-44 anos'],
+ ['45-59 anos','45-59 anos'],['60-74 anos','60-74 anos'],
+ ['75 anos ou mais','75 anos ou mais'],
+ ['Não sei','Não sei'],['Prefiro não responder','Prefiro não responder']
+];
+const diagnosisEligible=role=>['doente','sobrevivente','cuidador'].includes(role);
+function contextWithDiagnosis(role){
+ const raw=String(form.roleContext[role]||'').trim();
+ const age=diagnosisEligible(role)&&form.diagnosisAgeGroup
+   ? 'Faixa etária no diagnóstico da pessoa com cancro: '+form.diagnosisAgeGroup : '';
+ // Compatibilidade com a API atual; requer coluna própria para análise futura.
+ return [age,raw].filter(Boolean).join('\n');
+}
 const regions = [
  ['','Não indicar região'],
  ['Norte','Norte'], ['Centro','Centro'], ['Lisboa e Vale do Tejo','Lisboa e Vale do Tejo'],
@@ -145,7 +162,7 @@ const surveyModules = {
 };
 const moduleForRole = role => role==='cuidador'?'cuidador':['doente','sobrevivente'].includes(role)?'vivencia':'observacao';
 const regionLabelForRole = role => role==='cuidador'?'Em que região reside ou residia a pessoa que acompanhou?':['doente','sobrevivente'].includes(role)?'Em que região reside?':'Em que região observa principalmente estas situações?';
-const form = {stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''};
+const form = {stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',diagnosisAgeGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''};
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon = (name,size=22) => {
  const shapes={
@@ -218,7 +235,8 @@ function faq(){return `
  ['Quem pode participar?','Doentes oncológicos, sobreviventes, cuidadores e familiares, representantes de associações de doentes, profissionais de saúde e pessoas envolvidas em apoio social ou voluntariado em oncologia. Pode selecionar mais do que um perfil e escolher aquele que melhor corresponde à perspetiva do seu testemunho.'],
  ['Como funciona a participação?',isPrelaunch?'Pode explorar as quatro etapas, escolher o perfil, preencher as respostas e descarregar uma cópia local em PDF. Nesta modalidade, as respostas não são enviadas nem recebidas pela iniciativa.':'Comece por selecionar o seu perfil e, se desejar, indique a sua faixa etária e a região mais relevante. Depois, descreva uma dificuldade ou problema e, se quiser, apresente uma sugestão de melhoria. Por fim, pode responder às perguntas facultativas, confirmar o consentimento e enviar.'],
  ['Tenho de sugerir uma solução?','Não. Dar a conhecer uma dificuldade é, por si só, um contributo útil. As sugestões de melhoria, a faixa etária, a região e as perguntas complementares são facultativas.'],
- ['Porque pedem a faixa etária e a região?','Estes dados facultativos ajudam a contextualizar os relatos, identificar possíveis diferenças entre grupos etários e regiões e interpretar melhor as prioridades assinaladas. A faixa etária refere-se à pessoa que está a responder, não à pessoa acompanhada. Não pedimos data de nascimento nem morada. Mesmo quando opcionais, estas informações são importantes para a qualidade da análise.'],
+ ['Porque pedem a faixa etária e a região?','A faixa etária de quem responde e a região ajudam a contextualizar o testemunho. Também pode indicar a idade no diagnóstico da pessoa com cancro, incluindo infância e adolescência. Estes dados são facultativos.'],
+ ['E a oncologia pediátrica?','Um familiar ou cuidador adulto pode relatar a experiência de uma criança ou adolescente com cancro. Um sobrevivente adulto pode relatar um diagnóstico na infância. A idade no diagnóstico distingue esses percursos da idade de quem responde. A participação direta de menores não está disponível nesta fase.'],
  ['Existem perguntas fechadas?','Sim. Depois do relato livre, são apresentadas até cinco perguntas facultativas, adaptadas ao perfil principal. Permitem contextualizar as experiências e construir indicadores descritivos, sem substituir o testemunho nas suas próprias palavras.'],
  ['Como são utilizados os contributos?','O Vozes da Oncologia centra-se na identificação de dificuldades recorrentes, necessidades e oportunidades de melhoria nos cuidados oncológicos. A análise procura apoiar prioridades e recomendações, com comunicação de resultados agregados e reconhecimento das limitações dos dados recolhidos. Um contributo individual não garante a adoção de uma medida específica.'],
  ['As respostas representam toda a população portuguesa?','Não necessariamente. A participação voluntária não constitui, por si só, uma amostra nacional representativa. A divulgação de resultados deve indicar a dimensão das respostas, o contexto dos participantes e as limitações metodológicas relevantes.'],
@@ -245,10 +263,11 @@ function adaptiveFields(){if(!form.roles.length)return '';
  const r=roles.find(x=>x[0]===chosen);
  return `<div class="adaptive-box"><div class="adaptive-eyebrow">Contexto adicional · opcional</div>
  ${form.roles.length>1?`<div class="form-group"><label class="field-label" for="primaryRole">A partir de que perspetiva está a partilhar esta experiência?</label><select id="primaryRole" class="text-input" aria-label="Perspetiva principal">${roles.filter(x=>form.roles.includes(x[0])).map(([id,label])=>`<option value="${id}" ${id===chosen?'selected':''}>${label}</option>`).join('')}</select><p class="field-helper">Este campo serve apenas para adaptar as perguntas. Os outros perfis mantêm-se registados.</p></div>`:''}
- <p class="adaptive-info-note"><strong>A informação seguinte é facultativa.</strong> Ainda assim, indicar a faixa etária e a região ajuda-nos a contextualizar os testemunhos e a identificar necessidades e prioridades entre diferentes grupos, tornando a análise mais útil para o estudo.</p>
- <div class="form-group"><label class="field-label" for="ageGroup">Qual é a sua faixa etária? <span class="optional">Opcional</span></label><select id="ageGroup" class="text-input">${ageGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.ageGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Considere a sua própria idade, não a de outra pessoa que acompanha. Não pedimos a data de nascimento.</p></div>
+ <p class="adaptive-info-note"><strong>A informação seguinte é facultativa.</strong> A idade de quem responde e a idade da pessoa com cancro quando recebeu o diagnóstico são dados diferentes. Esta distinção permite identificar experiências de oncologia pediátrica.</p>
+ <div class="form-group"><label class="field-label" for="ageGroup">Qual é a sua faixa etária? <span class="optional">Opcional</span></label><select id="ageGroup" class="text-input">${ageGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.ageGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Indique a sua própria idade. O formulário destina-se a respondentes adultos.</p></div>
+ ${diagnosisEligible(chosen)?`<div class="form-group"><label class="field-label" for="diagnosisAgeGroup">${chosen==='cuidador'?'Qual era a idade da pessoa acompanhada quando recebeu o diagnóstico de cancro?':'Qual era a sua idade quando recebeu o diagnóstico de cancro?'} <span class="optional">Opcional</span></label><select id="diagnosisAgeGroup" class="text-input">${diagnosisAgeGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.diagnosisAgeGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Inclui diagnósticos na infância e adolescência. Não pedimos datas nem nomes.</p></div>`:''}
  <div class="form-group"><label class="field-label" for="region">${esc(regionLabelForRole(chosen))} <span class="optional">Opcional</span></label><select id="region" class="text-input">${regions.map(([v,label])=>`<option value="${esc(v)}" ${form.region===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Indique apenas uma região ampla, se for útil. A opção "Âmbito nacional / várias regiões" é adequada a contributos transversais. Não pedimos morada nem instituição.</p></div>
- <div class="form-group"><label class="field-label" for="context-primary">${esc(r[2])} <span class="optional">Opcional</span></label><textarea id="context-primary" data-context="${chosen}" maxlength="6000" placeholder="Pode deixar este campo em branco.">${esc(form.roleContext[chosen]||'')}</textarea></div></div>`;
+ <div class="form-group"><label class="field-label" for="context-primary">${esc(r[2])} <span class="optional">Opcional</span></label><textarea id="context-primary" data-context="${chosen}" maxlength="5800" placeholder="Pode deixar este campo em branco.">${esc(form.roleContext[chosen]||'')}</textarea></div></div>`;
 }
 function activeRole(){return form.roles.includes(form.primaryRole)?form.primaryRole:form.roles[0];}
 function currentQuestions(){return surveyModules[moduleForRole(activeRole())]||[];}
@@ -267,7 +286,7 @@ ${!isConfiguredForProduction()?'<div class="demo-disclaimer" role="alert"><stron
 const demoFields = `<div class="privacy-card"><strong>${icon('shield',18)} Cópia local, sem envio</strong><p>Pode preencher o formulário e guardar uma cópia pessoal em PDF. O projeto não recebe nem armazena estas respostas. Evite informações pessoais ou de saúde identificáveis neste preenchimento. Consulte a <a href="/privacidade.html">informação de privacidade</a>.</p></div>
 <label class="checkbox-row"><input type="checkbox" id="ack" ${form.ack?'checked':''}/><span><strong>Compreendo que este preenchimento não envia respostas à iniciativa e cria apenas uma cópia no meu dispositivo.</strong></span></label>`
 return `<div class="eyebrow">PASSO 04 · REVISÃO E PRIVACIDADE</div><h2>Reveja a sua participação.</h2><p class="form-subtitle">${isProduction?'Confirme o que escreveu e leia a informação de privacidade antes de enviar.':'Confirme os campos apresentados. O envio de respostas encontra-se indisponível.'}</p>
-<dl class="summary-card"><dt>Dificuldade identificada</dt><dd>${esc(form.difficulty)}</dd><dt>Sugestão de melhoria</dt><dd>${esc(form.solution||'Não indicada')}</dd><dt>Informação adicional</dt><dd>${esc(form.extra||'Não indicada')}</dd><dt>Perfis selecionados</dt><dd>${esc(chosen)}</dd><dt>Perspetiva principal</dt><dd>${esc(roles.find(r=>r[0]===activeRole())?.[1]||'Não indicada')}</dd><dt>Faixa etária (facultativa)</dt><dd>${esc(form.ageGroup||'Não indicada')}</dd><dt>Região mais relevante (facultativa)</dt><dd>${esc(form.region||'Não indicada')}</dd>${form.roleContext[activeRole()]?.trim()?`<dt>Contexto adicional</dt><dd>${esc(form.roleContext[activeRole()])}</dd>`:''}<dt>Respostas complementares</dt><dd>${questions.map(q=>esc(q.text)+'\n'+esc(answers[q.id]||'Sem resposta')).join('\n\n')}</dd></dl>
+<dl class="summary-card"><dt>Dificuldade identificada</dt><dd>${esc(form.difficulty)}</dd><dt>Sugestão de melhoria</dt><dd>${esc(form.solution||'Não indicada')}</dd><dt>Informação adicional</dt><dd>${esc(form.extra||'Não indicada')}</dd><dt>Perfis selecionados</dt><dd>${esc(chosen)}</dd><dt>Perspetiva principal</dt><dd>${esc(roles.find(r=>r[0]===activeRole())?.[1]||'Não indicada')}</dd><dt>Faixa etária de quem responde (facultativa)</dt><dd>${esc(form.ageGroup||'Não indicada')}</dd>${diagnosisEligible(activeRole())&&form.diagnosisAgeGroup?`<dt>Faixa etária no diagnóstico da pessoa com cancro</dt><dd>${esc(form.diagnosisAgeGroup)}</dd>`:''}<dt>Região mais relevante (facultativa)</dt><dd>${esc(form.region||'Não indicada')}</dd>${form.roleContext[activeRole()]?.trim()?`<dt>Contexto adicional</dt><dd>${esc(form.roleContext[activeRole()])}</dd>`:''}<dt>Respostas complementares</dt><dd>${questions.map(q=>esc(q.text)+'\n'+esc(answers[q.id]||'Sem resposta')).join('\n\n')}</dd></dl>
 ${isProduction?prodFields:demoFields}
 <div id="confirm-error" aria-live="polite"></div><div id="pdf-export-status" role="status" aria-live="polite" class="field-helper"></div><div class="form-actions"><button class="button button-quiet" type="button" data-action="back3">${icon('chevron',17)} Voltar</button><button class="button button-yellow" type="button" ${isProduction&&!isConfiguredForProduction()?'disabled':''} data-action="${isProduction?'submitReal':'submitDemo'}">${isProduction?'Enviar participação':'Guardar PDF no dispositivo'} ${icon(isProduction?'arrow':'download',17)}</button></div>`;
 }
@@ -282,6 +301,7 @@ function saveVisibleStage(){
   const select=document.getElementById('primaryRole');if(select)form.primaryRole=select.value;
   if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0]||'';
   const age=document.getElementById('ageGroup');if(age)form.ageGroup=age.value;
+   const diagnosis=document.getElementById('diagnosisAgeGroup');if(diagnosis)form.diagnosisAgeGroup=diagnosis.value;
   const region=document.getElementById('region');if(region)form.region=region.value;
  }
  if(form.stage===2){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el)form[k]=el.value});}
@@ -298,6 +318,7 @@ function collectPdfData(){
    roles:roles.filter(r=>form.roles.includes(r[0])).map(r=>r[1]),
    primaryRole:roles.find(r=>r[0]===role)?.[1]||'',
    ageGroup:ageGroups.find(r=>r[0]===form.ageGroup)?.[1]||form.ageGroup,
+    diagnosisAgeGroup:diagnosisEligible(role)?form.diagnosisAgeGroup:'',
    region:regions.find(r=>r[0]===form.region)?.[1]||form.region,
    context:form.roleContext[role]||'',
    questions:currentQuestions().map(q=>({text:q.text,answer:answers[q.id]||''})),
@@ -373,7 +394,7 @@ async function onFormClick(evt){const target=evt.target.closest('[data-action]')
   finally{target.disabled=false;}
  }
  else if(action==='restart'){
-  Object.assign(form,{stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''});
+  Object.assign(form,{stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',diagnosisAgeGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''});
   renderPage(false);document.querySelector('.form-shell')?.scrollIntoView({behavior:'smooth',block:'start'});
  }
 }
@@ -394,6 +415,7 @@ function bindForm(){const shell=app.querySelector('.form-shell');if(!shell)retur
 }
 function bindAdaptiveFields(){
  const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>form.ageGroup=age.value);
+ const diagnosis=document.getElementById('diagnosisAgeGroup');if(diagnosis)diagnosis.addEventListener('change',()=>form.diagnosisAgeGroup=diagnosis.value);
  const region=document.getElementById('region');if(region)region.addEventListener('change',()=>form.region=region.value);
  const role=document.getElementById('primaryRole');if(role)role.addEventListener('change',()=>{
   const oldContext=document.querySelector('[data-context]');if(oldContext)form.roleContext[oldContext.dataset.context]=oldContext.value;
