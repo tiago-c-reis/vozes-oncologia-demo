@@ -6,6 +6,8 @@
 const app = document.getElementById('app');
 const cfg = Object.freeze(window.VOZES_CONFIG || {mode:'demo'});
 const isProduction = cfg.mode === 'production';
+const isPrelaunch = cfg.mode === 'prelaunch';
+let prelaunchStage = 1;
 let turnstileWidgetId = null;
 let turnstileToken = '';
 function isConfiguredForProduction(){
@@ -21,7 +23,7 @@ function isConfiguredForProduction(){
 function safeId(){return crypto.randomUUID();}
 function privacyText(){return isProduction
  ? 'Evite incluir nomes, moradas, datas exatas ou quaisquer dados que possam identificar terceiros. A informação será enviada apenas depois de confirmar o seu consentimento no passo final.'
- : 'Esta versão do formulário ainda não recebe testemunhos reais. O que escrever fica apenas neste dispositivo e não é enviado. Para testar, use exemplos fictícios.';
+ : isPrelaunch ? 'Evite indicar nomes, moradas, datas exatas ou outros elementos que permitam identificar terceiros.' : 'Esta versão do formulário ainda não recebe testemunhos reais. O que escrever fica apenas neste dispositivo e não é enviado. Para testar, use exemplos fictícios.';
 }
 function turnstileReset(){
   turnstileToken='';
@@ -167,8 +169,8 @@ function home(){return `
   <div class="hero-copy"><div class="eyebrow">VOZES DA ONCOLOGIA · ESCUTA NACIONAL</div>
     <h1>A sua experiência pode ajudar a <span class="mark">melhorar</span> os cuidados oncológicos em Portugal.</h1>
     <p class="hero-lead">Conte-nos as dificuldades que sentiu ou observou e como considera que poderiam ser melhoradas.</p>
-    <div class="hero-actions">${btn('Partilhar a minha experiência','#/participe')}</div>
-    <div class="hero-note">${icon('lock',16)} Participação escrita · Sem identificação pessoal obrigatória</div>
+    <div class="hero-actions">${btn(isPrelaunch?'Conhecer o formulário':'Partilhar a minha experiência','#/participe')}</div>
+    <div class="hero-note">${icon('lock',16)} ${isPrelaunch?'A participação pública abrirá em breve':'Participação escrita · Sem identificação pessoal obrigatória'}</div>
   </div><div class="hero-art"><img src="assets/retratos-diversidade.webp" alt="Ilustração em aguarela e tinta de pessoas de diferentes idades, origens e experiências, incluindo uma profissional de saúde" fetchpriority="high" /></div>
 </div></section>
 <section class="section section-light"><div class="wrap">
@@ -177,11 +179,11 @@ function home(){return `
  ['Escolha o seu perfil','Indique a sua ligação à oncologia. Pode selecionar um ou mais perfis.'],
  ['Partilhe a sua experiência','Descreva livremente uma dificuldade e, se quiser, sugira como poderia ser melhorada.'],
  ['Responda, se quiser','Até cinco perguntas complementares, adaptadas ao seu perfil e totalmente opcionais.'],
- ['Guarde a sua cópia','Reveja a informação e descarregue uma cópia local do que escreveu.']
+ ['Reveja e confirme','Confirme o seu contributo, consulte a privacidade e guarde uma cópia pessoal.']
  ].map(([title,description],i)=>`<article class="step-card"><div class="step-image"><img src="assets/passo-${[3,1,2,4][i]}.webp" alt="" loading="lazy" /></div><div class="step-title"><span class="step-index">${i+1}</span><h3>${title}</h3></div><p>${description}</p></article>`).join('')}</div>
- <div class="callout-panel cta-panel"><div><h3>O que podemos melhorar juntos?</h3><p>Indique a sua ligação à oncologia e descreva a sua experiência com as suas palavras. As perguntas fechadas surgem apenas depois e são opcionais.</p></div>${btn('Quero participar','#/participe')}</div>
+ <div class="callout-panel cta-panel"><div><h3>O que podemos melhorar juntos?</h3><p>Indique a sua ligação à oncologia e descreva a sua experiência com as suas palavras. As perguntas fechadas surgem apenas depois e são opcionais.</p></div>${btn(isPrelaunch?'Conhecer o formulário':'Quero participar','#/participe')}</div>
  </div></section>
-<section class="section"><div class="wrap two-col"><div class="body-copy"><div class="eyebrow">PORQUE ESCUTAR IMPORTA</div><h2>Por trás de cada dificuldade, há uma experiência que importa compreender.</h2><p>Doentes, sobreviventes, familiares, associações, profissionais de saúde e pessoas que prestam apoio conhecem realidades diferentes da oncologia. Queremos criar espaço para as ouvir sem antecipar os problemas que poderão identificar.</p><p>Os contributos ajudam a identificar necessidades, reconhecer dificuldades recorrentes e definir prioridades que apoiem a melhoria dos cuidados oncológicos em Portugal.</p></div><div class="logo-showcase video-explainer-card"><div class="video-explainer-inner"><div class="video-badge">VÍDEO EXPLAINER</div><div class="video-play" aria-hidden="true">▶</div><h3>Como funciona esta iniciativa?</h3><p>Breve vídeo introdutório sobre o objetivo do projeto, quem pode participar e como serão utilizados os contributos.</p><ul class="video-points"><li>Porque estamos a ouvir</li><li>Como participar</li><li>O que acontece depois</li></ul><div class="video-coming">Em breve</div></div></div></div></section>
+<section class="section"><div class="wrap two-col"><div class="body-copy"><div class="eyebrow">PORQUE ESCUTAR IMPORTA</div><h2>Por trás de cada dificuldade, há uma experiência que importa compreender.</h2><p>Doentes, sobreviventes, familiares, associações, profissionais de saúde e pessoas que prestam apoio conhecem realidades diferentes da oncologia. Queremos criar espaço para as ouvir sem antecipar os problemas que poderão identificar.</p><p>Os contributos ajudam a identificar necessidades, reconhecer dificuldades recorrentes e definir prioridades que apoiem a melhoria dos cuidados oncológicos em Portugal.</p></div><div class="logo-showcase video-explainer-card"><div class="video-explainer-inner"><div class="video-badge">DA ESCUTA À MELHORIA</div><h3>Ouvir para compreender. Compreender para melhorar.</h3><p>O projeto procura transformar experiências em conhecimento útil para identificar necessidades e apoiar recomendações fundamentadas.</p><ul class="video-points"><li>Escutar diferentes perspetivas</li><li>Identificar dificuldades recorrentes</li><li>Comunicar prioridades e propostas</li></ul></div></div></div></section>
 <section class="section commission-section" id="comissao" aria-labelledby="comissao-titulo"><div class="wrap">
  <details class="commission-accordion">
   <summary class="commission-summary">
@@ -222,10 +224,10 @@ function faq(){return `
  ['Tenho de me identificar?','Não é obrigatório indicar nome ou criar uma conta. Recomendamos que não escreva nomes de terceiros, datas exatas ou outros dados que possam identificar pessoas no relato livre. A ausência de nome não garante, por si só, anonimato absoluto.'],
  ['Como é protegida a minha privacidade?','São solicitados apenas os elementos necessários para contextualizar o contributo, e os dados adicionais são facultativos. A utilização de relatos, a proteção de dados pessoais e qualquer contacto posterior exigem informação transparente sobre o tratamento, as finalidades e os direitos dos participantes. Consulte a informação de privacidade apresentada na etapa de revisão.'],
  ['Posso deixar um email para recontacto?','O email é facultativo e deve ser utilizado apenas para finalidades expressamente autorizadas. O endereço de contacto geral da iniciativa está disponível em “Contactos”, no rodapé do website.'],
- ['Posso receber uma cópia do que escrevi?','Sim. Pode descarregar um PDF com todas as suas respostas, incluindo integralmente os campos de escuta aberta. O PDF é preparado no seu dispositivo, sem transmissão a serviços externos. Nesta versão de demonstração, a cópia não comprova receção da participação. A disponibilização de uma cópia por email depende da ativação desse serviço e da autorização correspondente.'],
+ ['Posso receber uma cópia do que escrevi?','Sim. Pode descarregar um PDF com todas as suas respostas, incluindo integralmente os campos de escuta aberta. O PDF é preparado no seu dispositivo, sem transmissão a serviços externos. A cópia local, por si só, não constitui comprovativo de receção da participação. A disponibilização de uma cópia por email depende da ativação desse serviço e da autorização correspondente.'],
  ['A participação substitui um pedido de apoio médico ou uma reclamação?','Não. O Vozes da Oncologia é um espaço de escuta orientado para a melhoria dos cuidados. Não substitui avaliação ou aconselhamento médico, assistência urgente nem os canais oficiais de reclamação. Para necessidades clínicas, recorra aos serviços de saúde adequados.']
  ].map(([q,a],i)=>`<div class="faq-item" ${q==='Como é protegida a minha privacidade?'?'id="privacidade"':''}><details ${i===0?'open':''}><summary>${q}</summary><div class="faq-answer"><p>${a}</p></div></details></div>`).join('')}
-<div class="callout-panel cta-panel"><div><h3>Quer partilhar uma experiência?</h3><p>Descreva a dificuldade nas suas próprias palavras e ajude a identificar o que pode melhorar.</p></div>${btn('Participar','#/participe')}</div>
+<div class="callout-panel cta-panel"><div><h3>Quer partilhar uma experiência?</h3><p>Descreva a dificuldade nas suas próprias palavras e ajude a identificar o que pode melhorar.</p></div>${btn(isPrelaunch?'Conhecer o formulário':'Participar','#/participe')}</div>
 </div></section>`;}
 function progress(n){return `<div class="form-progress" aria-label="Progresso da participação">${[['O seu perfil',1],['A sua experiência',2],['Perguntas opcionais',3],['Revisão e privacidade',4]].map(([name,k])=>`<div class="progress-item ${k===n?'current':(k<n?'past':'')}" ${k===n?'aria-current="step"':''}><span class="bubble">${k<n?'✓':k}</span><span>${name}</span></div>`).join('')}</div>`;}
 function formStageExperience(){return `<div class="eyebrow">PASSO 02 · ESCUTA ABERTA</div><h2>O que precisa de melhorar nos cuidados oncológicos?</h2><p class="form-subtitle">Partilhe livremente uma dificuldade que tenha sentido, acompanhado ou observado. Não há uma lista de temas nem respostas certas. As perguntas complementares surgem apenas depois.</p>
@@ -401,8 +403,57 @@ function bindAdaptiveFields(){
  });
  const ctx=document.querySelector('[data-context]');if(ctx)ctx.addEventListener('input',()=>form.roleContext[ctx.dataset.context]=ctx.value);
 }
+
+function prelaunchReview(){return `
+<div class="eyebrow">PASSO 04 · REVISÃO E PRIVACIDADE</div>
+<h2>Reveja a sua participação.</h2>
+<p class="form-subtitle">Antes de enviar, poderá verificar o conteúdo e consultar a informação de privacidade.</p>
+<dl class="summary-card">
+ <dt>Dificuldade identificada</dt><dd>O relato que escrever aparecerá aqui.</dd>
+ <dt>Sugestão de melhoria</dt><dd>A sua proposta, caso exista.</dd>
+ <dt>Perfis selecionados</dt><dd>Os perfis que escolher.</dd>
+ <dt>Respostas complementares</dt><dd>As respostas opcionais que fornecer.</dd>
+</dl>
+<div class="privacy-card"><strong>${icon('shield',18)} Informação sobre o tratamento</strong><p>A política de privacidade e a identificação do responsável pelo tratamento serão disponibilizadas antes da abertura da recolha de testemunhos.</p></div>
+<div class="form-group"><label class="field-label" for="prelaunch-email">Email para eventual recontacto <span class="optional">Opcional</span></label><input class="text-input" type="email" id="prelaunch-email" placeholder="exemplo@email.pt" disabled /></div>
+<label class="checkbox-row"><input type="checkbox" disabled /><span>Autorizo que me contactem posteriormente sobre este contributo. <span class="optional">Opcional</span></span></label>
+<label class="checkbox-row"><input type="checkbox" disabled /><span><strong>Confirmo que tenho 18 anos ou mais.</strong></span></label>
+<label class="checkbox-row"><input type="checkbox" disabled /><span><strong>Li a informação de privacidade e dou consentimento explícito para o tratamento do meu testemunho, que poderá incluir dados relativos à saúde.</strong></span></label>
+<div class="form-group"><span class="field-label">Verificação de segurança</span><div class="prelaunch-security">A verificação estará disponível quando a participação abrir.</div></div>
+<div class="form-actions"><button class="button button-yellow" type="button" disabled>Enviar participação ${icon('arrow',17)}</button></div>`;}
+function prelaunchForm(){
+ let content;
+ if(prelaunchStage===1)content=formStageProfile();
+ else if(prelaunchStage===2)content=formStageExperience();
+ else if(prelaunchStage===3){
+  const oldRoles=form.roles,oldPrimary=form.primaryRole;
+  form.roles=['doente'];form.primaryRole='doente';
+  try{content=formStage3();}finally{form.roles=oldRoles;form.primaryRole=oldPrimary;}
+  content=content.replace('Estas cinco perguntas opcionais','Estas cinco perguntas opcionais, apresentadas como exemplo de um perfil,');
+ }else content=prelaunchReview();
+ return `<section class="form-page"><div class="wrap">
+ <div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Conheça as etapas do formulário. A receção pública de testemunhos abrirá em breve.</p></div>
+ <div class="form-shell prelaunch-preview">${progress(prelaunchStage)}<div class="form-content">${content}</div>
+ <div class="prelaunch-navigation" aria-label="Conhecer as etapas">
+  <button class="button button-quiet" type="button" data-preview-nav="previous" ${prelaunchStage===1?'disabled':''}>${icon('chevron',17)} Anterior</button>
+  <span>Etapa ${prelaunchStage} de 4</span>
+  <button class="button button-yellow" type="button" data-preview-nav="next" ${prelaunchStage===4?'disabled':''}>Etapa seguinte ${icon('arrow',17)}</button>
+ </div></div><p class="footnote prelaunch-footnote">O formulário pode ser consultado, mas ainda não recebe respostas.</p>
+ </div></section>`;
+}
+function bindPrelaunch(){
+ const shell=app.querySelector('.prelaunch-preview');if(!shell)return;
+ shell.querySelectorAll('.form-content input,.form-content textarea,.form-content select,.form-content button').forEach(el=>el.disabled=true);
+ shell.querySelectorAll('[data-preview-nav]').forEach(button=>button.addEventListener('click',()=>{
+  if(button.disabled)return;
+  prelaunchStage=Math.max(1,Math.min(4,prelaunchStage+(button.dataset.previewNav==='next'?1:-1)));
+  renderPage(false);
+  document.querySelector('.form-shell')?.scrollIntoView({behavior:'smooth',block:'start'});
+ }));
+}
+
 function currentRoute(){const route=location.hash.match(/^#\/(inicio|participe|faq)/);return route?.[1]||'inicio';}
-function renderPage(resetScroll=true){let route=currentRoute();const pages={inicio:home,participe:participate,faq};app.innerHTML=(pages[route]||home)();document.querySelectorAll('.main-nav a').forEach(a=>{const active=a.dataset.nav===route;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});document.title='Vozes da Oncologia';document.getElementById('main-nav')?.classList.remove('open');document.getElementById('menu-toggle')?.setAttribute('aria-expanded','false');if(route==='participe'){bindForm();if(form.stage===4)initializeTurnstile();}if(resetScroll){const anchor=location.hash.split('#')[2];if(anchor){requestAnimationFrame(()=>document.getElementById(anchor)?.scrollIntoView())}else window.scrollTo({top:0,behavior:'auto'});} }
+function renderPage(resetScroll=true){let route=currentRoute();const pages={inicio:home,participe:isPrelaunch?prelaunchForm:participate,faq};app.innerHTML=(pages[route]||home)();document.querySelectorAll('.main-nav a').forEach(a=>{const active=a.dataset.nav===route;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});document.title='Vozes da Oncologia';document.getElementById('main-nav')?.classList.remove('open');document.getElementById('menu-toggle')?.setAttribute('aria-expanded','false');if(route==='participe'){if(isPrelaunch)bindPrelaunch();else{bindForm();if(form.stage===4)initializeTurnstile();}}if(resetScroll){const anchor=location.hash.split('#')[2];if(anchor){requestAnimationFrame(()=>document.getElementById(anchor)?.scrollIntoView())}else window.scrollTo({top:0,behavior:'auto'});} }
 document.getElementById('menu-toggle').addEventListener('click',function(){const nav=document.getElementById('main-nav');const open=nav.classList.toggle('open');this.setAttribute('aria-expanded',String(open));this.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');});
 window.addEventListener('hashchange',()=>{if(form.stage<5&&currentRoute()==='participe')saveVisibleStage();renderPage();});
 if(!location.hash)location.replace('#/inicio');else renderPage();
