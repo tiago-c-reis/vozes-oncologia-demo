@@ -124,8 +124,8 @@
       }
       this.paragraph('A minha participação',{style:textStyle(26,800,'title',INK),lineHeight:33,after:3});
       this.rect(M,this.y,61,4,YELLOW);this.y+=12;
-      this.paragraph('Uma cópia das respostas que partilhou.',{style:textStyle(12,400,'body',MUTED),lineHeight:18,after:9});
-      this.paragraph('Obrigado por partilhar a sua experiência. Cada contributo ajuda a identificar prioridades para melhorar os cuidados oncológicos em Portugal.',{style:textStyle(9.6,400,'body','#414850'),lineHeight:14.5,after:13});
+      this.paragraph(this.data.receipt?'Uma cópia das respostas que partilhou.':'Uma cópia das respostas que preparou.',{style:textStyle(12,400,'body',MUTED),lineHeight:18,after:9});
+      this.paragraph(this.data.receipt?'Obrigado por partilhar a sua experiência. Cada contributo ajuda a identificar prioridades para melhorar os cuidados oncológicos em Portugal.':'Este documento reúne as respostas preparadas localmente. Não constitui comprovativo de envio ou de receção.',{style:textStyle(9.6,400,'body','#414850'),lineHeight:14.5,after:13});
       const cols=[
         ['PERSPETIVA PRINCIPAL',nonempty(this.data.primaryRole)],
         ['FAIXA ETÁRIA',nonempty(this.data.ageGroup)],
@@ -153,19 +153,20 @@
     }
     build() {
       this.cover();
-      this.headline('PASSO 02 · ESCUTA ABERTA','A sua experiência, na íntegra','Todas as respostas abaixo são reproduzidas integralmente, incluindo em páginas seguintes.');
+      this.headline('ESCUTA ABERTA','A sua experiência, na íntegra','Todas as respostas abaixo são reproduzidas integralmente, incluindo em páginas seguintes.');
       this.answer('1. Que dificuldade ou problema gostaria de dar a conhecer?',this.data.difficulty);
       this.answer('2. Como considera que esta situação poderia ser melhorada?',this.data.solution);
       this.answer('3. Há mais alguma coisa que queira acrescentar?',this.data.extra);
-      this.headline('PASSO 01 · PERFIL E CONTEXTO','Informações complementares');
+      // Os três dados do perfil já aparecem no quadro da primeira página.
+      // Suprimir repetições e secções de perguntas opcionais sem respostas.
+      this.headline('PERFIL E CONTEXTO','Informações complementares');
       this.info('Perfis selecionados',this.data.roles.join(' · '));
-      this.info('Perspetiva principal',this.data.primaryRole);
-      this.info('Faixa etária (facultativa)',this.data.ageGroup);
-      this.info('Região (facultativa)',this.data.region);
-      this.answer('Contexto adicional do seu perfil',this.data.context);
-      this.headline('PASSO 03 · INDICADORES OPCIONAIS','Perguntas complementares');
-      for(const q of this.data.questions) this.pair(q.text,q.answer);
-      this.headline('PASSO 04 · CONTACTO E PRIVACIDADE','Preferências indicadas');
+      if(safe(this.data.context).trim()) this.answer('Contexto adicional do seu perfil',this.data.context);
+      if(Array.isArray(this.data.questions) && this.data.questions.length) {
+        this.headline('INDICADORES OPCIONAIS','Perguntas complementares');
+        for(const q of this.data.questions) this.pair(q.text,q.answer);
+      }
+      this.headline('CONTACTO E PRIVACIDADE','Preferências indicadas');
       this.info('Email facultativo',this.data.email);
       this.info('Preferência de recontacto',this.data.contact?'Sim':'Não');
             this.need(68);
@@ -206,7 +207,7 @@
       }
       ctx.fillStyle=YELLOW;ctx.fillRect(M,A4.height-47,CONTENT,2.2);
       drawText('www.vozesoncologia.pt',M,A4.height-28,textStyle(8,700,'body',INK));
-      drawText('Cópia pessoal · Sem envio',A4.width/2,A4.height-28,textStyle(7.7,400,'body',DIM),'center');
+      drawText(this.data.receipt?'Cópia pessoal · Receção confirmada':'Cópia pessoal · Sem envio',A4.width/2,A4.height-28,textStyle(7.7,400,'body',DIM),'center');
       drawText(`Página ${number} de ${count}`,RIGHT,A4.height-28,textStyle(8,600,'body',INK),'right');
       return canvas.toDataURL('image/jpeg',0.88);
     }
