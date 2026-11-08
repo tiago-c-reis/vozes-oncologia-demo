@@ -166,9 +166,11 @@
         this.headline('INDICADORES OPCIONAIS','Perguntas complementares');
         for(const q of this.data.questions) this.pair(q.text,q.answer);
       }
-      this.headline('CONTACTO E PRIVACIDADE','Preferências indicadas');
-      this.info('Email facultativo',this.data.email);
-      this.info('Preferência de recontacto',this.data.contact?'Sim':'Não');
+      if(this.data.contact && safe(this.data.email).trim()) {
+        this.headline('CONTACTO E PRIVACIDADE','Preferências indicadas');
+        this.info('Email facultativo',this.data.email);
+        this.info('Preferência de recontacto','Sim');
+      }
             this.need(68);
       this.rect(M,this.y,CONTENT,53,GRAY,8,STROKE);
       this.text('SOBRE ESTA CÓPIA',M+12,this.y+17,textStyle(8,700,'body',MUTED));
@@ -218,31 +220,68 @@
     for(let i=0;i<data.length;i++)bytes[i]=data.charCodeAt(i);
     return bytes;
   }
-  // Small standard-compliant PDF writer: A4 pages with embedded high-resolution JPEG.
-  function pdfFromImages(imageUrls, width, height) {
+  // PDF A4: aparência visual em JPEG + camada de texto pesquisável.
+  // A camada de texto utiliza o mesmo comando de texto, por página, da renderização.
+  // Helvetica com WinAnsi cobre os caracteres latinos portugueses; outros são aproximados.
+  const winAnsiSpecial = {
+    0x20AC:0x80,0x201A:0x82,0x0192:0x83,0x201E:0x84,0x2026:0x85,
+    0x2020:0x86,0x2021:0x87,0x02C6:0x88,0x2030:0x89,0x0160:0x8A,
+    0x2039:0x8B,0x0152:0x8C,0x017D:0x8E,0x2018:0x91,0x2019:0x92,
+    0x201C:0x93,0x201D:0x94,0x2022:0x95,0x2013:0x96,0x2014:0x97,
+    0x02DC:0x98,0x2122:0x99,0x0161:0x9A,0x203A:0x9B,0x0153:0x9C,
+    0x017E:0x9E,0x0178:0x9F
+  };
+  function pdfHexText(value) {
+    let out='';
+    for(const char of safe(value)) {
+      const cp=char.codePointAt(0);
+      const byte=(cp>=32&&cp<=126)||(cp>=160&&cp<=255)?cp:(winAnsiSpecial[cp]??63);
+      out+=byte.toString(16).padStart(2,'0');
+    }
+    return '<'+out+'>';
+  }
+  function pdfTextLayer(commands) {
+    if(!Array.isArray(commands))return '';
+    const n=v=>String(Math.round(v*100)/100);
+    return commands.filter(command=>command.kind==='text'&&command.text).map(command=>{
+      // Coordenadas em canvas: origem no canto superior esquerdo. No PDF, no inferior.
+      const size=command.st?.size||10;
+      const x=command.x;
+      const y=A4.height-command.y;
+      const h=pdfHexText(command.text);
+      // 3 Tr desenha texto invisível, mas selecionável e pesquisável.
+      return `BT /F1 ${n(size)} Tf 3 Tr 1 0 0 1 ${n(x)} ${n(y)} Tm ${h} Tj ET\n`;
+    }).join('');
+  }
+  function pdfFromImages(imageUrls,width,height,textPages=[]) {
     const textEncoder=new TextEncoder();
     const chunks=[];const offsets=[0];let length=0;
-    const write = bytes => {const data=typeof bytes==='string'?textEncoder.encode(bytes):bytes;chunks.push(data);length+=data.length;};
-    const obj=(n,src)=> {offsets[n]=length;write(`${n} 0 obj\n${src}\nendobj\n`);};
-    const stream=(n,header,bytes)=>{
-      offsets[n]=length;write(`${n} 0 obj\n${header}\nstream\n`);write(bytes);write('\nendstream\nendobj\n');
+    const write=bytes=>{const data=typeof bytes==='string'?textEncoder.encode(bytes):bytes;chunks.push(data);length+=data.length;};
+    const obj=(id,body)=>{offsets[id]=length;write(`${id} 0 obj\n${body}\nendobj\n`);};
+    const stream=(id,header,bytes)=>{
+      offsets[id]=length;write(`${id} 0 obj\n${header}\nstream\n`);
+      write(bytes);write('\nendstream\nendobj\n');
     };
     write(new Uint8Array([37,80,68,70,45,49,46,52,10,37,226,227,207,211,10]));
     const count=imageUrls.length;
     obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
-    obj(2,`<< /Type /Pages /Kids [${imageUrls.map((_,i)=>`${3+3*i} 0 R`).join(' ')}] /Count ${count} >>`);
+    obj(2,`<< /Type /Pages /Kids [${imageUrls.map((_,i)=>`${4+i*3} 0 R`).join(' ')}] /Count ${count} >>`);
+    obj(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
     for(let i=0;i<count;i++){
-      const p=3+i*3, im=p+1, content=p+2;
+      const p=4+i*3,im=p+1,content=p+2;
       const jpeg=dataUrlToBytes(imageUrls[i]);
-      obj(p,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${A4.width} ${A4.height}] /Resources << /XObject << /Im0 ${im} 0 R >> >> /Contents ${content} 0 R >>`);
+      obj(p,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${A4.width} ${A4.height}] /Resources << /XObject << /Im0 ${im} 0 R >> /Font << /F1 3 0 R >> >> /Contents ${content} 0 R >>`);
       stream(im,`<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>`,jpeg);
-      const draw=textEncoder.encode(`q ${A4.width} 0 0 ${A4.height} 0 0 cm /Im0 Do Q\n`);
-      stream(content,`<< /Length ${draw.length} >>`,draw);
+      const drawing=`q ${A4.width} 0 0 ${A4.height} 0 0 cm /Im0 Do Q\n`;
+      const textLayer=pdfTextLayer(textPages[i]);
+      const commandBytes=textEncoder.encode(drawing+textLayer);
+      stream(content,`<< /Length ${commandBytes.length} >>`,commandBytes);
     }
+    const size=4+count*3;
     const xrefOffset=length;
-    write(`xref\n0 ${count*3+3}\n0000000000 65535 f \n`);
-    for(let i=1;i<=count*3+2;i++)write(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);
-    write(`trailer\n<< /Size ${count*3+3} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`);
+    write(`xref\n0 ${size}\n0000000000 65535 f \n`);
+    for(let i=1;i<size;i++)write(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);
+    write(`trailer\n<< /Size ${size} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`);
     return new Blob(chunks,{type:'application/pdf'});
   }
   function loadIllustration(src) {
@@ -255,7 +294,8 @@
   }
   async function create(data, options={}) {
     await document.fonts?.ready;
-    const image=await loadIllustration(options.illustration||'assets/pdf-ilustracao.jpg');
+    // A ilustração é facultativa. Não tentar carregar um recurso inexistente.
+    const image=options.illustration ? await loadIllustration(options.illustration) : null;
     const composer=new Composer(data,image);
     const pages=composer.build();
     const images=[];
@@ -264,7 +304,7 @@
       // Yield to the browser during long exports without changing document contents.
       if(i%4===3)await new Promise(resolve=>setTimeout(resolve,0));
     }
-    return {blob:pdfFromImages(images,Math.round(A4.width*SCALE),Math.round(A4.height*SCALE)),filename:localFilename() ,pages:pages.length};
+    return {blob:pdfFromImages(images,Math.round(A4.width*SCALE),Math.round(A4.height*SCALE),pages),filename:localFilename(),pages:pages.length};
   }
   async function download(data,options={}) {
     const result=await create(data,options);
