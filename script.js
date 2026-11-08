@@ -1,12 +1,11 @@
-/* Vozes da Oncologia — V9.
-   A recolha REAL depende da configuração explícita de produção e de uma API
-   Supabase ativada após validação de privacidade. Por defeito, modo de teste,
-   sem envio nem armazenamento. Não inserir credenciais neste ficheiro. */
+/* Vozes da Oncologia — V15. O envio real depende da configuração
+   explícita de produção e dos requisitos de privacidade. No modo de
+   consulta não existem campos ativos nem pedidos à API. */
 'use strict';
 const app = document.getElementById('app');
 const cfg = Object.freeze(window.VOZES_CONFIG || {mode:'demo'});
 const isProduction = cfg.mode === 'production';
-const isPrelaunch = cfg.mode === 'prelaunch';
+const isPrelaunch = !isProduction; // Falha segura: só 'production' permite submissões.
 let prelaunchStage = 1;
 let turnstileWidgetId = null;
 let turnstileToken = '';
@@ -23,7 +22,7 @@ function isConfiguredForProduction(){
 function safeId(){return crypto.randomUUID();}
 function privacyText(){return isProduction
  ? 'Evite incluir nomes, moradas, datas exatas ou quaisquer dados que possam identificar terceiros. A informação será enviada apenas depois de confirmar o seu consentimento no passo final.'
- : isPrelaunch ? 'Evite indicar nomes, moradas, datas exatas ou outros elementos que permitam identificar terceiros.' : 'Esta versão do formulário ainda não recebe testemunhos reais. O que escrever fica apenas neste dispositivo e não é enviado. Para testar, use exemplos fictícios.';
+ : 'Evite indicar nomes, moradas, datas exatas ou outros elementos que permitam identificar terceiros.';
 }
 function turnstileReset(){
   turnstileToken='';
@@ -144,7 +143,7 @@ const surveyModules = {
 };
 const moduleForRole = role => role==='cuidador'?'cuidador':['doente','sobrevivente'].includes(role)?'vivencia':'observacao';
 const regionLabelForRole = role => role==='cuidador'?'Em que região reside ou residia a pessoa que acompanhou?':['doente','sobrevivente'].includes(role)?'Em que região reside?':'Em que região observa principalmente estas situações?';
-const form = {stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,emailCopy:false,ack:false,adultAttested:false,requestId:'',receipt:''};
+const form = {stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''};
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon = (name,size=22) => {
  const shapes={
@@ -224,7 +223,7 @@ function faq(){return `
  ['Tenho de me identificar?','Não é obrigatório indicar nome ou criar uma conta. Recomendamos que não escreva nomes de terceiros, datas exatas ou outros dados que possam identificar pessoas no relato livre. A ausência de nome não garante, por si só, anonimato absoluto.'],
  ['Como é protegida a minha privacidade?','São solicitados apenas os elementos necessários para contextualizar o contributo, e os dados adicionais são facultativos. A utilização de relatos, a proteção de dados pessoais e qualquer contacto posterior exigem informação transparente sobre o tratamento, as finalidades e os direitos dos participantes. Consulte a informação de privacidade apresentada na etapa de revisão.'],
  ['Posso deixar um email para recontacto?','O email é facultativo e deve ser utilizado apenas para finalidades expressamente autorizadas. O endereço de contacto geral da iniciativa está disponível em “Contactos”, no rodapé do website.'],
- ['Posso receber uma cópia do que escrevi?','Sim. Pode descarregar um PDF com todas as suas respostas, incluindo integralmente os campos de escuta aberta. O PDF é preparado no seu dispositivo, sem transmissão a serviços externos. A cópia local, por si só, não constitui comprovativo de receção da participação. A disponibilização de uma cópia por email depende da ativação desse serviço e da autorização correspondente.'],
+ ['Posso receber uma cópia do que escrevi?','Sim. Pode descarregar um PDF com todas as suas respostas, incluindo integralmente os campos de escuta aberta. O PDF é preparado no seu dispositivo, sem transmissão a serviços externos. A cópia local, por si só, não constitui comprovativo de receção da participação. '],
  ['A participação substitui um pedido de apoio médico ou uma reclamação?','Não. O Vozes da Oncologia é um espaço de escuta orientado para a melhoria dos cuidados. Não substitui avaliação ou aconselhamento médico, assistência urgente nem os canais oficiais de reclamação. Para necessidades clínicas, recorra aos serviços de saúde adequados.']
  ].map(([q,a],i)=>`<div class="faq-item" ${q==='Como é protegida a minha privacidade?'?'id="privacidade"':''}><details ${i===0?'open':''}><summary>${q}</summary><div class="faq-answer"><p>${a}</p></div></details></div>`).join('')}
 <div class="callout-panel cta-panel"><div><h3>Quer partilhar uma experiência?</h3><p>Descreva a dificuldade nas suas próprias palavras e ajude a identificar o que pode melhorar.</p></div>${btn(isPrelaunch?'Conhecer o formulário':'Participar','#/participe')}</div>
@@ -263,18 +262,17 @@ const prodFields = `<div class="privacy-card"><strong>${icon('shield',18)} Infor
 <label class="checkbox-row"><input type="checkbox" id="ack" ${form.ack?'checked':''}/><span><strong>Li a informação de privacidade e dou consentimento explícito para o tratamento do meu testemunho, que poderá incluir dados pessoais relativos à saúde, para as finalidades aí descritas.</strong></span></label>
 <div class="form-group"><label class="field-label">Verificação de segurança</label><div id="v9-turnstile"></div></div>
 ${!isConfiguredForProduction()?'<div class="demo-disclaimer" role="alert"><strong>Recolha desativada.</strong> A configuração de produção ainda não foi validada. Não é possível enviar respostas.</div>':''}`;
-const demoFields = `<div class="privacy-card"><strong>${icon('shield',18)} Privacidade e utilização da informação</strong><p><strong>Importante:</strong> este formulário está em modo de teste. A recolha real exige infraestrutura segura, informação de privacidade completa e aprovação institucional.</p></div>
-<div class="form-group"><label class="field-label" for="email">Email <span class="optional">Opcional</span></label><input class="text-input" type="email" id="email" inputmode="email" autocomplete="off" placeholder="exemplo@email.pt" value="${esc(form.email)}" /><p class="field-helper">Não utilize o seu email verdadeiro neste modo de teste.</p></div>
-<label class="checkbox-row"><input type="checkbox" id="contact" ${form.contact?'checked':''}/><span>Autorizaria um eventual recontacto (apenas teste). <span class="optional">Opcional</span></span></label>
-<label class="checkbox-row"><input type="checkbox" id="emailCopy" ${form.emailCopy?'checked':''}/><span>Gostaria de receber uma cópia por email (não implementado; apenas teste). <span class="optional">Opcional</span></span></label>
-<label class="checkbox-row"><input type="checkbox" id="ack" ${form.ack?'checked':''}/><span><strong>Compreendo que estou a testar o formulário e que nenhuma resposta será enviada.</strong></span></label>`;
-return `<div class="eyebrow">PASSO 04 · REVISÃO E PRIVACIDADE</div><h2>Reveja a sua participação.</h2><p class="form-subtitle">${isProduction?'Confirme o que escreveu e leia a informação de privacidade antes de enviar.':'Confirme o que escreveu. Neste modo de teste, o percurso termina com uma cópia local, sem envio para um servidor.'}</p>
+const demoFields = `<div class="privacy-card"><strong>${icon('shield',18)} Privacidade e utilização da informação</strong><p>A recolha de testemunhos exige condições apropriadas de segurança e informação de privacidade completa.</p></div>
+<div class="form-group"><label class="field-label" for="email">Email <span class="optional">Opcional</span></label><input class="text-input" type="email" id="email" inputmode="email" autocomplete="off" placeholder="exemplo@email.pt" value="${esc(form.email)}" /><p class="field-helper">O email é facultativo e destina-se apenas a eventual recontacto autorizado.</p></div>
+<label class="checkbox-row"><input type="checkbox" id="contact" ${form.contact?'checked':''}/><span>Autorizo um eventual recontacto sobre este contributo. <span class="optional">Opcional</span></span></label>
+<label class="checkbox-row"><input type="checkbox" id="ack" ${form.ack?'checked':''}/><span><strong>Compreendo que o envio de respostas está indisponível.</strong></span></label>`;
+return `<div class="eyebrow">PASSO 04 · REVISÃO E PRIVACIDADE</div><h2>Reveja a sua participação.</h2><p class="form-subtitle">${isProduction?'Confirme o que escreveu e leia a informação de privacidade antes de enviar.':'Confirme os campos apresentados. O envio de respostas encontra-se indisponível.'}</p>
 <dl class="summary-card"><dt>Dificuldade identificada</dt><dd>${esc(form.difficulty)}</dd><dt>Sugestão de melhoria</dt><dd>${esc(form.solution||'Não indicada')}</dd><dt>Informação adicional</dt><dd>${esc(form.extra||'Não indicada')}</dd><dt>Perfis selecionados</dt><dd>${esc(chosen)}</dd><dt>Perspetiva principal</dt><dd>${esc(roles.find(r=>r[0]===activeRole())?.[1]||'Não indicada')}</dd><dt>Faixa etária (facultativa)</dt><dd>${esc(form.ageGroup||'Não indicada')}</dd><dt>Região mais relevante (facultativa)</dt><dd>${esc(form.region||'Não indicada')}</dd>${form.roleContext[activeRole()]?.trim()?`<dt>Contexto adicional</dt><dd>${esc(form.roleContext[activeRole()])}</dd>`:''}<dt>Respostas complementares</dt><dd>${questions.map(q=>esc(q.text)+'\n'+esc(answers[q.id]||'Sem resposta')).join('\n\n')}</dd></dl>
 ${isProduction?prodFields:demoFields}
 <div id="confirm-error" aria-live="polite"></div><div id="pdf-export-status" role="status" aria-live="polite" class="field-helper"></div><div class="form-actions"><button class="button button-quiet" type="button" data-action="back3">${icon('chevron',17)} Voltar</button><button class="button button-yellow" type="button" ${isProduction&&!isConfiguredForProduction()?'disabled':''} data-action="${isProduction?'submitReal':'submitDemo'}">${isProduction?'Enviar participação':'Concluir teste e guardar PDF'} ${icon(isProduction?'arrow':'download',17)}</button></div>`;
 }
-function completed(){const accepted=isProduction&&Boolean(form.receipt);return `<div class="success-state"><div class="success-mark">✓</div><div class="eyebrow">${accepted?'RECEÇÃO CONFIRMADA':'CÓPIA LOCAL PREPARADA'}</div><h2>${accepted?'A sua participação foi recebida.':'Terminou o percurso de teste.'}</h2><p>${accepted?'A participação foi guardada no sistema. Pode agora guardar uma cópia pessoal das suas respostas no seu dispositivo.':'Foi preparada uma cópia local do conteúdo. <strong>Não foi enviada qualquer participação, nem os seus dados foram guardados num servidor.</strong>'}</p>
-${accepted?`<div class="receipt-panel"><strong>Identificador de receção</strong><code>${esc(form.receipt)}</code><p>Guarde este identificador para referência. O PDF pode conter informação sensível; não o partilhe involuntariamente.</p></div>`:'<div class="demo-disclaimer"><strong>Importante:</strong> esta conclusão é apenas de demonstração e não comprova a receção de testemunhos.</div>'}
+function completed(){const accepted=isProduction&&Boolean(form.receipt);return `<div class="success-state"><div class="success-mark">✓</div><div class="eyebrow">${accepted?'RECEÇÃO CONFIRMADA':'CÓPIA LOCAL PREPARADA'}</div><h2>${accepted?'A sua participação foi recebida.':'A cópia local foi preparada.'}</h2><p>${accepted?'A participação foi guardada no sistema. Pode agora guardar uma cópia pessoal das suas respostas no seu dispositivo.':'Foi preparada uma cópia local do conteúdo. <strong>Não foi enviada qualquer participação.</strong>'}</p>
+${accepted?`<div class="receipt-panel"><strong>Identificador de receção</strong><code>${esc(form.receipt)}</code><p>Guarde este identificador para referência. O PDF pode conter informação sensível; não o partilhe involuntariamente.</p></div>`:'<div class="demo-disclaimer">Esta cópia pessoal não comprova o envio ou a receção de uma participação.</div>'}
 <div id="pdf-repeat-error" class="field-helper" role="status" aria-live="polite"></div><div class="success-buttons"><button type="button" class="button button-yellow" data-action="download">${icon('download',18)} Descarregar ${accepted?'a minha cópia':'novamente o PDF'}</button><button type="button" class="button button-outline" data-action="restart">Nova participação</button></div>
 <p class="footnote" style="margin-top:22px">O PDF contém a transcrição integral dos campos abertos e é preparado localmente neste dispositivo.</p></div>`;}
 function participate(){return `<section class="form-page"><div class="wrap"><div class="form-head"><div class="eyebrow">A SUA VOZ IMPORTA · EDIÇÃO 2026-2027</div><h1>Conte-nos o que pode melhorar.</h1><p>Comece por indicar a sua ligação à oncologia. Depois, partilhe livremente as dificuldades que considera importantes. As propostas de melhoria e as perguntas complementares são opcionais.</p></div><div class="form-shell">${form.stage<5?progress(form.stage):''}<div class="form-content">${form.stage===1?formStageProfile():form.stage===2?formStageExperience():form.stage===3?formStage3():form.stage===4?formStage4():completed()}</div></div><div style="max-width:940px;margin:18px auto 0;text-align:center" class="footnote">Esta plataforma não se destina ao envio de pedidos de assistência médica ou reclamações clínicas urgentes.</div></div></section>`;}
@@ -288,7 +286,7 @@ function saveVisibleStage(){
  }
  if(form.stage===2){['difficulty','solution','extra'].forEach(k=>{const el=document.getElementById(k);if(el)form[k]=el.value});}
  if(form.stage===3){const role=activeRole();if(role){form.answers[role]??={};currentQuestions().forEach(q=>{const checked=document.querySelector(`input[name="q-${q.id}"]:checked`);if(checked)form.answers[role][q.id]=checked.value;});}}
- if(form.stage===4){form.email=document.getElementById('email')?.value.trim()||'';form.contact=Boolean(document.getElementById('contact')?.checked);form.emailCopy=Boolean(document.getElementById('emailCopy')?.checked);form.ack=Boolean(document.getElementById('ack')?.checked);form.adultAttested=Boolean(document.getElementById('adultAttested')?.checked);}
+ if(form.stage===4){form.email=document.getElementById('email')?.value.trim()||'';form.contact=Boolean(document.getElementById('contact')?.checked);form.ack=Boolean(document.getElementById('ack')?.checked);form.adultAttested=Boolean(document.getElementById('adultAttested')?.checked);}
 }
 function showError(nodeId,msg){const el=document.getElementById(nodeId);if(el){el.innerHTML=msg?`<p class="field-error" role="alert">${esc(msg)}</p>`:'';if(msg)el.scrollIntoView({behavior:'smooth',block:'center'});}}
 function switchStage(n){saveVisibleStage();form.stage=n;renderPage(false);document.querySelector('.form-shell')?.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -303,7 +301,7 @@ function collectPdfData(){
    region:regions.find(r=>r[0]===form.region)?.[1]||form.region,
    context:form.roleContext[role]||'',
    questions:currentQuestions().map(q=>({text:q.text,answer:answers[q.id]||''})),
-   email:form.email,contact:form.contact,emailCopy:form.emailCopy,receipt:form.receipt
+   email:form.email,contact:form.contact,receipt:form.receipt
  };
 }
 async function downloadCopy(){
@@ -352,9 +350,9 @@ async function onFormClick(evt){const target=evt.target.closest('[data-action]')
    finally{target.disabled=false;}
  }
  else if(action==='submitDemo'){
-  if((form.contact||form.emailCopy)&&!isValidEmail(form.email)){showError('confirm-error','Para assinalar recontacto ou cópia por email, introduza um endereço de email válido.');return;}
+  if(form.contact&&!isValidEmail(form.email)){showError('confirm-error','Para solicitar recontacto, introduza um endereço de email válido.');return;}
   if(form.email&&!isValidEmail(form.email)){showError('confirm-error','Confirme o formato do email ou deixe o campo em branco.');return;}
-  if(!form.ack){showError('confirm-error','Confirme que compreende o caráter demonstrativo deste formulário.');return;}
+  if(!form.ack){showError('confirm-error','Confirme que compreende que o envio está indisponível.');return;}
   showError('confirm-error','');
   const status=document.getElementById('pdf-export-status');
   target.disabled=true;
@@ -375,7 +373,7 @@ async function onFormClick(evt){const target=evt.target.closest('[data-action]')
   finally{target.disabled=false;}
  }
  else if(action==='restart'){
-  Object.assign(form,{stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,emailCopy:false,ack:false,adultAttested:false,requestId:'',receipt:''});
+  Object.assign(form,{stage:1,difficulty:'',solution:'',extra:'',roles:[],primaryRole:'',ageGroup:'',region:'',roleContext:{},answers:{},email:'',contact:false,ack:false,adultAttested:false,requestId:'',receipt:''});
   renderPage(false);document.querySelector('.form-shell')?.scrollIntoView({behavior:'smooth',block:'start'});
  }
 }
@@ -392,7 +390,7 @@ function bindForm(){const shell=app.querySelector('.form-shell');if(!shell)retur
   bindAdaptiveFields();
  }
  if(form.stage===3){document.querySelectorAll('.likert-question input[type=radio]').forEach(el=>el.addEventListener('change',()=>{const role=activeRole();form.answers[role]??={};form.answers[role][el.name.replace('q-','')]=el.value;}));}
- if(form.stage===4){['email','contact','emailCopy','ack','adultAttested'].forEach(k=>{const e=document.getElementById(k);if(e)e.addEventListener('change',saveVisibleStage);});}
+ if(form.stage===4){['email','contact','ack','adultAttested'].forEach(k=>{const e=document.getElementById(k);if(e)e.addEventListener('change',saveVisibleStage);});}
 }
 function bindAdaptiveFields(){
  const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>form.ageGroup=age.value);
