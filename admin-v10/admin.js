@@ -1,4 +1,4 @@
-/* Vozes da Oncologia — V10 Admin. Zero service-role credentials in browser.
+/* Vozes da Oncologia - V10 Admin. Zero service-role credentials in browser.
    Sessions only in memory: closing/reloading the page requires authentication again.
    Server always enforces Auth signature, AAL2 and allowlist; UI is not an access control.
 */
@@ -15,7 +15,7 @@ function show(id){for(const area of areas)$(area).hidden=area!==id;}
 function feedback(msg,good=false){$('auth-message').textContent=msg;$('auth-message').classList.toggle('good',good);}
 function showError(msg){$('error-text').textContent=msg;show('error-panel');}
 function fmtNum(n){return Number(n||0).toLocaleString('pt-PT');}
-function fmtDate(t){const d=new Date(t);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-PT',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtDate(t){const d=new Date(t);return Number.isNaN(d.getTime())?'-':d.toLocaleString('pt-PT',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 function safeText(v){return v===null||v===undefined||v===''?'Não indicado':String(v);}
 function appendText(el,tag,text,className){const n=document.createElement(tag);n.textContent=text;if(className)n.className=className;el.appendChild(n);return n;}
 function clearSession(){state.access='';state.refresh='';state.exp=0;state.user=null;state.role=null;state.factorId='';state.enrolling=false;state.summary=null;state.list=null;state.offset=0;$('password').value='';$('mfa-code').value='';$('mfa-secret').textContent='';$('mfa-qr').src='';$('logout').hidden=true;}
@@ -47,7 +47,7 @@ async function beginMfa(){
   const list=Array.isArray(factors?.factors)?factors.factors:[];
   const verified=list.find(f=>f.factor_type==='totp' && f.status==='verified');
   if(verified){state.factorId=verified.id;state.enrolling=false;$('mfa-enrollment').hidden=true;$('mfa-explanation').textContent='Introduza o código de seis dígitos da sua aplicação autenticadora.';return;}
-  const enrolled=await authCall('factors',{method:'POST',body:{factor_type:'totp',friendly_name:'Vozes da Oncologia — Admin'}});
+  const enrolled=await authCall('factors',{method:'POST',body:{factor_type:'totp',friendly_name:'Vozes da Oncologia - Admin'}});
   state.factorId=enrolled.id;state.enrolling=true;$('mfa-enrollment').hidden=false;
   $('mfa-explanation').textContent='É obrigatório registar um segundo fator antes de consultar os testemunhos.';
   const qr=enrolled?.totp?.qr_code||'';
