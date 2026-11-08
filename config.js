@@ -4,7 +4,7 @@
  */
 window.VOZES_CONFIG = Object.freeze({
   mode: 'demo', // 'demo' | 'production' — NÃO alterar antes da aprovação RGPD
-  apiUrl: 'https://qbxsrynhpwsssrxljlrz.supabase.co/functions/v1/submit-participation', // exemplo: https://SEU-PROJETO.supabase.co/functions/v1/submit-participation
+  apiUrl: 'https://qbxsryhnpwsssrxlijrz.supabase.co/functions/v1/submit-participation', // exemplo: https://SEU-PROJETO.supabase.co/functions/v1/submit-participation
   turnstileSiteKey: '0x4AAAAAAAF1IqPb1iYRz74GB', // chave PÚBLICA da Cloudflare
   privacyUrl: '', // URL https da política validada
   privacyVersion: 'PENDING_APPROVAL' // substituir por identificador aprovado
