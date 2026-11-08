@@ -6,33 +6,53 @@
   <meta name="theme-color" content="#ffffff" />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://vozesoncologia.pt/privacidade.html" />
-  <meta name="description" content="Informação de privacidade da iniciativa Vozes da Oncologia, durante a fase de preparação da recolha de testemunhos." />
+  <meta name="description" content="Privacidade e proteção de dados no website Vozes da Oncologia: responsável, dados de navegação, formulário e direitos dos visitantes." />
   <title>Privacidade e dados — Vozes da Oncologia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=15" />
   <style>
-    .privacy-page{padding:68px 0 86px;background:#fff}
-    .privacy-wrap{max-width:880px}
-    .privacy-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;color:#4b5861;text-transform:uppercase}
-    .privacy-page h1{font-family:var(--font-heading);font-size:clamp(34px,5.2vw,56px);line-height:1.12;letter-spacing:-1.6px;margin:15px 0}
-    .privacy-page h1:after{content:"";display:block;width:72px;height:5px;border-radius:3px;background:var(--yellow);margin-top:18px}
-    .privacy-lead{font-size:16px;line-height:1.75;color:#45505b;max-width:760px}
-    .privacy-state{margin:29px 0 37px;border:1px solid #f1e4af;background:#fffae9;border-radius:12px;padding:21px 24px}
-    .privacy-state strong{display:block;margin-bottom:5px;color:#22262a;font-size:14px}
-    .privacy-state p{margin:0;font-size:14px;line-height:1.7;color:#555344}
-    .privacy-page section{border-top:1px solid #e6e8e7;padding:28px 0 12px}
-    .privacy-page section h2{font-family:var(--font-heading);font-size:20px;letter-spacing:-.45px;margin:0 0 12px}
-    .privacy-page section p,.privacy-page section li{font-size:14px;line-height:1.85;color:#414b53}
-    .privacy-page section p{margin:0 0 13px}
-    .privacy-page ul{margin:9px 0 15px;padding-left:22px}
-    .privacy-page li{margin:4px 0}
-    .privacy-page a:not(.button){color:#175e78;text-decoration:underline;text-underline-offset:2px}
-    .privacy-page .privacy-small{font-size:12px;color:#68717a;margin-top:23px}
-    .privacy-bottom{margin-top:25px}
-    .privacy-page .button{display:inline-flex}
-    @media(max-width:620px){.privacy-page{padding:37px 0 53px}.privacy-state{padding:18px}.privacy-page section{padding:23px 0 10px}}
+    .privacy-header-links{display:flex;align-items:center;gap:26px;font-size:13px;font-weight:700;color:#30343a}
+    .privacy-header-links a:hover,.privacy-header-links a:focus-visible{color:#000}
+    .privacy-header-links a[aria-current="page"]{border-bottom:3px solid var(--yellow);padding-bottom:7px}
+    .privacy-header-cta{white-space:nowrap}
+    .privacy-hero{background:#f8f7f3;border-bottom:1px solid #e9e7df;padding:66px 0 63px;overflow:hidden}
+    .privacy-hero-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(265px,.78fr);gap:72px;align-items:center}
+    .privacy-eyebrow{display:inline-flex;gap:9px;align-items:center;font-size:11px;font-weight:800;letter-spacing:1.65px;color:#4d5860}
+    .privacy-eyebrow:before{content:"";display:inline-block;width:21px;height:4px;border-radius:3px;background:var(--yellow)}
+    .privacy-hero h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(42px,5.7vw,70px);line-height:1.08;letter-spacing:-2.2px;margin:24px 0 21px}
+    .privacy-hero h1 span{display:block}
+    .privacy-hero p{max-width:690px;font-size:16px;line-height:1.78;color:#4d565c;margin:0}
+    .privacy-hero-aside{background:#fff;border:1px solid #e8e5dc;border-radius:19px;box-shadow:0 14px 42px rgba(13,20,24,.04);padding:27px 28px 21px}
+    .privacy-aside-title{font-family:var(--font-heading);font-size:12px;letter-spacing:.8px;font-weight:800;color:#41474a}
+    .privacy-quick{padding:19px 0;border-bottom:1px solid #ecece8;display:flex;gap:15px}
+    .privacy-quick:last-child{border:0;padding-bottom:0}
+    .privacy-quick-number{font-family:var(--font-heading);font-weight:800;font-size:12px;min-width:26px;color:#717c7f}
+    .privacy-quick strong{display:block;font-size:13px;line-height:1.45}
+    .privacy-quick small{display:block;font-size:12px;color:#69737b;line-height:1.65;margin-top:4px}
+    .privacy-document{padding:64px 0 92px;background:#fff}
+    .privacy-grid{display:grid;grid-template-columns:225px minmax(0,790px);gap:72px;align-items:start}
+    .privacy-toc{position:sticky;top:124px;border-left:3px solid #f0f0ec;padding:4px 0 6px 20px}
+    .privacy-toc-label{font-size:10px;color:#737b7e;letter-spacing:1.45px;font-weight:800;margin:0 0 17px}
+    .privacy-toc a{display:block;font-size:12px;line-height:1.5;font-weight:600;color:#556068;padding:9px 0}
+    .privacy-toc a:hover{color:#111}
+    .privacy-copy section{padding:0 0 33px;margin-bottom:33px;border-bottom:1px solid #e7e9e8;scroll-margin-top:125px}
+    .privacy-copy section:last-of-type{border-bottom:0;margin-bottom:0;padding-bottom:5px}
+    .privacy-section-number{display:block;color:#6d777a;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:9px}
+    .privacy-copy h2{font-size:23px;line-height:1.3;letter-spacing:-.6px;font-family:var(--font-heading);font-weight:800;margin:0 0 15px}
+    .privacy-copy p{font-size:14px;line-height:1.85;color:#455058;margin:0 0 13px}
+    .privacy-copy strong{color:#1d272e;font-weight:700}
+    .privacy-copy a{color:#1b6177;text-decoration:underline;text-underline-offset:3px}
+    .privacy-notice{border-left:4px solid var(--yellow);background:#f8f7f3;padding:16px 21px;border-radius:0 10px 10px 0;margin-top:20px}
+    .privacy-notice p{margin:0;font-size:13px;line-height:1.8}
+    .privacy-footnote{font-size:11px!important;color:#81888c!important;margin-top:22px!important}
+    .privacy-back{display:inline-flex;align-items:center;gap:8px;margin-top:23px}
+    .privacy-footer-contact{font-size:12px;color:#6d7478;line-height:1.7}
+    @media(max-width:1100px){.privacy-hero-grid{gap:40px}.privacy-grid{gap:38px}}
+    @media(max-width:830px){.privacy-header-links{display:none}.privacy-hero{padding:54px 0}.privacy-hero-grid{grid-template-columns:1fr;gap:29px}.privacy-grid{grid-template-columns:1fr;gap:25px}.privacy-toc{position:static;display:flex;gap:7px 20px;flex-wrap:wrap;border-left:0;border-bottom:1px solid #e9e9e6;padding:0 0 19px}.privacy-toc-label{width:100%;margin-bottom:4px}.privacy-toc a{padding:5px 0}.privacy-document{padding:42px 0 64px}}
+    @media(max-width:590px){.privacy-hero{padding:38px 0}.privacy-hero h1{font-size:clamp(36px,10vw,53px);letter-spacing:-1.3px}.privacy-hero p{font-size:14px}.privacy-hero-aside{padding:23px}.privacy-header-cta{font-size:11px;padding:10px 13px;min-height:40px}.privacy-copy h2{font-size:21px}.privacy-copy section{padding-bottom:25px;margin-bottom:26px}}
+    @media print{.site-header,.site-footer,.privacy-toc,.privacy-back{display:none!important}.privacy-hero{padding:15px 0 25px}.privacy-hero-aside{box-shadow:none}.privacy-grid{display:block}.privacy-copy section{break-inside:avoid}.privacy-document{padding:25px 0}}
   </style>
 </head>
 <body>
@@ -42,50 +62,105 @@
         <img src="assets/hpp-marca.webp" alt="Marca Health Parliament Portugal" width="68" height="68" />
         <span class="brand-label"><strong>Vozes da<br>Oncologia</strong><small>A SUA VOZ IMPORTA</small></span>
       </a>
-      <a class="button button-yellow" href="/#/inicio">Voltar ao website</a>
+      <nav class="privacy-header-links" aria-label="Navegação principal">
+        <a href="/#/inicio">Início</a>
+        <a href="/#/participe">Participe</a>
+        <a href="/#/faq">Perguntas frequentes</a>
+        <a href="/privacidade.html" aria-current="page">Privacidade</a>
+      </nav>
+      <a class="button button-yellow privacy-header-cta" href="/#/inicio">Voltar ao site <span aria-hidden="true">↗</span></a>
     </div>
   </header>
-  <main class="privacy-page">
-    <div class="wrap privacy-wrap">
-      <div class="privacy-eyebrow">Informação institucional · Privacidade</div>
-      <h1>Privacidade e dados.</h1>
-      <p class="privacy-lead">Explicamos quem coordena a iniciativa, como funciona atualmente o website e quais as salvaguardas que estão a ser preparadas para a futura recolha de experiências.</p>
-      <div class="privacy-state" role="status">
-        <strong>Recolha de testemunhos ainda não disponível</strong>
-        <p>O formulário encontra-se em modo de consulta. Não é possível enviar testemunhos, dados de saúde ou contactos à iniciativa através do formulário nesta fase. A informação apresentada nesta página não é ainda a política definitiva aplicável à futura recolha.</p>
+  <main>
+    <section class="privacy-hero" aria-labelledby="privacy-heading">
+      <div class="wrap privacy-hero-grid">
+        <div>
+          <span class="privacy-eyebrow">TRANSPARÊNCIA E CONFIANÇA</span>
+          <h1 id="privacy-heading">Privacidade <span>e dados.</span></h1>
+          <p>A confiança de quem visita o Vozes da Oncologia merece informação clara. Nesta página explicamos a utilização de dados no website, as responsabilidades da iniciativa e os direitos dos visitantes.</p>
+        </div>
+        <aside class="privacy-hero-aside" aria-label="Informação essencial">
+          <div class="privacy-aside-title">EM POUCAS PALAVRAS</div>
+          <div class="privacy-quick"><span class="privacy-quick-number">01</span><div><strong>Sem registo obrigatório</strong><small>Pode visitar o website sem criar uma conta.</small></div></div>
+          <div class="privacy-quick"><span class="privacy-quick-number">02</span><div><strong>Formulário em consulta</strong><small>O envio de testemunhos está desativado.</small></div></div>
+          <div class="privacy-quick"><span class="privacy-quick-number">03</span><div><strong>Cópia local em PDF</strong><small>A criação do PDF não representa uma submissão.</small></div></div>
+        </aside>
       </div>
-      <section aria-labelledby="responsavel">
-        <h2 id="responsavel">1. Responsável pela iniciativa</h2>
-        <p><strong>Tiago André Cunha Reis</strong>, a título individual, assume a definição das finalidades e dos meios da recolha futura de testemunhos no âmbito do projeto Vozes da Oncologia.</p>
-        <p>A iniciativa teve origem nos trabalhos da Comissão de Oncologia do Health Parliament Portugal (edição 2026–2027). Esta referência à origem do projeto não significa, por si só, que o Health Parliament Portugal seja responsável pelo tratamento dos dados.</p>
-      </section>
-      <section aria-labelledby="website">
-        <h2 id="website">2. Utilização atual do website</h2>
-        <p>Nesta fase, o website disponibiliza informação sobre o projeto, perguntas frequentes e uma visualização do formulário, sem capacidade de envio. A preparação de uma cópia pessoal em PDF, quando utilizada, ocorre no navegador do visitante; não constitui submissão.</p>
-        <p>A navegação poderá envolver dados técnicos, como o endereço IP, a data e hora do acesso e informações do navegador, processados pelos serviços necessários ao fornecimento e à proteção das páginas. A infraestrutura publicada utiliza GitHub Pages, fontes web Google Fonts e, para determinados domínios alternativos, funcionalidades de redirecionamento da Cloudflare.</p>
-        <p>Não existe nesta versão um serviço próprio de análise de comportamento dos visitantes nem um mecanismo ativo de recolha de testemunhos. Esta descrição não exclui o tratamento de dados técnicos efetuado pelos prestadores para disponibilizar os respetivos serviços.</p>
-      </section>
-      <section aria-labelledby="futura">
-        <h2 id="futura">3. Recolha futura de experiências</h2>
-        <p>Quando a participação for aberta, a iniciativa pretende permitir que pessoas ligadas à oncologia descrevam dificuldades, necessidades e propostas de melhoria dos cuidados em Portugal.</p>
-        <p>O formulário projetado poderá incluir perfil de participação, faixa etária e região facultativas, testemunhos escritos, respostas a perguntas complementares e, apenas quando autorizado, endereço de email para eventual recontacto. Os testemunhos poderão conter dados pessoais relativos à saúde.</p>
-        <p><strong>Estes dados não estão a ser recebidos pelo formulário público neste momento.</strong> A política definitiva deverá especificar as bases legais aplicáveis, o consentimento explícito quando exigido, os destinatários, os subcontratantes, as transferências internacionais, os prazos de conservação e o procedimento de exercício dos direitos dos titulares.</p>
-      </section>
-      <section aria-labelledby="direitos">
-        <h2 id="direitos">4. Direitos e contacto</h2>
-        <p>Os titulares de dados têm, nos termos e limites da legislação aplicável, direitos de informação, acesso, retificação, apagamento, limitação, oposição e portabilidade, e poderão apresentar reclamação à <a href="https://www.cnpd.pt/" rel="noopener noreferrer">Comissão Nacional de Proteção de Dados</a>.</p>
-        <p>O endereço designado para contacto com a iniciativa é <strong>ouvir@vozesoncologia.pt</strong>, mas <strong>a caixa de correio ainda se encontra em ativação</strong>. Não envie dados pessoais para esse endereço antes de ser confirmada a sua disponibilidade. Será disponibilizado um canal funcional de contacto antes da abertura da recolha.</p>
-      </section>
-      <section aria-labelledby="preparacao">
-        <h2 id="preparacao">5. Condições prévias à abertura da recolha</h2>
-        <p>Antes de aceitar participações reais, a iniciativa deverá publicar a informação completa exigida pelo RGPD, definir os períodos de conservação, avaliar e documentar os riscos do tratamento — incluindo uma Avaliação de Impacto sobre a Proteção de Dados, quando exigida —, validar os contratos e fluxos com prestadores tecnológicos e concluir as verificações de segurança, recuperação de dados e contacto.</p>
-        <p>Consulte o <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX%3A32016R0679" rel="noopener noreferrer">Regulamento Geral sobre a Proteção de Dados</a> e as <a href="https://www.cnpd.pt/organizacoes/outras-obrigacoes/avaliacao-de-impacto/" rel="noopener noreferrer">orientações da CNPD sobre avaliações de impacto</a>.</p>
-      </section>
-      <p class="privacy-small"><strong>Estado:</strong> informação de privacidade da fase de preparação · Atualizada em 8 de novembro de 2026. Não substitui a política de privacidade da fase de recolha.</p>
-      <div class="privacy-bottom"><a class="button button-yellow" href="/#/inicio">Voltar à página inicial</a></div>
+    </section>
+    <div class="privacy-document">
+      <div class="wrap privacy-grid">
+        <nav class="privacy-toc" aria-label="Índice da informação de privacidade">
+          <div class="privacy-toc-label">NESTA PÁGINA</div>
+          <a href="#responsavel">Responsabilidade</a>
+          <a href="#iniciativa">A iniciativa</a>
+          <a href="#navegacao">Navegação e dados</a>
+          <a href="#formulario">Formulário e PDF</a>
+          <a href="#prestadores">Serviços tecnológicos</a>
+          <a href="#direitos">Direitos e contacto</a>
+        </nav>
+        <div class="privacy-copy">
+          <section id="responsavel" aria-labelledby="title-responsavel">
+            <span class="privacy-section-number">01 / RESPONSABILIDADE</span>
+            <h2 id="title-responsavel">Quem coordena a iniciativa</h2>
+            <p><strong>Tiago André Cunha Reis</strong> assume, a título individual, a responsabilidade pela definição das finalidades e dos meios de tratamento de dados sob o controlo do projeto Vozes da Oncologia.</p>
+            <p>A iniciativa teve origem no âmbito da Comissão de Oncologia do Health Parliament Portugal, edição 2026–2027. Esta referência à sua génese institucional não implica, por si só, que o Health Parliament Portugal seja responsável pelo tratamento.</p>
+          </section>
+          <section id="iniciativa" aria-labelledby="title-iniciativa">
+            <span class="privacy-section-number">02 / PROPÓSITO</span>
+            <h2 id="title-iniciativa">Para que existe o Vozes da Oncologia</h2>
+            <p>A iniciativa promove a escuta das pessoas com experiências ligadas à oncologia em Portugal, com o objetivo de identificar dificuldades, necessidades e oportunidades de melhoria dos cuidados. O website apresenta o projeto, o seu enquadramento e o modelo de participação.</p>
+          </section>
+          <section id="navegacao" aria-labelledby="title-navegacao">
+            <span class="privacy-section-number">03 / DADOS DE NAVEGAÇÃO</span>
+            <h2 id="title-navegacao">O que acontece quando visita o website</h2>
+            <p>A visita ao website não exige a criação de uma conta nem o fornecimento de nome, email ou testemunho. A disponibilização técnica das páginas pode envolver o tratamento de informações como endereço IP, data e hora de acesso e características do navegador pelos serviços que suportam o website.</p>
+            <p>Esta versão não integra ferramentas próprias de publicidade comportamental ou de análise individualizada dos visitantes. Os prestadores técnicos podem tratar dados necessários à prestação e segurança dos seus serviços, de acordo com as respetivas condições.</p>
+          </section>
+          <section id="formulario" aria-labelledby="title-formulario">
+            <span class="privacy-section-number">04 / PARTICIPAÇÃO</span>
+            <h2 id="title-formulario">Formulário e cópia pessoal</h2>
+            <p>O formulário está disponível para consulta das suas etapas e perguntas, mas <strong>o envio de testemunhos encontra-se desativado</strong>. Nesta configuração, o formulário público não recebe relatos nem dados relativos à saúde.</p>
+            <p>A funcionalidade de criação de PDF funciona localmente no navegador. O ficheiro é uma cópia pessoal e não comprova que a iniciativa recebeu uma participação.</p>
+            <div class="privacy-notice"><p><strong>Nota sobre testemunhos:</strong> não inclua dados de saúde ou informações que identifiquem terceiros em canais não destinados à recolha de participações.</p></div>
+          </section>
+          <section id="prestadores" aria-labelledby="title-prestadores">
+            <span class="privacy-section-number">05 / INFRAESTRUTURA</span>
+            <h2 id="title-prestadores">Serviços tecnológicos</h2>
+            <p>O website público utiliza <strong>GitHub Pages</strong> para disponibilização das páginas e <strong>Google Fonts</strong> para apresentação tipográfica. A <strong>Cloudflare</strong> é utilizada em funcionalidades de redirecionamento de domínios alternativos. Estes serviços podem tratar informações técnicas associadas ao acesso.</p>
+            <p>A infraestrutura técnica para submissões utiliza serviços <strong>Supabase</strong>, mas o formulário público não envia participações para essa infraestrutura enquanto a receção estiver desativada.</p>
+          </section>
+          <section id="direitos" aria-labelledby="title-direitos">
+            <span class="privacy-section-number">06 / OS SEUS DIREITOS</span>
+            <h2 id="title-direitos">Direitos e esclarecimentos</h2>
+            <p>Nos termos e limites do Regulamento Geral sobre a Proteção de Dados, os titulares podem exercer os direitos que lhes sejam aplicáveis, incluindo informação, acesso, retificação, apagamento, limitação, oposição e portabilidade. Podem igualmente apresentar uma reclamação à <a href="https://www.cnpd.pt/" target="_blank" rel="noopener noreferrer">Comissão Nacional de Proteção de Dados</a>.</p>
+            <p>O endereço institucional designado é <strong>ouvir@vozesoncologia.pt</strong>. A caixa de correio encontra-se em ativação e <strong>ainda não recebe mensagens</strong>; não envie informações pessoais para este endereço enquanto não estiver operacional.</p>
+            <p>Consulte também o <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX%3A32016R0679" target="_blank" rel="noopener noreferrer">texto do RGPD</a>.</p>
+          </section>
+          <p class="privacy-footnote">Informação sobre o funcionamento do website publicado · Atualizada em 8 de novembro de 2026.</p>
+          <a class="button button-yellow privacy-back" href="/#/inicio">Voltar ao website <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
     </div>
   </main>
   <footer class="site-footer">
+    <div class="wrap footer-top">
+      <div class="footer-about">
+        <div class="footer-brand">Vozes da <span>Oncologia</span><span class="footer-line"></span></div>
+        <p>Uma iniciativa de escuta para identificar dificuldades e oportunidades de melhoria nos cuidados oncológicos em Portugal.</p>
+        <p class="footer-edition">ESCUTA E PARTICIPAÇÃO · PORTUGAL</p>
+      </div>
+      <div class="footer-links">
+        <strong>Explorar</strong>
+        <a href="/#/inicio">Início</a>
+        <a href="/#/participe">Participe</a>
+      </div>
+      <div class="footer-links">
+        <strong>Informação</strong>
+        <a href="/#/faq">Perguntas frequentes</a>
+        <a href="/privacidade.html" aria-current="page">Privacidade e dados</a>
+        <span class="privacy-footer-contact">Contacto institucional em ativação</span>
+      </div>
+    </div>
     <div class="wrap footer-bottom"><span>© Vozes da Oncologia · 2026–2027</span><span>Ouvir melhor. Melhorar juntos.</span></div>
   </footer>
 </body>
