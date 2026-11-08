@@ -268,3 +268,14 @@ textarea::placeholder,.text-input::placeholder{color:#9ca2a5}
 .receipt-panel p{margin-top:10px;font-size:12px}
 #v9-turnstile{min-height:70px;max-width:100%;overflow:hidden}
 button:disabled{opacity:.55;cursor:not-allowed}
+
+/* V14 — visual pré-abertura sem recolha de dados */
+.prelaunch-preview .form-content .form-actions{display:none}
+.prelaunch-preview .form-content input:disabled,.prelaunch-preview .form-content select:disabled,.prelaunch-preview .form-content textarea:disabled{opacity:1;color:#34434a;background:#fff;cursor:default}
+.prelaunch-preview .profile-option{cursor:default}
+.prelaunch-preview .profile-option:hover{border-color:#e0e2e2;background:#fff}
+.prelaunch-navigation{display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid #e8eae8;padding:24px 30px 28px}
+.prelaunch-navigation>span{font-size:12px;font-weight:700;color:#65717a}
+.prelaunch-footnote{text-align:center;max-width:650px;margin:18px auto 0;line-height:1.65}
+.prelaunch-security{border:1px dashed #ccd7d0;background:#f8faf9;border-radius:12px;padding:23px 17px;font-size:13px;color:#61736a}
+@media(max-width:620px){.prelaunch-navigation{padding:20px 16px;flex-wrap:wrap}.prelaunch-navigation>span{order:-1;width:100%;text-align:center}.prelaunch-navigation .button{flex:1;justify-content:center}}
