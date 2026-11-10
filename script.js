@@ -1,4 +1,4 @@
-/* Vozes da Oncologia - V21. Formulário local interativo sem envio.
+/* Vozes da Oncologia - V27. Formulário local interativo sem envio.
    Apenas modo production com requisitos validados permite API. */
 'use strict';
 const app = document.getElementById('app');
@@ -185,10 +185,10 @@ const icon = (name,size=22) => {
 const btn = (text,link,variant='yellow',extra='')=>`<a class="button button-${variant}" href="${link}" ${extra}>${text} ${icon('arrow',17)}</a>`;
 function home(){return `
 <section class="hero"><div class="wrap hero-grid">
-  <div class="hero-copy"><div class="eyebrow">VOZES DA ONCOLOGIA · ESCUTA NACIONAL</div>
+  <div class="hero-copy"><div class="eyebrow">VOZES DA ONCOLOGIA - PARTILHE A SUA EXPERIÊNCIA</div>
     <h1>A sua experiência pode ajudar a <span class="mark">melhorar</span> os cuidados oncológicos em Portugal.</h1>
     <p class="hero-lead">${isPrelaunch?'Explore as perguntas e organize a sua experiência. Pode guardar uma cópia local, sem enviar dados ao projeto.':'Conte-nos as dificuldades que sentiu ou observou e como considera que poderiam ser melhoradas.'}</p>
-    <div class="hero-actions">${btn(isPrelaunch?'Explorar o formulário':'Partilhar a minha experiência','#/participe')}</div>
+    <div class="hero-actions">${btn(isPrelaunch?'Conhecer o formulário':'Partilhar a minha experiência','#/participe')}</div>
     <div class="hero-note">${icon('lock',16)} ${isPrelaunch?'Preenchimento local · Sem envio':'Participação escrita · Sem identificação pessoal obrigatória'}</div>
   </div><div class="hero-art"><img src="assets/retratos-diversidade.webp" alt="Ilustração em aguarela e tinta de pessoas de diferentes idades, origens e experiências, incluindo uma profissional de saúde" fetchpriority="high" /></div>
 </div></section>
@@ -206,24 +206,13 @@ function home(){return `
 <section class="section commission-section" id="comissao" aria-labelledby="comissao-titulo"><div class="wrap">
  <details class="commission-accordion">
   <summary class="commission-summary">
-   <div class="commission-summary-copy"><div class="eyebrow">EQUIPA DO ESTUDO</div><h2 id="comissao-titulo">Comissão de Oncologia</h2><p>Abra para conhecer a equipa e a coordenação científica da iniciativa.</p></div>
+   <div class="commission-summary-copy"><div class="eyebrow">EQUIPA DO ESTUDO</div><h2 id="comissao-titulo">Comissão de Oncologia</h2><p>Conheça as pessoas da Comissão de Oncologia, a coordenação da iniciativa e os seus percursos profissionais.</p></div>
    <div class="commission-summary-side"><div class="commission-edition">Health Parliament Portugal</div><span class="commission-toggle-label">Ver equipa</span></div>
   </summary>
   <div class="commission-body">
-   <p class="commission-body-intro">Dez membros com percursos e perspetivas complementares, unidos pelo propósito de contribuir para melhores cuidados oncológicos em Portugal.</p>
+   <p class="commission-body-intro">Dez membros com percursos e perspetivas complementares, unidos pelo propósito de contribuir para melhores cuidados oncológicos em Portugal. Conheça os perfis profissionais disponíveis.</p>
    <div class="commission-grid" aria-label="Membros da equipa">
-   ${[
-    ['Ana Bilé','assets/equipa/ana-bile.webp'],
-    ['Diana Silva Gonçalves','assets/equipa/diana-goncalves.webp'],
-    ['Gonçalo Pinto Mendes','assets/equipa/goncalo-pinto-mendes.webp'],
-    ['Helena Vaz Cruz','assets/equipa/helena-vaz-cruz.webp'],
-    ['Henrique Cabral','assets/equipa/henrique-cabral.webp'],
-    ['Mariana Coutinho','assets/equipa/mariana-coutinho.webp'],
-    ['Pedro Pedrosa','assets/equipa/pedro-pedrosa.webp'],
-    ['Pedro Ventura','assets/equipa/pedro-ventura.webp'],
-    ['Sofia Mourão','assets/equipa/sofia-mourao.webp'],
-    ['Tiago Cunha Reis','assets/equipa/tiago-cunha-reis.webp']
-   ].map(([name,photo])=>`<figure class="commission-person"><div class="commission-portrait"><img class="commission-photo" src="${photo}" alt="Retrato de ${name}" width="672" height="1008" loading="lazy" decoding="async"></div><figcaption class="commission-person-name">${name}</figcaption></figure>`).join('')}
+   ${[["Ana Bilé","assets/equipa/ana-bile.webp","https://pt.linkedin.com/in/ana-bil%C3%A9-silva-coutinho-34200822"],["Diana Silva Gonçalves","assets/equipa/diana-goncalves.webp","https://pt.linkedin.com/in/diana-goncalves1"],["Gonçalo Pinto Mendes","assets/equipa/goncalo-pinto-mendes.webp","https://pt.linkedin.com/in/goncalo-pinto-mendes"],["Helena Vaz Cruz","assets/equipa/helena-vaz-cruz.webp","https://pt.linkedin.com/in/helenacruz"],["Henrique Cabral","assets/equipa/henrique-cabral.webp","https://pt.linkedin.com/in/henrique-cabral-45677743"],["Mariana Coutinho","assets/equipa/mariana-coutinho.webp","https://pt.linkedin.com/in/marianasfcoutinho"],["Pedro Pedrosa","assets/equipa/pedro-pedrosa.webp","https://pt.linkedin.com/in/pedrompedrosa"],["Pedro Ventura","assets/equipa/pedro-ventura.webp",null],["Sofia Morão","assets/equipa/sofia-mourao.webp","https://pt.linkedin.com/in/sofia-mor%C3%A3o-73393a40b"],["Tiago Cunha Reis","assets/equipa/tiago-cunha-reis.webp","https://pt.linkedin.com/in/tiagocunhareis"]].map(([name,photo,linkedin])=>`<figure class="commission-person"><div class="commission-portrait"><img class="commission-photo" src="${photo}" alt="Retrato de ${esc(name)}" width="672" height="1008" loading="lazy" decoding="async"></div><figcaption class="commission-person-name">${esc(name)}</figcaption>${linkedin?`<a class="commission-linkedin" href="${esc(linkedin)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir LinkedIn de ${esc(name)}">LinkedIn <span aria-hidden="true">↗</span></a>`:''}</figure>`).join('')}
    </div>
    <div class="commission-credit"><div class="commission-credit-mark" aria-hidden="true"></div><div class="commission-credit-copy"><span>COORDENAÇÃO DA INICIATIVA VOZES DA ONCOLOGIA</span><strong>Prof. Doutor Tiago Cunha Reis</strong></div></div>
   </div>
