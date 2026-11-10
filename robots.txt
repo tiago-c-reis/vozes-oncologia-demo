@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin-v10/
 Disallow: /admin-v12/
+Disallow: /admin-production/
