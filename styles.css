@@ -287,7 +287,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:620px){.local-mode-notice{display:block;padding:17px 18px}.local-mode-notice strong{display:block;margin-bottom:6px}}
 
 /* V27 - Ligações profissionais e selecao etaria inclusiva */
-.commission-linkedin{display:inline-flex;align-items:center;gap:7px;margin:10px 4px 0;padding:7px 10px;border:1px solid #d9e2e6;border-radius:9px;background:#f6f9fa;color:#1c5475;font-size:11px;font-weight:800;line-height:1.3;align-self:flex-start;text-decoration:none;transition:background .15s,border-color .15s}
-.commission-linkedin:hover,.commission-linkedin:focus-visible{background:#e6f3fa;border-color:#82b4cc}
+.commission-person-name{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.commission-person-name>span{min-width:0}
+.commission-linkedin-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:30px;height:30px;color:#0a66c2;text-decoration:none;opacity:.85;transition:opacity .15s,transform .15s}
+.commission-linkedin-icon:hover{opacity:1;transform:translateY(-1px)}
+.commission-linkedin-icon:focus-visible{outline:2px solid #0a66c2;outline-offset:2px;border-radius:4px;opacity:1}
 .required{font-size:12px;font-weight:700;color:#7c5422;margin-left:5px}
-@media(max-width:650px){.commission-linkedin{font-size:10px;margin-top:8px;padding:7px 9px}.required{display:inline-block;margin-top:4px}}
+@media(max-width:650px){.commission-linkedin-icon{width:28px;height:28px}.required{display:inline-block;margin-top:4px}}
