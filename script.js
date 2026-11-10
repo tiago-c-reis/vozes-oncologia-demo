@@ -100,10 +100,11 @@ const roles = [
   ['apoio','Presto apoio social ou voluntário em oncologia','Quer acrescentar alguma perspetiva da sua atividade de apoio ou voluntariado?']
 ];
 const ageGroups = [
- ['','Não indicar faixa etária'],
+ ['','Selecione uma opção'],
  ['18-29 anos','18-29 anos'],
- ['30-44 anos','30-44 anos'],
- ['45-59 anos','45-59 anos'],
+ ['30-39 anos','30-39 anos'],
+ ['40-49 anos','40-49 anos'],
+ ['50-59 anos','50-59 anos'],
  ['60-74 anos','60-74 anos'],
  ['75 anos ou mais','75 anos ou mais'],
  ['Prefiro não responder','Prefiro não responder']
@@ -112,8 +113,8 @@ const diagnosisAgeGroups=[
  ['','Não indicar idade ao diagnóstico'],
  ['0-4 anos','0-4 anos'],['5-9 anos','5-9 anos'],
  ['10-14 anos','10-14 anos'],['15-17 anos','15-17 anos'],
- ['18-29 anos','18-29 anos'],['30-44 anos','30-44 anos'],
- ['45-59 anos','45-59 anos'],['60-74 anos','60-74 anos'],
+ ['18-29 anos','18-29 anos'],['30-39 anos','30-39 anos'],
+ ['40-49 anos','40-49 anos'],['50-59 anos','50-59 anos'],['60-74 anos','60-74 anos'],
  ['75 anos ou mais','75 anos ou mais'],
  ['Não sei','Não sei'],['Prefiro não responder','Prefiro não responder']
 ];
@@ -233,11 +234,11 @@ function faq(){return `
 <section class="section section-light"><div class="wrap faq-list">${[
  ['Como surgiu o Vozes da Oncologia?','O Vozes da Oncologia nasceu no âmbito dos trabalhos da Comissão de Oncologia do Health Parliament Portugal, na edição 2026-2027. A iniciativa procura dar voz às pessoas que vivem, acompanham ou trabalham na área da oncologia, reunindo experiências e contributos que permitam identificar dificuldades, reconhecer necessidades e apoiar a definição de prioridades para melhorar os cuidados oncológicos em Portugal.'],
  ['Quem pode participar?','Doentes oncológicos, sobreviventes, cuidadores e familiares, representantes de associações de doentes, profissionais de saúde e pessoas envolvidas em apoio social ou voluntariado em oncologia. Pode selecionar mais do que um perfil e escolher aquele que melhor corresponde à perspetiva do seu testemunho.'],
- ['Como funciona a participação?',isPrelaunch?'Pode explorar as quatro etapas, escolher o perfil, preencher as respostas e descarregar uma cópia local em PDF. Nesta modalidade, as respostas não são enviadas nem recebidas pela iniciativa.':'Comece por selecionar o seu perfil e, se desejar, indique a sua faixa etária e a região mais relevante. Depois, descreva uma dificuldade ou problema e, se quiser, apresente uma sugestão de melhoria. Por fim, pode responder às perguntas facultativas, confirmar o consentimento e enviar.'],
- ['Tenho de sugerir uma solução?','Não. Dar a conhecer uma dificuldade é, por si só, um contributo útil. As sugestões de melhoria, a faixa etária, a região e as perguntas complementares são facultativas.'],
- ['Porque pedem a faixa etária e a região?','A faixa etária de quem responde e a região ajudam a contextualizar o testemunho. Também pode indicar a idade no diagnóstico da pessoa com cancro, incluindo infância e adolescência. Estes dados são facultativos.'],
+ ['Como funciona a participação?',isPrelaunch?'Pode explorar as quatro etapas, escolher o perfil, indicar uma opção de faixa etária e descarregar uma cópia local em PDF. Nesta modalidade, as respostas não são enviadas nem recebidas pela iniciativa.':'Comece por selecionar o seu perfil e a opção de faixa etária (incluindo "Prefiro não responder"). Se desejar, indique também a região mais relevante. Depois, descreva uma dificuldade ou problema e, se quiser, apresente uma sugestão de melhoria. Por fim, pode responder às perguntas facultativas, confirmar o consentimento e enviar.'],
+ ['Tenho de sugerir uma solução?','Não. Dar a conhecer uma dificuldade é, por si só, um contributo útil. As sugestões de melhoria, a região, a idade no diagnóstico e as perguntas complementares são facultativas. Para a faixa etária de quem responde, pode selecionar "Prefiro não responder".'],
+ ['Porque pedem a faixa etária e a região?','A faixa etária de quem responde ajuda a distinguir gerações, incluindo adultos jovens até aos 39 anos. É obrigatório escolher uma opção, mas pode selecionar "Prefiro não responder". A região e a idade no diagnóstico da pessoa com cancro são facultativas.'],
  ['E a oncologia pediátrica?','Um familiar ou cuidador adulto pode relatar a experiência de uma criança ou adolescente com cancro. Um sobrevivente adulto pode relatar um diagnóstico na infância. A idade no diagnóstico distingue esses percursos da idade de quem responde. A participação direta de menores não está disponível nesta fase.'],
- ['Existem perguntas fechadas?','Sim. Depois do relato livre, são apresentadas até cinco perguntas facultativas, adaptadas ao perfil principal. Permitem contextualizar as experiências e construir indicadores descritivos, sem substituir o testemunho nas suas próprias palavras.'],
+ ['As perguntas são iguais para todos os perfis?','Não. As cinco dimensões são comuns, mas a redação e as opções de resposta são adaptadas ao perfil principal: doentes e sobreviventes, cuidadores e familiares ou observadores (associações, profissionais e voluntários). Todas são facultativas.'],
  ['Como são utilizados os contributos?','O Vozes da Oncologia centra-se na identificação de dificuldades recorrentes, necessidades e oportunidades de melhoria nos cuidados oncológicos. A análise procura apoiar prioridades e recomendações, com comunicação de resultados agregados e reconhecimento das limitações dos dados recolhidos. Um contributo individual não garante a adoção de uma medida específica.'],
  ['As respostas representam toda a população portuguesa?','Não necessariamente. A participação voluntária não constitui, por si só, uma amostra nacional representativa. A divulgação de resultados deve indicar a dimensão das respostas, o contexto dos participantes e as limitações metodológicas relevantes.'],
  ['Tenho de me identificar?','Não é obrigatório indicar nome ou criar uma conta. Recomendamos que não escreva nomes de terceiros, datas exatas ou outros dados que possam identificar pessoas no relato livre. A ausência de nome não garante, por si só, anonimato absoluto.'],
@@ -263,15 +264,15 @@ function adaptiveFields(){if(!form.roles.length)return '';
  const r=roles.find(x=>x[0]===chosen);
  return `<div class="adaptive-box"><div class="adaptive-eyebrow">Contexto adicional · opcional</div>
  ${form.roles.length>1?`<div class="form-group"><label class="field-label" for="primaryRole">A partir de que perspetiva está a partilhar esta experiência?</label><select id="primaryRole" class="text-input" aria-label="Perspetiva principal">${roles.filter(x=>form.roles.includes(x[0])).map(([id,label])=>`<option value="${id}" ${id===chosen?'selected':''}>${label}</option>`).join('')}</select><p class="field-helper">Este campo serve apenas para adaptar as perguntas. Os outros perfis mantêm-se registados.</p></div>`:''}
- <p class="adaptive-info-note"><strong>A informação seguinte é facultativa.</strong> A idade de quem responde e a idade da pessoa com cancro quando recebeu o diagnóstico são dados diferentes. Esta distinção permite identificar experiências de oncologia pediátrica.</p>
- <div class="form-group"><label class="field-label" for="ageGroup">Qual é a sua faixa etária? <span class="optional">Opcional</span></label><select id="ageGroup" class="text-input">${ageGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.ageGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Indique a sua própria idade. O formulário destina-se a respondentes adultos.</p></div>
+ <p class="adaptive-info-note"><strong>Para contextualizar a experiência:</strong> selecione a sua faixa etária ou "Prefiro não responder". Os restantes dados são facultativos. A idade de quem responde e a idade no diagnóstico são distintas, permitindo identificar também percursos de oncologia pediátrica.</p>
+ <div class="form-group"><label class="field-label" for="ageGroup">Qual é a sua faixa etária? <span class="required">Escolha obrigatória *</span></label><select id="ageGroup" class="text-input" required aria-describedby="age-help age-error">${ageGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.ageGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper" id="age-help">Selecione a sua própria faixa etária ou "Prefiro não responder". Não pedimos a data de nascimento.</p><div id="age-error" aria-live="polite"></div></div>
  ${diagnosisEligible(chosen)?`<div class="form-group"><label class="field-label" for="diagnosisAgeGroup">${chosen==='cuidador'?'Qual era a idade da pessoa acompanhada quando recebeu o diagnóstico de cancro?':'Qual era a sua idade quando recebeu o diagnóstico de cancro?'} <span class="optional">Opcional</span></label><select id="diagnosisAgeGroup" class="text-input">${diagnosisAgeGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.diagnosisAgeGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Inclui diagnósticos na infância e adolescência. Não pedimos datas nem nomes.</p></div>`:''}
  <div class="form-group"><label class="field-label" for="region">${esc(regionLabelForRole(chosen))} <span class="optional">Opcional</span></label><select id="region" class="text-input">${regions.map(([v,label])=>`<option value="${esc(v)}" ${form.region===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Indique apenas uma região ampla, se for útil. A opção "Âmbito nacional / várias regiões" é adequada a contributos transversais. Não pedimos morada nem instituição.</p></div>
  <div class="form-group"><label class="field-label" for="context-primary">${esc(r[2])} <span class="optional">Opcional</span></label><textarea id="context-primary" data-context="${chosen}" maxlength="5800" placeholder="Pode deixar este campo em branco.">${esc(form.roleContext[chosen]||'')}</textarea></div></div>`;
 }
 function activeRole(){return form.roles.includes(form.primaryRole)?form.primaryRole:form.roles[0];}
 function currentQuestions(){return surveyModules[moduleForRole(activeRole())]||[];}
-function formStage3(){const questions=currentQuestions();return `<div class="eyebrow">PASSO 03 · INDICADORES OPCIONAIS</div><h2>Algumas perguntas complementares.</h2><p class="form-subtitle">Estas cinco perguntas opcionais ajudam a produzir indicadores comparáveis, sem substituir as suas palavras. Pode deixar qualquer pergunta sem resposta.</p>
+function formStage3(){const questions=currentQuestions();return `<div class="eyebrow">PASSO 03 · INDICADORES OPCIONAIS</div><h2>Algumas perguntas complementares.</h2><p class="form-subtitle">As perguntas são adaptadas à perspetiva principal (doente ou sobrevivente, cuidador ou observador). Os temas são comuns, mas a redação e as opções de resposta variam consoante o perfil. Todas são facultativas.</p>
  <div class="measurement-note"><strong>Perspetiva:</strong> ${esc(roles.find(r=>r[0]===activeRole())?.[1]||'')}.<br>As respostas referem-se apenas à experiência ou à atividade que indicou. Não há respostas certas.</div>
  ${questions.map((q,i)=>`<fieldset class="likert-question"><legend><span class="likert-number">${i+1}</span> ${esc(q.text)}</legend><div class="likert-options" role="group" aria-label="${esc(q.text)}">${q.options.map((o,j)=>`<label class="likert-choice"><input type="radio" name="q-${q.id}" value="${esc(o)}" ${form.answers[activeRole()]?.[q.id]===o?'checked':''}/><span>${esc(o)}</span></label>`).join('')}</div><button class="clear-answer" type="button" data-action="clearAnswer" data-q="${q.id}">Limpar resposta</button></fieldset>`).join('')}
  ${privacyNote()}<div class="form-actions"><button type="button" class="button button-quiet" data-action="back2">${icon('chevron',17)} Voltar</button><div class="stage3-actions" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" class="button button-quiet" data-action="skip3">Saltar esta etapa</button><button class="button button-yellow" type="button" data-action="next3">Continuar ${icon('arrow',17)}</button></div></div>`;}
@@ -334,7 +335,8 @@ async function onFormClick(evt){const target=evt.target.closest('[data-action]')
  if(action==='next1'){
   if(!form.roles.length){showError('role-error','Selecione pelo menos um perfil para contextualizar a sua participação.');return;}
   if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0];
-  showError('role-error','');switchStage(2);
+  if(!form.ageGroup){showError('age-error','Selecione uma faixa etária ou "Prefiro não responder".');document.getElementById('ageGroup')?.focus();return;}
+  showError('age-error','');showError('role-error','');switchStage(2);
  }
  else if(action==='next2'){
   if(form.difficulty.trim().length<15){showError('difficulty-error','Descreva a dificuldade com pelo menos 15 caracteres, para que seja possível compreendê-la.');document.getElementById('difficulty')?.focus();return;}
@@ -414,7 +416,7 @@ function bindForm(){const shell=app.querySelector('.form-shell');if(!shell)retur
  if(form.stage===4){['email','contact','ack','adultAttested'].forEach(k=>{const e=document.getElementById(k);if(e)e.addEventListener('change',saveVisibleStage);});}
 }
 function bindAdaptiveFields(){
- const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>form.ageGroup=age.value);
+ const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>{form.ageGroup=age.value;if(age.value)showError('age-error','');});
  const diagnosis=document.getElementById('diagnosisAgeGroup');if(diagnosis)diagnosis.addEventListener('change',()=>form.diagnosisAgeGroup=diagnosis.value);
  const region=document.getElementById('region');if(region)region.addEventListener('change',()=>form.region=region.value);
  const role=document.getElementById('primaryRole');if(role)role.addEventListener('change',()=>{
