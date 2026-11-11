@@ -10,7 +10,7 @@
   <title>Administração privada V12 | Vozes da Oncologia</title>
   <link rel="stylesheet" href="admin.css?v=12">
   <script src="config.js?v=12" defer></script>
-  <script src="admin.js?v=12" defer></script>
+  <script src="admin.js?v=12-viewer1" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -59,7 +59,8 @@
         <article class="metric card"><span>CONTACTO FACULTATIVO</span><strong id="metric-contact">-</strong><small>Com autorização de recontacto</small></article>
       </div>
       <div class="chart-row"><article class="card chart-panel"><div class="panel-heading"><div><p class="eyebrow">PERFIS</p><h2>Quem participa</h2></div></div><div id="chart-roles" class="bar-chart"></div></article><article class="card chart-panel"><div class="panel-heading"><div><p class="eyebrow">TERRITÓRIO</p><h2>Distribuição regional</h2></div></div><div id="chart-regions" class="bar-chart"></div></article></div>
-      <article class="card listing"><div class="panel-heading"><div><p class="eyebrow">ESCUTA ABERTA</p><h2>Testemunhos recebidos</h2></div><span class="access-note">Consulta auditada · paginação por cursor</span></div>
+      <p id="viewer-notice" class="warning-note" hidden>Perfil viewer: acesso exclusivo a estatísticas agregadas. A consulta de testemunhos requer autorização de coordenador.</p>
+      <article id="testimony-listing" class="card listing" hidden><div class="panel-heading"><div><p class="eyebrow">ESCUTA ABERTA</p><h2>Testemunhos recebidos</h2></div><span class="access-note">Consulta auditada · paginação por cursor</span></div>
         <form id="filters" class="filters">
           <label>Perfil<select id="filter-role"><option value="">Todos os perfis</option><option value="doente">Doente oncológico</option><option value="sobrevivente">Sobrevivente</option><option value="cuidador">Cuidador ou familiar</option><option value="associacao">Associação</option><option value="profissional">Profissional de saúde</option><option value="apoio">Apoio social/voluntariado</option></select></label>
           <label>Região<select id="filter-region"><option value="">Todas as regiões</option><option>Norte</option><option>Centro</option><option>Lisboa e Vale do Tejo</option><option>Alentejo</option><option>Algarve</option><option>Açores</option><option>Madeira</option><option>Nacional / várias regiões</option><option>Fora de Portugal</option></select></label>
