@@ -202,7 +202,20 @@ function home(){return `
  ].map(([title,description],i)=>`<article class="step-card"><div class="step-image"><img src="assets/passo-${[3,1,2,4][i]}.webp" alt="" loading="lazy" /></div><div class="step-title"><span class="step-index">${i+1}</span><h3>${title}</h3></div><p>${description}</p></article>`).join('')}</div>
  <div class="callout-panel cta-panel"><div><h3>O que podemos melhorar juntos?</h3><p>Indique a sua ligação à oncologia e descreva a sua experiência com as suas palavras. As perguntas fechadas surgem apenas depois e são opcionais.</p></div>${btn(isPrelaunch?'Explorar o formulário':'Quero participar','#/participe')}</div>
  </div></section>
-<section class="section"><div class="wrap two-col"><div class="body-copy"><div class="eyebrow">PORQUE ESCUTAR IMPORTA</div><h2>Por trás de cada dificuldade, há uma experiência que importa compreender.</h2><p>Doentes, sobreviventes, familiares, associações, profissionais de saúde e pessoas que prestam apoio conhecem realidades diferentes da oncologia. Queremos criar espaço para as ouvir sem antecipar os problemas que poderão identificar.</p><p>Os contributos ajudam a identificar necessidades, reconhecer dificuldades recorrentes e definir prioridades que apoiem a melhoria dos cuidados oncológicos em Portugal.</p></div><div class="logo-showcase video-explainer-card"><div class="video-explainer-inner"><div class="video-badge">DA ESCUTA À MELHORIA</div><h3>Ouvir para compreender. Compreender para melhorar.</h3><p>O projeto procura transformar experiências em conhecimento útil para identificar necessidades e apoiar recomendações fundamentadas.</p><ul class="video-points"><li>Escutar diferentes perspetivas</li><li>Identificar dificuldades recorrentes</li><li>Comunicar prioridades e propostas</li></ul></div></div></div></section>
+<section class="section"><div class="wrap two-col"><div class="body-copy"><div class="eyebrow">PORQUE ESCUTAR IMPORTA</div><h2>Por trás de cada dificuldade, há uma experiência que importa compreender.</h2><p>Doentes, sobreviventes, familiares, associações, profissionais de saúde e pessoas que prestam apoio conhecem realidades diferentes da oncologia. Queremos criar espaço para as ouvir sem antecipar os problemas que poderão identificar.</p><p>Os contributos ajudam a identificar necessidades, reconhecer dificuldades recorrentes e definir prioridades que apoiem a melhoria dos cuidados oncológicos em Portugal.</p></div><div class="logo-showcase video-explainer-card"><div class="video-explainer-inner">
+ <div class="video-badge">VOZES DA ONCOLOGIA</div>
+ <div class="explainer-media">
+  <video class="explainer-video" controls preload="none" playsinline poster="assets/video/vozes-oncologia-poster.jpg" aria-label="Vídeo de apresentação da iniciativa Vozes da Oncologia">
+   <source src="assets/video/vozes-oncologia.mp4" type="video/mp4" />
+   O seu navegador não suporta a reprodução deste vídeo.
+  </video>
+  <button class="explainer-play-button" type="button" aria-label="Reproduzir vídeo de apresentação" title="Ver vídeo">
+   <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></svg>
+  </button>
+ </div>
+ <div class="explainer-caption"><span class="explainer-caption-icon" aria-hidden="true">▶</span><div><h3>Conheça a iniciativa</h3><p>Veja um breve vídeo sobre o projeto Vozes da Oncologia e descubra como pode participar.</p></div></div>
+ <p class="explainer-status" role="status" aria-live="polite"></p>
+ </div></div></div></section>
 <section class="section commission-section" id="comissao" aria-labelledby="comissao-titulo"><div class="wrap">
  <details class="commission-accordion">
   <summary class="commission-summary">
@@ -415,8 +428,23 @@ function bindAdaptiveFields(){
  const ctx=document.querySelector('[data-context]');if(ctx)ctx.addEventListener('input',()=>form.roleContext[ctx.dataset.context]=ctx.value);
 }
 
+function bindExplainerVideo(){
+ const media=document.querySelector('.explainer-media');
+ if(!media)return;
+ const video=media.querySelector('video');
+ const button=media.querySelector('.explainer-play-button');
+ const status=media.parentElement.querySelector('.explainer-status');
+ button.addEventListener('click',()=>{
+  const playback=video.play();
+  if(playback&&typeof playback.catch==='function')playback.catch(()=>{status.textContent='Não foi possível iniciar o vídeo. Tente novamente.';});
+ });
+ video.addEventListener('play',()=>{media.classList.add('is-playing');status.textContent='';});
+ video.addEventListener('pause',()=>media.classList.remove('is-playing'));
+ video.addEventListener('ended',()=>media.classList.remove('is-playing'));
+ video.addEventListener('error',()=>{button.disabled=true;status.textContent='Vídeo temporariamente indisponível.';});
+}
 function currentRoute(){const route=location.hash.match(/^#\/(inicio|participe|faq)/);return route?.[1]||'inicio';}
-function renderPage(resetScroll=true){let route=currentRoute();const pages={inicio:home,participe:participate,faq};app.innerHTML=(pages[route]||home)();document.querySelectorAll('.main-nav a').forEach(a=>{const active=a.dataset.nav===route;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});document.title='Vozes da Oncologia';document.getElementById('main-nav')?.classList.remove('open');document.getElementById('menu-toggle')?.setAttribute('aria-expanded','false');if(route==='participe'){bindForm();if(isProduction&&form.stage===4)initializeTurnstile();}if(resetScroll){const anchor=location.hash.split('#')[2];if(anchor){requestAnimationFrame(()=>document.getElementById(anchor)?.scrollIntoView())}else window.scrollTo({top:0,behavior:'auto'});} }
+function renderPage(resetScroll=true){let route=currentRoute();const pages={inicio:home,participe:participate,faq};app.innerHTML=(pages[route]||home)();if(route==='inicio')bindExplainerVideo();document.querySelectorAll('.main-nav a').forEach(a=>{const active=a.dataset.nav===route;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});document.title='Vozes da Oncologia';document.getElementById('main-nav')?.classList.remove('open');document.getElementById('menu-toggle')?.setAttribute('aria-expanded','false');if(route==='participe'){bindForm();if(isProduction&&form.stage===4)initializeTurnstile();}if(resetScroll){const anchor=location.hash.split('#')[2];if(anchor){requestAnimationFrame(()=>document.getElementById(anchor)?.scrollIntoView())}else window.scrollTo({top:0,behavior:'auto'});} }
 document.getElementById('menu-toggle').addEventListener('click',function(){const nav=document.getElementById('main-nav');const open=nav.classList.toggle('open');this.setAttribute('aria-expanded',String(open));this.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');});
 window.addEventListener('hashchange',()=>{if(form.stage<5&&currentRoute()==='participe')saveVisibleStage();renderPage();});
 if(!location.hash)location.replace('#/inicio');else renderPage();
