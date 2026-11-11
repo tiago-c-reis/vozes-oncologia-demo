@@ -91,6 +91,7 @@ function renderList(data){
 }
 function currentFilters(){return{role:$('filter-role').value||null,region:$('filter-region').value||null,age:$('filter-age').value||null};}
 async function loadList(pageIndex=state.cursorIndex){
+  if(state.role!=='coordinator')return;
   if(state.listBusy||pageIndex<0||pageIndex>=state.cursors.length)return;
   const epoch=state.sessionEpoch;
   const cursor=state.cursors[pageIndex];
@@ -111,10 +112,28 @@ async function loadList(pageIndex=state.cursorIndex){
     updatePagerControls();
   }
 }
-async function loadDashboard(){const epoch=state.sessionEpoch;show('dashboard');$('logout').hidden=false;$('environment').textContent=cfg.environment||'STAGING';resetCursor();try{const summary=await adminCall({action:'summary'});if(epoch!==state.sessionEpoch)return;populateSummary(summary);await loadList(0);}catch(e){if(epoch===state.sessionEpoch)showError(e.message||'Serviço indisponível');}}
+async function loadDashboard(){
+  const epoch=state.sessionEpoch;
+  show('dashboard');
+  $('logout').hidden=false;
+  $('environment').textContent=cfg.environment||'STAGING';
+  $('testimony-listing').hidden=true;
+  $('viewer-notice').hidden=true;
+  resetCursor();
+  try{
+    const summary=await adminCall({action:'summary'});
+    if(epoch!==state.sessionEpoch)return;
+    if(state.role!=='viewer' && state.role!=='coordinator')throw Error('Perfil administrativo inválido.');
+    populateSummary(summary);
+    const isCoordinator=state.role==='coordinator';
+    $('testimony-listing').hidden=!isCoordinator;
+    $('viewer-notice').hidden=isCoordinator;
+    if(isCoordinator)await loadList(0);
+  }catch(e){if(epoch===state.sessionEpoch)showError(e.message||'Serviço indisponível');}
+}
 function section(target,title,value){const box=document.createElement('section');box.className='detail-section';appendText(box,'h3',title);appendText(box,'p',safeText(value));target.appendChild(box);}
 function meta(target,title,value){const box=document.createElement('div');box.className='meta-item';appendText(box,'label',title);appendText(box,'strong',safeText(value));target.appendChild(box);}
-async function openDetail(id){try{const d=await adminCall({action:'detail',id});const root=$('drawer-body');root.replaceChildren();$('drawer-title').textContent='Participação '+String(d.id||'').slice(0,8).toUpperCase();
+async function openDetail(id){if(state.role!=='coordinator')return;try{const d=await adminCall({action:'detail',id});const root=$('drawer-body');root.replaceChildren();$('drawer-title').textContent='Participação '+String(d.id||'').slice(0,8).toUpperCase();
   const grid=document.createElement('div');grid.className='detail-meta';meta(grid,'Receção',fmtDate(d.received_at));meta(grid,'Perfil',labels[d.primary_role]||d.primary_role);meta(grid,'Região',d.region);meta(grid,'Faixa etária',d.age_group);meta(grid,'Recontacto',d.has_contact?'Autorizado':'Não autorizado');meta(grid,'Consentimentos',(d.consent_types||[]).join(', '));root.appendChild(grid);
   section(root,'Dificuldade / experiência partilhada',d.difficulty);section(root,'Sugestão de melhoria',d.solution);section(root,'Contexto adicional',d.extra);section(root,'Enquadramento profissional',d.role_context);
   const response=document.createElement('section');response.className='detail-section';appendText(response,'h3','Perguntas complementares');const pre=appendText(response,'pre',JSON.stringify(d.answers||{},null,2),'detail-json');root.appendChild(response);
