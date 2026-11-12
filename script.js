@@ -119,6 +119,29 @@ const diagnosisAgeGroups=[
  ['Não sei','Não sei'],['Prefiro não responder','Prefiro não responder']
 ];
 const diagnosisEligible=role=>['doente','sobrevivente','cuidador'].includes(role);
+const currentAgeMaximum=Object.freeze({
+ '18-29 anos':29,'30-39 anos':39,'40-49 anos':49,
+ '50-59 anos':59,'60-74 anos':74,'75 anos ou mais':Infinity
+});
+const diagnosisAgeMinimum=Object.freeze({
+ '0-4 anos':0,'5-9 anos':5,'10-14 anos':10,'15-17 anos':15,
+ '18-29 anos':18,'30-39 anos':30,'40-49 anos':40,
+ '50-59 anos':50,'60-74 anos':60,'75 anos ou mais':75
+});
+function impossibleDiagnosisAge(role,currentAge,diagnosisAge){
+ if(role!=='doente' && role!=='sobrevivente')return false;
+ const maximum=currentAgeMaximum[currentAge];
+ const minimum=diagnosisAgeMinimum[diagnosisAge];
+ return maximum!==undefined && minimum!==undefined && minimum>maximum;
+}
+function compatibleDiagnosisGroups(role){
+ return diagnosisAgeGroups.filter(([age])=>!impossibleDiagnosisAge(role,form.ageGroup,age));
+}
+function clearImpossibleDiagnosisGroup(){
+ if(!impossibleDiagnosisAge(activeRole(),form.ageGroup,form.diagnosisAgeGroup))return false;
+ form.diagnosisAgeGroup='';
+ return true;
+}
 function contextWithDiagnosis(role){
  const raw=String(form.roleContext[role]||'').trim();
  const age=diagnosisEligible(role)&&form.diagnosisAgeGroup
@@ -268,7 +291,7 @@ function adaptiveFields(){if(!form.roles.length)return '';
  ${form.roles.length>1?`<div class="form-group"><label class="field-label" for="primaryRole">A partir de que perspetiva está a partilhar esta experiência?</label><select id="primaryRole" class="text-input" aria-label="Perspetiva principal">${roles.filter(x=>form.roles.includes(x[0])).map(([id,label])=>`<option value="${id}" ${id===chosen?'selected':''}>${label}</option>`).join('')}</select><p class="field-helper">Este campo serve apenas para adaptar as perguntas. Os outros perfis mantêm-se registados.</p></div>`:''}
  <p class="adaptive-info-note"><strong>Para contextualizar a experiência:</strong> selecione a sua faixa etária ou "Prefiro não responder". Os restantes dados são facultativos. A idade de quem responde e a idade no diagnóstico são distintas, permitindo identificar também percursos de oncologia pediátrica.</p>
  <div class="form-group"><label class="field-label" for="ageGroup">Qual é a sua faixa etária? <span class="required">Escolha obrigatória *</span></label><select id="ageGroup" class="text-input" required aria-describedby="age-help age-error">${ageGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.ageGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper" id="age-help">Selecione a sua própria faixa etária ou "Prefiro não responder". Não pedimos a data de nascimento.</p><div id="age-error" aria-live="polite"></div></div>
- ${diagnosisEligible(chosen)?`<div class="form-group"><label class="field-label" for="diagnosisAgeGroup">${chosen==='cuidador'?'Qual era a idade da pessoa acompanhada quando recebeu o diagnóstico de cancro?':'Qual era a sua idade quando recebeu o diagnóstico de cancro?'} <span class="optional">Opcional</span></label><select id="diagnosisAgeGroup" class="text-input">${diagnosisAgeGroups.map(([v,label])=>`<option value="${esc(v)}" ${form.diagnosisAgeGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Inclui diagnósticos na infância e adolescência. Não pedimos datas nem nomes.</p></div>`:''}
+ ${diagnosisEligible(chosen)?`<div class="form-group"><label class="field-label" for="diagnosisAgeGroup">${chosen==='cuidador'?'Qual era a idade da pessoa acompanhada quando recebeu o diagnóstico de cancro?':'Qual era a sua idade quando recebeu o diagnóstico de cancro?'} <span class="optional">Opcional</span></label><select id="diagnosisAgeGroup" class="text-input">${compatibleDiagnosisGroups(chosen).map(([v,label])=>`<option value="${esc(v)}" ${form.diagnosisAgeGroup===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Inclui diagnósticos na infância e adolescência. Não pedimos datas nem nomes. Para doentes e sobreviventes, apenas aparecem faixas compatíveis com a idade atual.</p><div id="diagnosis-age-error" aria-live="polite"></div></div>`:''}
  <div class="form-group"><label class="field-label" for="region">${esc(regionLabelForRole(chosen))} <span class="optional">Opcional</span></label><select id="region" class="text-input">${regions.map(([v,label])=>`<option value="${esc(v)}" ${form.region===v?'selected':''}>${esc(label)}</option>`).join('')}</select><p class="field-helper">Indique apenas uma região ampla, se for útil. A opção "Âmbito nacional / várias regiões" é adequada a contributos transversais. Não pedimos morada nem instituição.</p></div>
  <div class="form-group"><label class="field-label" for="context-primary">${esc(r[2])} <span class="optional">Opcional</span></label><textarea id="context-primary" data-context="${chosen}" maxlength="5800" placeholder="Pode deixar este campo em branco.">${esc(form.roleContext[chosen]||'')}</textarea></div></div>`;
 }
@@ -338,7 +361,12 @@ async function onFormClick(evt){const target=evt.target.closest('[data-action]')
   if(!form.roles.length){showError('role-error','Selecione pelo menos um perfil para contextualizar a sua participação.');return;}
   if(!form.roles.includes(form.primaryRole))form.primaryRole=form.roles[0];
   if(!form.ageGroup){showError('age-error','Selecione uma faixa etária ou "Prefiro não responder".');document.getElementById('ageGroup')?.focus();return;}
-  showError('age-error','');showError('role-error','');switchStage(2);
+  if(impossibleDiagnosisAge(activeRole(),form.ageGroup,form.diagnosisAgeGroup)){
+     showError('diagnosis-age-error','A faixa etária no diagnóstico não pode ser posterior à faixa etária atual.');
+     document.getElementById('diagnosisAgeGroup')?.focus();
+     return;
+   }
+   showError('age-error','');showError('role-error','');switchStage(2);
  }
  else if(action==='next2'){
   if(form.difficulty.trim().length<15){showError('difficulty-error','Descreva a dificuldade com pelo menos 15 caracteres, para que seja possível compreendê-la.');document.getElementById('difficulty')?.focus();return;}
@@ -418,12 +446,18 @@ function bindForm(){const shell=app.querySelector('.form-shell');if(!shell)retur
  if(form.stage===4){['email','contact','ack','adultAttested'].forEach(k=>{const e=document.getElementById(k);if(e)e.addEventListener('change',saveVisibleStage);});}
 }
 function bindAdaptiveFields(){
- const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>{form.ageGroup=age.value;if(age.value)showError('age-error','');});
- const diagnosis=document.getElementById('diagnosisAgeGroup');if(diagnosis)diagnosis.addEventListener('change',()=>form.diagnosisAgeGroup=diagnosis.value);
+ const age=document.getElementById('ageGroup');if(age)age.addEventListener('change',()=>{
+  saveVisibleStage();
+  if(form.ageGroup)showError('age-error','');
+  clearImpossibleDiagnosisGroup();
+  document.getElementById('adaptive-fields').innerHTML=adaptiveFields();
+  bindAdaptiveFields();
+ });
+ const diagnosis=document.getElementById('diagnosisAgeGroup');if(diagnosis)diagnosis.addEventListener('change',()=>{form.diagnosisAgeGroup=diagnosis.value;showError('diagnosis-age-error','');});
  const region=document.getElementById('region');if(region)region.addEventListener('change',()=>form.region=region.value);
  const role=document.getElementById('primaryRole');if(role)role.addEventListener('change',()=>{
   const oldContext=document.querySelector('[data-context]');if(oldContext)form.roleContext[oldContext.dataset.context]=oldContext.value;
-  form.primaryRole=role.value;document.getElementById('adaptive-fields').innerHTML=adaptiveFields();bindAdaptiveFields();
+  form.primaryRole=role.value;clearImpossibleDiagnosisGroup();document.getElementById('adaptive-fields').innerHTML=adaptiveFields();bindAdaptiveFields();
  });
  const ctx=document.querySelector('[data-context]');if(ctx)ctx.addEventListener('input',()=>form.roleContext[ctx.dataset.context]=ctx.value);
 }
