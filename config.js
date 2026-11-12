@@ -5,7 +5,7 @@
 window.VOZES_CONFIG = Object.freeze({
   mode: 'production', // Reverter para 'prelaunch' para desativar o envio no formulário
   apiUrl: 'https://qbxsryhnpwsssrxlijrz.supabase.co/functions/v1/submit-participation', // exemplo: https://SEU-PROJETO.supabase.co/functions/v1/submit-participation
-  turnstileSiteKey: '0x4AAAAAAAF1IqPb1iYRz74GB', // chave PÚBLICA da Cloudflare
+  turnstileSiteKey: '0x4AAAAAAAF1IqPb1lYRz74GB', // chave PÚBLICA da Cloudflare
   privacyUrl: 'https://vozesoncologia.pt/privacidade.html',
   privacyVersion: 'PRIVACY_V1_20261111'
 });
