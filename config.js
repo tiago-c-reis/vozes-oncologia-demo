@@ -6,6 +6,6 @@ window.VOZES_CONFIG = Object.freeze({
   mode: 'prelaunch', // 'prelaunch' | 'demo' | 'production' - manter a recolha bloqueada até aprovação
   apiUrl: 'https://qbxsryhnpwsssrxlijrz.supabase.co/functions/v1/submit-participation', // exemplo: https://SEU-PROJETO.supabase.co/functions/v1/submit-participation
   turnstileSiteKey: '0x4AAAAAAAF1IqPb1iYRz74GB', // chave PÚBLICA da Cloudflare
-  privacyUrl: '', // URL https da política validada
-  privacyVersion: 'PENDING_APPROVAL' // substituir por identificador aprovado
+  privacyUrl: 'https://vozesoncologia.pt/privacidade.html',
+  privacyVersion: 'PRIVACY_V1_20261111'
 });
