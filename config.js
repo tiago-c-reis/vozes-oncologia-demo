@@ -7,5 +7,5 @@ window.VOZES_CONFIG = Object.freeze({
   apiUrl: 'https://qbxsryhnpwsssrxlijrz.supabase.co/functions/v1/submit-participation', // exemplo: https://SEU-PROJETO.supabase.co/functions/v1/submit-participation
   turnstileSiteKey: '0x4AAAAAAF1IqPbl1YRz74GB', // chave PÚBLICA da Cloudflare
   privacyUrl: 'https://vozesoncologia.pt/privacidade.html',
-  privacyVersion: 'PRIVACY_V2_20261119'
+  privacyVersion: 'PRIVACY_V1_20261111'
 });
